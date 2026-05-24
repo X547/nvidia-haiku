@@ -15,6 +15,7 @@ shared_module('nvidia_gsp',
 	'Accelerant.cpp',
 	'NvUtils.cpp',
 	'NvKmsBitmap.cpp',
+	'NvGpuStats.cpp',
 	dependencies: [
 		dep_nvrm_client_cpp,
 		dep_nvkms_client_cpp,

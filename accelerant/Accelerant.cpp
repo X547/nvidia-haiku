@@ -11,6 +11,8 @@
 
 #include "NvUtils.h"
 #include "NvKmsBitmap.h"
+#include "NvGpuStats.h"
+#include <memory>
 
 extern "C" {
 #include "ctrl/ctrl2080/ctrl2080gpu.h" // NV2080_CTRL_CMD_GPU_GET_NAME_STRING
@@ -117,6 +119,8 @@ private:
 	} fCursorPos, fCursorHotSpot {};
 	bool fCursorVisible = false;
 
+	std::unique_ptr<NvGpuStats> fGpuStats;
+
 	NvAccelerant(int devFd);
 
 	NVDpyId FindConnectedDisplay(NVDpyIdList validDpys);
@@ -216,6 +220,14 @@ NvAccelerant::NvAccelerant(int devFd):
 			continue;
 		}
 		fModeList.push_back(params.reply.mode);
+	}
+
+	// Initialize GPU stats monitoring
+	try {
+		fGpuStats = std::make_unique<NvGpuStats>(fRmDev);
+		debug_printf("NvAccelerant: GPU stats initialized\n");
+	} catch (const std::exception& e) {
+		debug_printf("NvAccelerant: Failed to init GPU stats: %s\n", e.what());
 	}
 }
 
