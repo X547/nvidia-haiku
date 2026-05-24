@@ -267,7 +267,7 @@ void NvAccelerant::GetCloneInfo(void* data)
 {
 	debug_printf("NvAccelerant::GetCloneInfo\n");
 
-	strcpy((char*)data, kCloneInfo);
+	strlcpy((char*)data, kCloneInfo, CloneInfoSize());
 }
 
 void NvAccelerant::Clone(void* data)
