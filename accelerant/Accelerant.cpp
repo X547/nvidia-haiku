@@ -227,6 +227,7 @@ NVDpyId NvAccelerant::FindConnectedDisplay(NVDpyIdList validDpys)
 		params.request.deviceHandle = fKmsDev.Get();
 		params.request.dispHandle = fDisp;
 		params.request.dpyId = curDpyId;
+		params.request.forceConnected = true;
 		CheckErrno(fKms.Control(NVKMS_IOCTL_QUERY_DPY_DYNAMIC_DATA, &params, sizeof(params)));
 		if (params.reply.connected || params.reply.edid.valid) {
 			break;
