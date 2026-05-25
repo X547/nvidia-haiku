@@ -51,7 +51,7 @@ NvKmsBitmap::NvKmsBitmap(NvRmDevice &rmDev, NvKmsDevice &kmsDev, uint32 width, u
 	params.request.layout = NvKmsSurfaceMemoryLayoutPitch;
 	params.request.format = nvKmsFormat;
 
-	CheckErrno(kms.Control(NVKMS_IOCTL_REGISTER_SURFACE, &params, sizeof(params)));
+	kms.Control(NVKMS_IOCTL_REGISTER_SURFACE, &params, sizeof(params));
 	fSurface = NvKmsSurface(kmsDev, params.reply.surfaceHandle);
 
 	fMapping = rmDev.MapMemory(fMemory.Get(), false, 0, AlignUp(size, B_PAGE_SIZE), 0);

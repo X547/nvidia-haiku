@@ -15,6 +15,8 @@ extern "C" {
 #include "nvkms-haiku.h"
 #endif
 
+#include "ErrorUtils.h"
+
 
 NvKmsApi::NvKmsApi()
 {
@@ -25,12 +27,14 @@ NvKmsApi::NvKmsApi()
 int NvKmsApi::Control(NvU32 cmd, void *arg, NvU32 size)
 {
 #ifdef __HAIKU__
-	return ioctl(fFd.Get(), NV_HAIKU_KMS_BASE + cmd, arg, size);
+	int ret = ioctl(fFd.Get(), NV_HAIKU_KMS_BASE + cmd, arg, size);
 #else
 	NvKmsIoctlParams params {};
 	params.cmd = cmd;
 	params.size = size;
 	params.address = reinterpret_cast<NvU64>(arg);
-	return ioctl(fFd.Get(), NVKMS_IOCTL_IOWR, &params);
+	int ret = ioctl(fFd.Get(), NVKMS_IOCTL_IOWR, &params);
 #endif
+	CheckErrno(ret);
+	return ret;
 }

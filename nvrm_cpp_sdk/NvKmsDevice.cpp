@@ -1,7 +1,5 @@
 #include "NvKmsDevice.h"
 
-#include <assert.h>
-
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -25,7 +23,7 @@ NvKmsDevice::NvKmsDevice(NvKmsApi &nvKmsApi, NvU32 rmDeviceId):
 #else
 	params.request.deviceId.rmDeviceId = rmDeviceId;
 #endif
-	assert(fNvKmsApi.Control(NVKMS_IOCTL_ALLOC_DEVICE, &params, sizeof(params)) >= 0);
+	fNvKmsApi.Control(NVKMS_IOCTL_ALLOC_DEVICE, &params, sizeof(params));
 	memcpy(&fInfo, &params.reply, sizeof(fInfo));
 }
 
@@ -33,5 +31,8 @@ NvKmsDevice::~NvKmsDevice()
 {
 	NvKmsFreeDeviceParams params {};
 	params.request.deviceHandle = fInfo.deviceHandle;
-	assert(fNvKmsApi.Control(NVKMS_IOCTL_FREE_DEVICE, &params, sizeof(params)) >= 0);
+	try {
+		fNvKmsApi.Control(NVKMS_IOCTL_FREE_DEVICE, &params, sizeof(params));
+	} catch (...) {
+	}
 }

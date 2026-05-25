@@ -174,7 +174,7 @@ NvAccelerant::NvAccelerant(int devFd):
 		NvKmsQueryDispParams params {};
 		params.request.deviceHandle = fKmsDev.Get();
 		params.request.dispHandle = fDisp;
-		CheckErrno(fKms.Control(NVKMS_IOCTL_QUERY_DISP, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_QUERY_DISP, &params, sizeof(params));
 
 		validDpys = params.reply.validDpys;
 	}
@@ -196,7 +196,7 @@ NvAccelerant::NvAccelerant(int devFd):
 	{
 		NvKmsGrabOwnershipParams params {};
 		params.request.deviceHandle = fKmsDev.Get();
-		CheckErrno(fKms.Control(NVKMS_IOCTL_GRAB_OWNERSHIP, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_GRAB_OWNERSHIP, &params, sizeof(params));
 	}
 
 	for (NvU32 i = 0;; i++) {
@@ -208,7 +208,7 @@ NvAccelerant::NvAccelerant(int devFd):
 				.modeIndex = i,
 			},
 		};
-		CheckErrno(fKms.Control(NVKMS_IOCTL_VALIDATE_MODE_INDEX, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_VALIDATE_MODE_INDEX, &params, sizeof(params));
 		if (params.reply.end) {
 			break;
 		}
@@ -227,7 +227,7 @@ NVDpyId NvAccelerant::FindConnectedDisplay(NVDpyIdList validDpys)
 		params.request.deviceHandle = fKmsDev.Get();
 		params.request.dispHandle = fDisp;
 		params.request.dpyId = curDpyId;
-		CheckErrno(fKms.Control(NVKMS_IOCTL_QUERY_DPY_DYNAMIC_DATA, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_QUERY_DPY_DYNAMIC_DATA, &params, sizeof(params));
 		if (params.reply.connected || params.reply.edid.valid) {
 			break;
 		}
@@ -243,7 +243,7 @@ bool NvAccelerant::ValidateMode(const NvKmsMode &mode)
 	params.request.dispHandle = fDisp;
 	params.request.dpyId = fDpyId;
 	params.request.mode = mode;
-	CheckErrno(fKms.Control(NVKMS_IOCTL_VALIDATE_MODE, &params, sizeof(params)));
+	fKms.Control(NVKMS_IOCTL_VALIDATE_MODE, &params, sizeof(params));
 	return params.reply.valid;
 }
 
@@ -437,7 +437,7 @@ void NvAccelerant::SetDisplayMode(display_mode* modeToSet)
 		params.request.mode = ToNvKmsMode(*modeToSet);
 		params.request.infoStringSize = NVKMS_MODE_VALIDATION_MAX_INFO_STRING_LENGTH;
 		params.request.pInfoString = nvKmsPointerToNvU64(infoString);
-		CheckErrno(fKms.Control(NVKMS_IOCTL_VALIDATE_MODE, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_VALIDATE_MODE, &params, sizeof(params));
 		if (!params.reply.valid) {
 			debug_printf("[!] mode validation failed\n");
 			debug_printf("%s", infoString);
@@ -466,7 +466,7 @@ void NvAccelerant::SetDisplayMode(display_mode* modeToSet)
 		params.request.disp[0].head[0].flip.layer[NVKMS_MAIN_LAYER].sizeOut.specified = true;
 
 		try {
-			CheckErrno(fKms.Control(NVKMS_IOCTL_SET_MODE, &params, sizeof(params)));
+			fKms.Control(NVKMS_IOCTL_SET_MODE, &params, sizeof(params));
 		} catch (const std::system_error&) {
 			debug_printf("[!] NvAccelerant: SetMode failed\n");
 			debug_printf("  status: %d\n", params.reply.status);
@@ -516,7 +516,7 @@ void NvAccelerant::GetPixelClockLimits(display_mode* dm, uint32* low, uint32* hi
 		if (
 			timing.h_display == dm->timing.h_display &&
 			timing.v_display == dm->timing.v_display &&
-			(timing.flags & B_TIMING_INTERLACED) == (dm->timing.v_display & B_TIMING_INTERLACED)
+			(timing.flags & B_TIMING_INTERLACED) == (dm->timing.flags & B_TIMING_INTERLACED)
 		) {
 			*low = std::min(*low, timing.pixel_clock);
 			*high = std::max(*high, timing.pixel_clock);
@@ -571,7 +571,7 @@ void NvAccelerant::SetDpmsMode(uint32 dpms_flags)
 		params.request.dpyId = fDpyId;
 		params.request.attribute = NV_KMS_DPY_ATTRIBUTE_DPMS;
 		params.request.value = value;
-		CheckErrno(fKms.Control(NVKMS_IOCTL_SET_DPY_ATTRIBUTE, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_SET_DPY_ATTRIBUTE, &params, sizeof(params));
 	}
 	fDpmsState = (NvKmsDpyAttributeDpmsValue)value;
 }
@@ -586,7 +586,7 @@ void NvAccelerant::GetPreferredDisplayMode(display_mode* preferredMode)
 		params.request.dispHandle = fDisp;
 		params.request.dpyId = fDpyId;
 		params.request.modeIndex = i;
-		CheckErrno(fKms.Control(NVKMS_IOCTL_VALIDATE_MODE_INDEX, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_VALIDATE_MODE_INDEX, &params, sizeof(params));
 		if (params.reply.end)
 			break;
 
@@ -619,7 +619,7 @@ void NvAccelerant::GetEdidInfo(void* info, uint32 size, uint32* _version)
 		params.request.deviceHandle = fKmsDev.Get();
 		params.request.dispHandle = fDisp;
 		params.request.dpyId = fDpyId;
-		CheckErrno(fKms.Control(NVKMS_IOCTL_QUERY_DPY_DYNAMIC_DATA, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_QUERY_DPY_DYNAMIC_DATA, &params, sizeof(params));
 		if (!params.reply.edid.valid) {
 			RaiseErrno(B_ERROR);
 		}
@@ -666,7 +666,7 @@ void NvAccelerant::UpdateCursor(bool updateImage, bool updatePos)
 				},
 			},
 		};
-		CheckErrno(fKms.Control(NVKMS_IOCTL_SET_CURSOR_IMAGE, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_SET_CURSOR_IMAGE, &params, sizeof(params));
 		if (fNewCursor.IsSet()) {
 			fCursor = std::move(fNewCursor);
 		}
@@ -684,7 +684,7 @@ void NvAccelerant::UpdateCursor(bool updateImage, bool updatePos)
 				},
 			},
 		};
-		CheckErrno(fKms.Control(NVKMS_IOCTL_MOVE_CURSOR, &params, sizeof(params)));
+		fKms.Control(NVKMS_IOCTL_MOVE_CURSOR, &params, sizeof(params));
 	}
 }
 
