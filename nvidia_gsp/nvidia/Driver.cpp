@@ -75,6 +75,11 @@ NvHaikuDriver::~NvHaikuDriver()
 		rm_shutdown_rm(nullptr);
 	}
 
+	if (fWorkQueueInitDone) {
+		fWorkQueue.Fini();
+		fWorkQueueInitDone = false;
+	}
+
 	fIntrSafePool.ReclaimAll();
 
 	if (fPCI != nullptr) {
@@ -89,6 +94,9 @@ status_t NvHaikuDriver::Init()
 	CHECK_RET(get_module(B_PCI_MODULE_NAME, (module_info**)&fPCI));
 
 	fIntrSafePool.Maintain();
+
+	CHECK_RET(fWorkQueue.Init());
+	fWorkQueueInitDone = true;
 
 	if (!rm_init_rm(nullptr)) {
 		return B_ERROR;

@@ -1325,11 +1325,6 @@ NV_STATUS nv_get_syncpoint_aperture
     return NV_ERR_NOT_SUPPORTED;
 }
 
-NvBool NV_API_CALL os_is_queue_flush_ongoing(struct os_work_queue *queue)
-{
-    return NV_FALSE;
-}
-
 NV_STATUS NV_API_CALL nv_set_primary_vga_status(
     nv_state_t *nv
 )

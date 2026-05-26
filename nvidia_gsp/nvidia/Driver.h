@@ -8,6 +8,7 @@
 #include "DeviceNamesArray.h"
 
 #include "IntrSafePool.h"
+#include "WorkQueue.h"
 
 
 class NvHaikuControlDevice;
@@ -18,6 +19,8 @@ class NvHaikuDriver {
 private:
 	pci_module_info *fPCI {};
 	class IntrSafePool fIntrSafePool;
+	os_work_queue fWorkQueue;
+	bool fWorkQueueInitDone = false;
 
 	bool fInitRmDone = false;
 
@@ -34,6 +37,7 @@ public:
 	static NvHaikuDriver &Instance() {return sInstance;}
 	pci_module_info &PCI() {return *fPCI;}
 	class IntrSafePool &IntrSafePool() {return fIntrSafePool;}
+	os_work_queue *WorkQueue() {return fWorkQueueInitDone ? &fWorkQueue : nullptr;}
 
 	uint32 DeviceCount() {return fDevices.Count();}
 	NvHaikuDevice *DeviceAt(uint32 index) {return fDevices[index];}

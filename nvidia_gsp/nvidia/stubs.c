@@ -148,7 +148,7 @@ int os_dump_stack(void) {panic("[!!!] os_dump_stack: not implemented\n"); return
 //int os_flush_cpu_cache_all(void) {panic("[!!!] os_flush_cpu_cache_all: not implemented\n"); return -1;}
 //int os_flush_cpu_write_combine_buffer(void) {panic("[!!!] os_flush_cpu_write_combine_buffer: not implemented\n"); return -1;}
 int os_flush_user_cache(void) {panic("[!!!] os_flush_user_cache: not implemented\n"); return -1;}
-int os_flush_work_queue(void) {panic("[!!!] os_flush_work_queue: not implemented\n"); return -1;}
+//int os_flush_work_queue(void) {panic("[!!!] os_flush_work_queue: not implemented\n"); return -1;}
 //int os_free_mem(void) {panic("[!!!] os_free_mem: not implemented\n"); return -1;}
 //int os_free_mutex(void) {panic("[!!!] os_free_mutex: not implemented\n"); return -1;}
 //int os_free_semaphore(void) {panic("[!!!] os_free_semaphore: not implemented\n"); return -1;}
@@ -210,7 +210,7 @@ int os_pci_remove_supported(void) {panic("[!!!] os_pci_remove_supported: not imp
 //int os_pci_write_dword(void) {panic("[!!!] os_pci_write_dword: not implemented\n"); return -1;}
 //int os_pci_write_word(void) {panic("[!!!] os_pci_write_word: not implemented\n"); return -1;}
 int os_put_page(void) {panic("[!!!] os_put_page: not implemented\n"); return -1;}
-int os_queue_work_item(void) {panic("[!!!] os_queue_work_item: not implemented\n"); return -1;}
+//int os_queue_work_item(void) {panic("[!!!] os_queue_work_item: not implemented\n"); return -1;}
 int os_read_file(void) {panic("[!!!] os_read_file: not implemented\n"); return -1;}
 //int os_registry_init(void) {panic("[!!!] os_registry_init: not implemented\n"); return -1;}
 //int os_release_mutex(void) {panic("[!!!] os_release_mutex: not implemented\n"); return -1;}
