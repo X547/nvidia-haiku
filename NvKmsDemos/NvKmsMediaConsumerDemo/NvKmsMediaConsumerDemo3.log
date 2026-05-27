@@ -1,0 +1,28 @@
+> NvKmsMediaConsumerDemo/NvKmsMediaConsumerDemo ~/Video/Video.webm
+dpyId 0x00002000, head 0, mode 1920x1080 (1920x1080 @ 60.000 Hz)
+BTimeSource::DirectAddMe should not add itself to slave nodes
+[libdav1d @ 0x8c41c74c00] libdav1d 1.5.0
+[libdav1d @ 0x8c41ef8000] libdav1d 1.5.0
+[libdav1d @ 0x8c41ef8c00] libdav1d 1.5.0
+MediaFileProducer: 3840x2160 @ 59.940 fps, stride 15360, 7996064356 frames, 133.401 s
+NvKmsMediaConsumer: connected at 3840 x 2160 (stride 15360) — display is 1920 x 1080, blit will scale
+playing /boot/home/Video/Video.webm — Ctrl-C to stop
+MediaFileProducer: re-anchoring timeline (219605 us behind schedule)
+NvKmsMediaConsumer: dropping late frame (174446 us late, start_time 230416849)
+NvKmsMediaConsumer: dropping late frame (48232 us late, start_time 230607074)
+NvKmsMediaConsumer: dropping late frame (38360 us late, start_time 230623757)
+MediaFileProducer: re-anchoring timeline (173503 us behind schedule)
+NvKmsMediaConsumer: dropping late frame (127429 us late, start_time 230640440)
+MediaFileProducer: re-anchoring timeline (146756 us behind schedule)
+NvKmsMediaConsumer: dropping late frame (100682 us late, start_time 230784556)
+MediaFileProducer: re-anchoring timeline (154057 us behind schedule)
+NvKmsMediaConsumer: dropping late frame (107982 us late, start_time 230901926)
+NvKmsMediaConsumer: dropping late frame (44525 us late, start_time 231026592)
+NvKmsMediaConsumer: dropping late frame (36053 us late, start_time 231043275)
+NvKmsMediaConsumer: dropping late frame (28770 us late, start_time 231059958)
+NvKmsMediaConsumer: dropping late frame (20020 us late, start_time 231076642)
+NvKmsMediaConsumer: dropping late frame (34174 us late, start_time 231193425)
+NvKmsMediaConsumer: dropping late frame (27745 us late, start_time 231210108)
+NvKmsMediaConsumer: GPU behind, dropping queued frame (show-latest)
+NvKmsMediaConsumer: GPU behind, dropping queued frame (show-latest)
+BMediaTrack::ReadFrames: decoder returned error 0x80004007 (Last buffer)

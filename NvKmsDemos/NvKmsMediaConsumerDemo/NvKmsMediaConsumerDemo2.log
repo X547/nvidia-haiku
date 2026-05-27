@@ -1,0 +1,123 @@
+> ./NvKmsMediaConsumerDemo/NvKmsMediaConsumerDemo ~/Video/Video.webm
+dpyId 0x00002000, head 0, mode 1920x1080 (1920x1080 @ 60.000 Hz)
+BTimeSource::DirectAddMe should not add itself to slave nodes
+[libdav1d @ 0x6bbff28000] libdav1d 1.5.0
+[libdav1d @ 0x6bc0089400] libdav1d 1.5.0
+[libdav1d @ 0x6bc0077000] libdav1d 1.5.0
+MediaFileProducer: 3840x2160 @ 59.940 fps, stride 15360, 7996064356 frames, 133.401 s
+BTimeSource::DirectRemoveMe no slots used
+BTimeSource::DirectAddMe should not add itself to slave nodes
+NvKmsMediaConsumer: connected at 3840 x 2160 (stride 15360) — display is 1920 x 1080, blit will scale
+playing /boot/home/Video/Video.webm — Ctrl-C to stop
+UNIMPLEMENTED void BTimeSource::DirectSeek(bigtime_t, bigtime_t)
+NvKmsMediaConsumer::BufferReceived(457125797, 457125797)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+  return false;
+NvKmsMediaConsumer::BufferReceived(457142480, 457142480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457159163, 457159163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457175847, 457175847)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457192530, 457192530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457209213, 457209213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457225897, 457225897)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457242580, 457242580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457259263, 457259263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457275947, 457275947)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457292630, 457292630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457309313, 457309313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457325997, 457325997)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457342680, 457342680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457359363, 457359363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457376047, 457376047)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457392730, 457392730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457409413, 457409413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457426097, 457426097)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457442780, 457442780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457459463, 457459463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457476147, 457476147)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457492830, 457492830)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457509513, 457509513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457526197, 457526197)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457542880, 457542880)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457559563, 457559563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457576247, 457576247)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457592930, 457592930)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457609613, 457609613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457626297, 457626297)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457642980, 457642980)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457659663, 457659663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457676347, 457676347)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457693030, 457693030)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457709713, 457709713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457726397, 457726397)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457743080, 457743080)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457759763, 457759763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457776447, 457776447)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457793130, 457793130)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457809813, 457809813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457826497, 457826497)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457843180, 457843180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457859863, 457859863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457876547, 457876547)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457893230, 457893230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457909913, 457909913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457926597, 457926597)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457943280, 457943280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(457959963, 457959963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(457976647, 915963888)
+NvKmsMediaConsumer::BufferReceived(457993330, 915980571)

@@ -1,0 +1,3097 @@
+> ./NvKmsMediaConsumerDemo/NvKmsMediaConsumerDemo ~/Video/Video.webm
+dpyId 0x00002000, head 0, mode 1920x1080 (1920x1080 @ 60.000 Hz)
+BTimeSource::DirectAddMe should not add itself to slave nodes
+[libdav1d @ 0xa6df1ce000] libdav1d 1.5.0
+[libdav1d @ 0xa6df32f400] libdav1d 1.5.0
+[libdav1d @ 0xa6df31d000] libdav1d 1.5.0
+MediaFileProducer: 3840x2160 @ 59.940 fps, stride 15360, 7996064356 frames, 133.401 s
+BTimeSource::DirectRemoveMe no slots used
+BTimeSource::DirectAddMe should not add itself to slave nodes
+NvKmsMediaConsumer: connected at 3840 x 2160 (stride 15360) — display is 1920 x 1080, blit will scale
+playing /boot/home/Video/Video.webm — Ctrl-C to stop
+UNIMPLEMENTED void BTimeSource::DirectSeek(bigtime_t, bigtime_t)
+NvKmsMediaConsumer::BufferReceived(348174180, 348174180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+  return false;
+NvKmsMediaConsumer::BufferReceived(348190863, 348190863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348207546, 348207546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348224230, 348224230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348240913, 348240913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348257596, 348257596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348274280, 348274280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348290963, 348290963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348307646, 348307646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348324330, 348324330)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348341013, 348341013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348357696, 348357696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348374380, 348374380)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348391063, 348391063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348407746, 348407746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348424430, 348424430)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348441113, 348441113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348457796, 348457796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348474480, 348474480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348491163, 348491163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348507846, 348507846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348524530, 348524530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348541213, 348541213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348557896, 348557896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348574580, 348574580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348591263, 348591263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348607946, 348607946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348624630, 348624630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348641313, 348641313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348657996, 348657996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348674680, 348674680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348691363, 348691363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348708046, 348708046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348724730, 348724730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348741413, 348741413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348758096, 348758096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348774780, 348774780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348791463, 348791463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348808146, 348808146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348824830, 348824830)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348841513, 348841513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348858196, 348858196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348874880, 348874880)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348891563, 348891563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348908246, 348908246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348924930, 348924930)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348941613, 348941613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348958296, 348958296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348974980, 348974980)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(348991663, 348991663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsMediaConsumer::BufferReceived(349008346, 349008346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349025030, 349025030)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349041713, 349041713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+  return false;
+NvKmsMediaConsumer::BufferReceived(349058396, 349058396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349075080, 349075080)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349091763, 349091763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+  return false;
+NvKmsMediaConsumer::BufferReceived(349108446, 349108446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349125130, 349125130)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349141813, 349141813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349158496, 349158496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349175180, 349175180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349191863, 349191863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349208546, 349208546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349225230, 349225230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349241913, 349241913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349258596, 349258596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349275280, 349275280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349291963, 349291963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349308646, 349308646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349325330, 349325330)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349342013, 349342013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349358696, 349358696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349375380, 349375380)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349392063, 349392063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349408746, 349408746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349425430, 349425430)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349442113, 349442113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349458796, 349458796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349475480, 349475480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349492163, 349492163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349508846, 349508846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349525530, 349525530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349542213, 349542213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349558896, 349558896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349575580, 349575580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349592263, 349592263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349608946, 349608946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349625630, 349625630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349642313, 349642313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349658996, 349658996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349675680, 349675680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349692363, 349692363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349709046, 349709046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349725730, 349725730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349742413, 349742413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349759096, 349759096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349775780, 349775780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349792463, 349792463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349809146, 349809146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349825830, 349825830)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349842513, 349842513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349859196, 349859196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349875880, 349875880)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349892563, 349892563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349909246, 349909246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349925930, 349925930)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349942613, 349942613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349959296, 349959296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349975980, 349975980)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(349992663, 349992663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350009346, 350009346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350026030, 350026030)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350042713, 350042713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350059396, 350059396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350076080, 350076080)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350092763, 350092763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350109446, 350109446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350126130, 350126130)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350142813, 350142813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350159496, 350159496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350176180, 350176180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350192863, 350192863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350209546, 350209546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350226230, 350226230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350242913, 350242913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350259596, 350259596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350276280, 350276280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350292963, 350292963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350309646, 350309646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350326330, 350326330)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350343013, 350343013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350359696, 350359696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350376380, 350376380)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350393063, 350393063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350409746, 350409746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350426430, 350426430)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350443113, 350443113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350459796, 350459796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350476480, 350476480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350493163, 350493163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350509846, 350509846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350526530, 350526530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350543213, 350543213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350559896, 350559896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350576580, 350576580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350593263, 350593263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350609946, 350609946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350626630, 350626630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350643313, 350643313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350659996, 350659996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350676680, 350676680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350693363, 350693363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350710046, 350710046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350726730, 350726730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350743413, 350743413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350760096, 350760096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350776780, 350776780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350793463, 350793463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350810146, 350810146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350826830, 350826830)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350843513, 350843513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350860196, 350860196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350876880, 350876880)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350893563, 350893563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350910246, 350910246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350926930, 350926930)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350943613, 350943613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350960296, 350960296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350976980, 350976980)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(350993663, 350993663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351010346, 351010346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351027030, 351027030)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351043713, 351043713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351060396, 351060396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351077080, 351077080)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351093763, 351093763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351110446, 351110446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351127130, 351127130)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351143813, 351143813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351160496, 351160496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351177180, 351177180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351193863, 351193863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351210546, 351210546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351227230, 351227230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351243913, 351243913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351260596, 351260596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351277280, 351277280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351293963, 351293963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351310646, 351310646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351327330, 351327330)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351344013, 351344013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351360696, 351360696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351377380, 351377380)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351394063, 351394063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351410746, 351410746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351427430, 351427430)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351444113, 351444113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351460796, 351460796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351477480, 351477480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351494163, 351494163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351510846, 351510846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351527530, 351527530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351544213, 351544213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351560896, 351560896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351577580, 351577580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351594263, 351594263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351610946, 351610946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351627630, 351627630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351644313, 351644313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351660996, 351660996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351677680, 351677680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351694363, 351694363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351711046, 351711046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351727730, 351727730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351744413, 351744413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351761096, 351761096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351777780, 351777780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351794463, 351794463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351811146, 351811146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351827830, 351827830)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351844513, 351844513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351861196, 351861196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351877880, 351877880)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351894563, 351894563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351911246, 351911246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351927930, 351927930)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351944613, 351944613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351961296, 351961296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351977980, 351977980)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(351994663, 351994663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352011346, 352011346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352028030, 352028030)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352044713, 352044713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352061396, 352061396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352078080, 352078080)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352094763, 352094763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352111446, 352111446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352128130, 352128130)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352144813, 352144813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352161496, 352161496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352178180, 352178180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352194863, 352194863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352211546, 352211546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352228230, 352228230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352244913, 352244913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352261596, 352261596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352278280, 352278280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352294963, 352294963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352311646, 352311646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352328330, 352328330)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352345013, 352345013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352361696, 352361696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352378380, 352378380)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352395063, 352395063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352411746, 352411746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352428430, 352428430)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352445113, 352445113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352461796, 352461796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352478480, 352478480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352495163, 352495163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352511846, 352511846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352528530, 352528530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352545213, 352545213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352561896, 352561896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352578580, 352578580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352595263, 352595263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352611946, 352611946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352628630, 352628630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352645313, 352645313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352661996, 352661996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352678680, 352678680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352695363, 352695363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352712046, 352712046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352728730, 352728730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352745413, 352745413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352762096, 352762096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352778780, 352778780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352795463, 352795463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352812146, 352812146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352828830, 352828830)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352845513, 352845513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352862196, 352862196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352878880, 352878880)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352895563, 352895563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352912246, 352912246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352928930, 352928930)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352945613, 352945613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352962296, 352962296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352978980, 352978980)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(352995663, 352995663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353012346, 353012346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353029030, 353029030)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353045713, 353045713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353062396, 353062396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353079080, 353079080)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353095763, 353095763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353112446, 353112446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353129130, 353129130)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353145813, 353145813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353162496, 353162496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353179180, 353179180)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353195863, 353195863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353212546, 353212546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353229230, 353229230)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353245913, 353245913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353262596, 353262596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353279280, 353279280)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353295963, 353295963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353312646, 353312646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353329330, 353329330)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353346013, 353346013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353362696, 353362696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353379380, 353379380)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353396063, 353396063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353412746, 353412746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353429430, 353429430)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353446113, 353446113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353462796, 353462796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353479480, 353479480)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353496163, 353496163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353512846, 353512846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353529530, 353529530)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353546213, 353546213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353562896, 353562896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353579580, 353579580)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353596263, 353596263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353612946, 353612946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353629630, 353629630)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353646313, 353646313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353662996, 353662996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353679680, 353679680)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353696363, 353696363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353713046, 353713046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353729730, 353729730)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353746413, 353746413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353763096, 353763096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353779780, 353779780)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353796463, 353796463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353813146, 353813146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353829829, 353829829)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353846513, 353846513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353863196, 353863196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353879879, 353879879)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353896563, 353896563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353913246, 353913246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353929929, 353929929)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353946613, 353946613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353963296, 353963296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353979979, 353979979)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(353996663, 353996663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354013346, 354013346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354030029, 354030029)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354046713, 354046713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354063396, 354063396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354080079, 354080079)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354096763, 354096763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354113446, 354113446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354130129, 354130129)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354146813, 354146813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354163496, 354163496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354180179, 354180179)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354196863, 354196863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354213546, 354213546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354230229, 354230229)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354246913, 354246913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354263596, 354263596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354280279, 354280279)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354296963, 354296963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354313646, 354313646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354330329, 354330329)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354347013, 354347013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354363696, 354363696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354380379, 354380379)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354397063, 354397063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354413746, 354413746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354430429, 354430429)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354447113, 354447113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354463796, 354463796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354480479, 354480479)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354497163, 354497163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354513846, 354513846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354530529, 354530529)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354547213, 354547213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354563896, 354563896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354580579, 354580579)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354597263, 354597263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354613946, 354613946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354630629, 354630629)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354647313, 354647313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354663996, 354663996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354680679, 354680679)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354697363, 354697363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354714046, 354714046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354730729, 354730729)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354747413, 354747413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354764096, 354764096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354780779, 354780779)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354797463, 354797463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+  return false;
+NvKmsMediaConsumer::BufferReceived(354814146, 354814146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354830829, 354830829)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354847513, 354847513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354864196, 354864196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354880879, 354880879)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354897563, 354897563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354914246, 354914246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354930929, 354930929)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354947613, 354947613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354964296, 354964296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354980979, 354980979)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(354997663, 354997663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355014346, 355014346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355031029, 355031029)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355047713, 355047713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355064396, 355064396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355081079, 355081079)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355097763, 355097763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355114446, 355114446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355131129, 355131129)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355147813, 355147813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355164496, 355164496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355181179, 355181179)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355197863, 355197863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355214546, 355214546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355231229, 355231229)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355247913, 355247913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355264596, 355264596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355281279, 355281279)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355297963, 355297963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355314646, 355314646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355331329, 355331329)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355348013, 355348013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355364696, 355364696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355381379, 355381379)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355398063, 355398063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355414746, 355414746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355431429, 355431429)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355448113, 355448113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355464796, 355464796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355481479, 355481479)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355498163, 355498163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355514846, 355514846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355531529, 355531529)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355548213, 355548213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355564896, 355564896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355581579, 355581579)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355598263, 355598263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355614946, 355614946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355631629, 355631629)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355648313, 355648313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355664996, 355664996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355681679, 355681679)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355698363, 355698363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355715046, 355715046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355731729, 355731729)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355748413, 355748413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355765096, 355765096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355781779, 355781779)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355798463, 355798463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355815146, 355815146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355831829, 355831829)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355848513, 355848513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355865196, 355865196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355881879, 355881879)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355898563, 355898563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355915246, 355915246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355931929, 355931929)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355948613, 355948613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355965296, 355965296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355981979, 355981979)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(355998663, 355998663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356015346, 356015346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356032029, 356032029)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356048713, 356048713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356065396, 356065396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356082079, 356082079)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356098763, 356098763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356115446, 356115446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356132129, 356132129)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356148813, 356148813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356165496, 356165496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356182179, 356182179)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356198863, 356198863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356215546, 356215546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356232229, 356232229)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356248913, 356248913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356265596, 356265596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356282279, 356282279)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356298963, 356298963)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356315646, 356315646)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356332329, 356332329)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356349013, 356349013)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356365696, 356365696)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356382379, 356382379)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356399063, 356399063)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356415746, 356415746)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356432429, 356432429)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356449113, 356449113)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356465796, 356465796)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356482479, 356482479)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356499163, 356499163)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356515846, 356515846)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356532529, 356532529)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356549213, 356549213)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356565896, 356565896)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356582579, 356582579)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356599263, 356599263)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356615946, 356615946)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356632629, 356632629)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356649313, 356649313)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356665996, 356665996)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356682679, 356682679)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356699363, 356699363)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356716046, 356716046)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356732729, 356732729)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356749413, 356749413)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356766096, 356766096)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356782779, 356782779)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356799463, 356799463)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356816146, 356816146)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356832829, 356832829)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356849513, 356849513)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356866196, 356866196)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356882879, 356882879)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356899563, 356899563)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356916246, 356916246)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356932929, 356932929)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356949613, 356949613)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356966296, 356966296)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356982979, 356982979)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(356999663, 356999663)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357016346, 357016346)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357033029, 357033029)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357049713, 357049713)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357066396, 357066396)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357083079, 357083079)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357099763, 357099763)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357116446, 357116446)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357133129, 357133129)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357149813, 357149813)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357166496, 357166496)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357183179, 357183179)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357199863, 357199863)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357216546, 357216546)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357233229, 357233229)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357249913, 357249913)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357266596, 357266596)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357283279, 357283279)
+BTimedEventQueue::B_HANDLE_BUFFER
+NvKmsDisplay::BlitAndFlip
+NvKmsDisplay::PollFlipNotifierTimestamp()
+NVKMS_EVENT_TYPE_FLIP_OCCURRED
+  return true;
+NvKmsMediaConsumer::BufferReceived(357299963, 357299963)
+SendToPort: write_port failed, msgcode 0x703, port 696: Bad port ID
+SendToPort: write_port failed, msgcode 0x703, port 696: Bad port ID

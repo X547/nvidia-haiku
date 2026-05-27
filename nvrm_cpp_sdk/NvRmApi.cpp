@@ -159,6 +159,39 @@ void NvRmApi::UnmapMemory(NvU32 hDevice, NvU32 hMemory, void *pLinearAddress, Nv
 	CheckNvStatus(p.status);
 }
 
+void NvRmApi::MapMemoryDma(NvU32 hDevice, NvU32 hDma, NvU32 hMemory, NvU64 offset, NvU64 length, NvU32 flags, NvU64 &dmaOffset)
+{
+	NVOS46_PARAMETERS p {
+		.hClient = fClient.Get(),
+		.hDevice = hDevice,
+		.hDma = hDma,
+		.hMemory = hMemory,
+		.offset = offset,
+		.length = length,
+		.flags = (NvV32)flags,
+		.dmaOffset = dmaOffset,
+	};
+	int ret = NvRmIoctl(fFd.Get(), NV_ESC_RM_MAP_MEMORY_DMA, &p, sizeof(p));
+	CheckErrno(ret);
+	CheckNvStatus(p.status);
+	dmaOffset = p.dmaOffset;
+}
+
+void NvRmApi::UnmapMemoryDma(NvU32 hDevice, NvU32 hDma, NvU32 hMemory, NvU32 flags, NvU64 dmaOffset)
+{
+	NVOS47_PARAMETERS p {
+		.hClient = fClient.Get(),
+		.hDevice = hDevice,
+		.hDma = hDma,
+		.hMemory = hMemory,
+		.flags = (NvV32)flags,
+		.dmaOffset = dmaOffset,
+	};
+	int ret = NvRmIoctl(fFd.Get(), NV_ESC_RM_UNMAP_MEMORY_DMA, &p, sizeof(p));
+	CheckErrno(ret);
+	CheckNvStatus(p.status);
+}
+
 void NvRmApi::AllocOsEvent(int fd)
 {
 	nv_ioctl_alloc_os_event_t p {

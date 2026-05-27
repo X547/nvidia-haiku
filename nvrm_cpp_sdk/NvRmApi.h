@@ -68,6 +68,8 @@ public:
 	void Control(NvHandle hObject, NvV32 cmd, void *params, NvU32 paramsSize, NvU32 flags = 0);
 	void MapMemory(NvU32 hDevice, NvU32 hMemory, NvU64 offset, NvU64 length, void *&pLinearAddress, NvU32 flags, int memFd);
 	void UnmapMemory(NvU32 hDevice, NvU32 hMemory, void *pLinearAddress, NvU32 flags);
+	void MapMemoryDma(NvU32 hDevice, NvU32 hDma, NvU32 hMemory, NvU64 offset, NvU64 length, NvU32 flags, NvU64 &dmaOffset);
+	void UnmapMemoryDma(NvU32 hDevice, NvU32 hDma, NvU32 hMemory, NvU32 flags, NvU64 dmaOffset);
 
 	void AllocOsEvent(int fd);
 	void FreeOsEvent(int fd);
