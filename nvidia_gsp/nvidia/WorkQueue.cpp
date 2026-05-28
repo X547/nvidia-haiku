@@ -4,6 +4,7 @@
 
 #include <KernelExport.h>
 #include <OS.h>
+#include <interrupts.h>
 #include <condition_variable.h>
 
 #include "nv-include.h"
