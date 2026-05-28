@@ -71,7 +71,7 @@ enum NvKmsDebugForceColorSpace nvkms_debug_force_color_space(void)
 
 NvBool nvkms_enable_overlay_layers(void)
 {
-	return NV_FALSE;
+	return NV_TRUE;
 }
 
 
