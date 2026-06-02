@@ -19,6 +19,10 @@ struct DeviceInit {
    uint32_t apiVersion = VK_API_VERSION_1_1;
    std::vector<const char*> instanceExtensions;
    std::vector<const char*> deviceExtensions;
+   /* Optional chain appended to VkDeviceCreateInfo::pNext, e.g. a
+    * VkPhysicalDevice*Features struct enabling an extension feature. Must
+    * outlive the TestFixture construction. */
+   const void* deviceNext = nullptr;
 };
 
 

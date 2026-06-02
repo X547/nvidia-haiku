@@ -79,7 +79,8 @@ uint32_t pickQueueFamily(VkPhysicalDevice pdev)
 }
 
 VkDevice createDevice(VkPhysicalDevice pdev, uint32_t qfi,
-                      const std::vector<const char*>& exts)
+                      const std::vector<const char*>& exts,
+                      const void* deviceNext)
 {
    const float prio = 1.0f;
 
@@ -91,6 +92,7 @@ VkDevice createDevice(VkPhysicalDevice pdev, uint32_t qfi,
 
    VkDeviceCreateInfo ci{};
    ci.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+   ci.pNext = deviceNext;
    ci.queueCreateInfoCount = 1;
    ci.pQueueCreateInfos = &qci;
    ci.enabledExtensionCount = static_cast<uint32_t>(exts.size());
@@ -109,7 +111,7 @@ TestFixture::TestFixture(const DeviceInit& init)
    instance_ = Instance(createInstance(init.apiVersion, init.instanceExtensions));
    physDev_ = pickPhysicalDevice(instance_.get());
    queueFamilyIndex_ = pickQueueFamily(physDev_);
-   device_ = Device(createDevice(physDev_, queueFamilyIndex_, init.deviceExtensions));
+   device_ = Device(createDevice(physDev_, queueFamilyIndex_, init.deviceExtensions, init.deviceNext));
    vkGetDeviceQueue(device_.get(), queueFamilyIndex_, 0, &queue_);
    vkGetPhysicalDeviceMemoryProperties(physDev_, &memProps_);
 }

@@ -98,6 +98,7 @@ public:
 
 using DeviceMemory = DeviceChild<VkDeviceMemory, vkFreeMemory>;
 using Buffer       = DeviceChild<VkBuffer, vkDestroyBuffer>;
+using Semaphore    = DeviceChild<VkSemaphore, vkDestroySemaphore>;
 
 
 /* RAII wrapper for a mapped device-memory pointer (calls vkUnmapMemory). */

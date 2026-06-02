@@ -14,6 +14,7 @@ vulkan_test_common = static_library('vulkan_test_common',
 # means dropping a file here and listing it in this array — no boilerplate.
 test_sources = [
    'test_opaque_fd.cpp',
+   'test_timeline_semaphore_opaque_fd.cpp',
 ]
 
 executable('VulkanTests',
