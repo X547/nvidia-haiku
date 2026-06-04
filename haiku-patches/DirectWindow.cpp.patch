@@ -1,0 +1,108 @@
+diff --git a/src/kits/game/DirectWindow.cpp b/src/kits/game/DirectWindow.cpp
+index 262bfb4cd3c..e89ab1327d1 100644
+--- a/src/kits/game/DirectWindow.cpp
++++ b/src/kits/game/DirectWindow.cpp
+@@ -20,6 +20,13 @@
+ #include <DirectWindowPrivate.h>
+ #include <ServerProtocol.h>
+ 
++// Indices into _more_reserved_ for framebuffer area cloning
++#define CLONED_FB_AREA_INDEX 0
++#define CLONED_FB_ADDR_LOW_INDEX 1
++#define CLONED_FB_ADDR_HIGH_INDEX 2
++#define GET_CLONED_FB_AREA(w) ((area_id)(w)->_more_reserved_[CLONED_FB_AREA_INDEX])
++#define GET_CLONED_FB_ADDR(w) ((void*)(((uint64)(w)->_more_reserved_[CLONED_FB_ADDR_HIGH_INDEX] << 32) | (w)->_more_reserved_[CLONED_FB_ADDR_LOW_INDEX]))
++
+ 
+ //#define DEBUG		1
+ #define OUTPUT		printf
+@@ -477,17 +484,56 @@ BDirectWindow::_DirectDaemon()
+ 			return -1;
+ 		}
+ 
++
++		// Make local copy of buffer info for potential bits pointer modification
++		direct_buffer_info localBufferInfo = *fBufferDesc;
++		direct_buffer_info* bufferToUse = &localBufferInfo;
++		
++		// Clone framebuffer area for DirectMode access (nvidia_gsp support)
++		if (localBufferInfo.bits != NULL) {
++			area_id currentCloned = GET_CLONED_FB_AREA(this);
++			
++			// Verify cloned area is valid (check if it exists and has right name)
++			if (currentCloned > 0) {
++				area_info ainfo;
++				if (get_area_info(currentCloned, &ainfo) != B_OK ||
++				    strcmp(ainfo.name, "cloned framebuffer") != 0) {
++					// Invalid or wrong area - reset
++					currentCloned = -1;
++					_more_reserved_[CLONED_FB_AREA_INDEX] = 0;
++				}
++			}
++			
++			if (currentCloned <= 0) {
++				// Look up nvidia framebuffer by name
++				area_id sourceArea = find_area("nvidia_framebuffer");
++				
++				if (sourceArea > 0) {
++					void* clonedAddr = NULL;
++					area_id cloned = clone_area("cloned framebuffer", &clonedAddr,
++						B_ANY_ADDRESS, B_READ_AREA | B_WRITE_AREA, sourceArea);
++					if (cloned > 0) {
++						_more_reserved_[CLONED_FB_AREA_INDEX] = (uint32)cloned;
++						_more_reserved_[CLONED_FB_ADDR_LOW_INDEX] = (uint32)(addr_t)clonedAddr;
++						_more_reserved_[CLONED_FB_ADDR_HIGH_INDEX] = (uint32)((addr_t)clonedAddr >> 32);
++						localBufferInfo.bits = clonedAddr;
++					}
++				}
++			} else {
++				localBufferInfo.bits = GET_CLONED_FB_ADDR(this);
++			}
++		}
+ #if DEBUG
+-		print_direct_buffer_info(*fBufferDesc);
++		print_direct_buffer_info(localBufferInfo);
+ #endif
+ 
+ 		if (_LockDirect()) {
+-			if ((fBufferDesc->buffer_state & B_DIRECT_MODE_MASK)
++			if ((localBufferInfo.buffer_state & B_DIRECT_MODE_MASK)
+ 					== B_DIRECT_START)
+ 				fConnectionEnable = true;
+ 
+ 			fInDirectConnect = true;
+-			DirectConnected(fBufferDesc);
++			DirectConnected(bufferToUse);
+ 			fInDirectConnect = false;
+ 
+ 			if ((fBufferDesc->buffer_state & B_DIRECT_MODE_MASK)
+@@ -573,10 +619,16 @@ BDirectWindow::_InitData()
+ 	if (status != B_OK)
+ 		return;
+ 
++// Initialize framebuffer clone tracking (needed regardless of DW_NEEDS_LOCKING)
++	_more_reserved_[CLONED_FB_AREA_INDEX] = 0;
++	_more_reserved_[CLONED_FB_ADDR_LOW_INDEX] = 0;
++	_more_reserved_[CLONED_FB_ADDR_HIGH_INDEX] = 0;
++
+ #if DW_NEEDS_LOCKING
+ 	fDirectLock = 0;
+ 	fDirectLockCount = 0;
+ 	fDirectLockOwner = -1;
++
+ 	fDirectLockStack = NULL;
+ 	fDirectSem = create_sem(0, "direct sem");
+ 	if (fDirectSem > 0)
+@@ -618,6 +670,12 @@ BDirectWindow::_DisposeData()
+ 
+ 	_LockDirect();
+ 
++
++	// Clean up cloned framebuffer area
++	area_id clonedFb = GET_CLONED_FB_AREA(this);
++	if (clonedFb > 0)
++		delete_area(clonedFb);
++
+ 	if (fInitStatus & DW_STATUS_THREAD_STARTED) {
+ 		fDaemonKiller = true;
+ 		// delete this sem, otherwise the Direct daemon thread

@@ -75,11 +75,13 @@ static NvModeTimings ToNvKmsModeTimings(const display_timing &haikuModeTimings) 
 }
 
 static display_mode ToHaikuMode(const NvKmsMode &nvKmsMode) {
+	// B_PARALLEL_ACCESS enables DirectWindow support
 	display_mode haikuMode {
 		.timing = ToHaikuModeTimings(nvKmsMode.timings),
 		.space = B_RGB32,
 		.virtual_width  = nvKmsMode.timings.hVisible,
 		.virtual_height = nvKmsMode.timings.vVisible,
+		.flags = B_PARALLEL_ACCESS,
 	};
 	return haikuMode;
 }
@@ -433,7 +435,7 @@ void NvAccelerant::SetDisplayMode(display_mode* modeToSet)
 		params.request.deviceHandle = fKmsDev.Get();
 		params.request.dispHandle = fDisp;
 		params.request.dpyId = fDpyId;
-		params.request.modeValidation.overrides = NVKMS_MODE_VALIDATION_NO_RRX1K_CHECK;
+		params.request.modeValidation.overrides = NVKMS_MODE_VALIDATION_NO_RRX1K_CHECK | NVKMS_MODE_VALIDATION_NO_HORIZ_SYNC_CHECK | NVKMS_MODE_VALIDATION_NO_VERT_REFRESH_CHECK;
 		params.request.mode = ToNvKmsMode(*modeToSet);
 		params.request.infoStringSize = NVKMS_MODE_VALIDATION_MAX_INFO_STRING_LENGTH;
 		params.request.pInfoString = nvKmsPointerToNvU64(infoString);
@@ -455,7 +457,7 @@ void NvAccelerant::SetDisplayMode(display_mode* modeToSet)
 		params.request.disp[0].requestedHeadsBitMask |= 1U << 0;
 		params.request.disp[0].head[0].dpyIdList = nvAddDpyIdToEmptyDpyIdList(fDpyId);
 		params.request.disp[0].head[0].mode = ToNvKmsMode(*modeToSet);
-		params.request.disp[0].head[0].modeValidationParams.overrides = NVKMS_MODE_VALIDATION_NO_RRX1K_CHECK;
+		params.request.disp[0].head[0].modeValidationParams.overrides = NVKMS_MODE_VALIDATION_NO_RRX1K_CHECK | NVKMS_MODE_VALIDATION_NO_HORIZ_SYNC_CHECK | NVKMS_MODE_VALIDATION_NO_VERT_REFRESH_CHECK;
 		params.request.disp[0].head[0].viewPortOut = {.x = 0, .y = 0, .width = modeToSet->timing.h_display, .height = modeToSet->timing.v_display};
 		params.request.disp[0].head[0].viewPortSizeIn = {.width = modeToSet->timing.h_display, .height = modeToSet->timing.v_display};
 		params.request.disp[0].head[0].flip.layer[NVKMS_MAIN_LAYER].surface.handle[0] = newFramebuffer.Surface().Get();
