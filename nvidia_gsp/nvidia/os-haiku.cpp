@@ -21,6 +21,7 @@ extern "C" {
 #include <interrupts.h>
 #include <vm/vm.h>
 #include <condition_variable.h>
+#include <fs/fd.h>
 
 #include <PCI.h>
 
@@ -1273,18 +1274,22 @@ nv_file_private_t* NV_API_CALL nv_get_file_private(
     void **os_private
 )
 {
-	// TODO: correctly handle case when FD is closed from other thread
-	NvHaikuBaseDeviceHandle *handle = NvHaikuBaseDeviceHandle::FromFd(fd);
+	CObjectDeleter<file_descriptor, void, put_fd> descriptor(get_fd(get_current_io_context(false), fd));
+	if (!descriptor.IsSet()) {
+		return nullptr;
+	}
+    NvHaikuBaseDeviceHandle *handle = NvHaikuBaseDeviceHandle::FromFd(fd);
 	if (handle == nullptr) {
 		return nullptr;
 	}
-	*os_private = handle;
+	*os_private = descriptor.Detach();
     return &handle->Nvfp();
 }
 
 void NV_API_CALL nv_put_file_private(void *os_private)
 {
 	TRACE("nv_put_file_private()\n");
+    put_fd(static_cast<file_descriptor*>(os_private));
 }
 
 NvBool NV_API_CALL nv_is_gpu_accessible(nv_state_t *nv)

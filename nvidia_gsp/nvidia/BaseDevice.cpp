@@ -55,8 +55,6 @@ NvHaikuBaseDeviceHandle::NvHaikuBaseDeviceHandle(NvHaikuBaseDevice *device):
 	fDevice(device)
 {
 	//dprintf("+NvHaikuBaseDeviceHandle\n");
-
-	fNvfp.ctl_nvfp_priv = this;
 }
 
 NvHaikuBaseDeviceHandle::~NvHaikuBaseDeviceHandle()

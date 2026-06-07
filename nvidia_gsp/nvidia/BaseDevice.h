@@ -6,6 +6,7 @@
 #include <lock.h>
 
 #include "Drivers_cpp.h"
+#include "ContainerOf.h"
 
 #include "nv-include.h"
 #include "nv-haiku.h"
@@ -57,7 +58,7 @@ public:
 	~NvHaikuBaseDeviceHandle();
 
 	static NvHaikuBaseDeviceHandle *FromFd(int fd);
-	static inline NvHaikuBaseDeviceHandle *FromNvfp(nv_file_private_t *nvfp) {return static_cast<NvHaikuBaseDeviceHandle*>(nvfp->ctl_nvfp_priv);}
+	static inline NvHaikuBaseDeviceHandle *FromNvfp(nv_file_private_t *nvfp) {return &ContainerOf(*nvfp, &NvHaikuBaseDeviceHandle::fNvfp);}
 	inline nv_file_private_t &Nvfp() {return fNvfp;}
 	inline nv_alloc_mapping_context_t &MmapContext() {return fMmapContext;}
 	NvHaikuBaseDevice *GetBaseDevice() const {return fDevice;}
