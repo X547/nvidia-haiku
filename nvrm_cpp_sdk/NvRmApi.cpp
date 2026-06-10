@@ -18,6 +18,7 @@ extern "C" {
 #include "nv-unix-nvos-params-wrappers.h"
 #include "nv-ioctl.h"
 #include "nvstatus.h"
+#include "nvos.h"
 
 #include "ctrl/ctrl0000/ctrl0000unix.h"
 }
@@ -62,6 +63,39 @@ NvHandle NvRmApi::Alloc(NvV32 hClass, NvHandle hParent, void *params, NvU32 para
 	CheckErrno(ret);
 	CheckNvStatus(p.status);
 	return p.hObjectNew;
+}
+
+NvHandle NvRmApi::AllocOsDescriptor(NvHandle hParent, void *address, NvU64 size, bool writable)
+{
+	NVOS32_PARAMETERS p {
+		.hRoot = fClient.Get(),
+		.hObjectParent = hParent,
+		.function = NVOS32_FUNCTION_ALLOC_OS_DESCRIPTOR,
+	};
+	p.data.AllocOsDesc.type = NVOS32_TYPE_IMAGE;
+	// MEMORY_HANDLE_PROVIDED is intentionally not set, so RM generates the
+	// handle and returns it in hMemory below.
+	p.data.AllocOsDesc.flags = NVOS32_ALLOC_FLAGS_MAP_NOT_REQUIRED;
+	// Anonymous user memory is write-back cacheable and cannot be guaranteed
+	// contiguous, so the OS-descriptor path requires exactly these attrs.
+	p.data.AllocOsDesc.attr =
+		DRF_DEF(OS32, _ATTR, _LOCATION, _PCI) |
+		DRF_DEF(OS32, _ATTR, _COHERENCY, _WRITE_BACK) |
+		DRF_DEF(OS32, _ATTR, _PHYSICALITY, _NONCONTIGUOUS) |
+		DRF_DEF(OS32, _ATTR, _PAGE_SIZE, _4KB);
+	p.data.AllocOsDesc.attr2 =
+		DRF_DEF(OS32, _ATTR2, _GPU_CACHEABLE, _NO) |
+		(writable
+			? DRF_DEF(OS32, _ATTR2, _PROTECTION_USER, _READ_WRITE)
+			: DRF_DEF(OS32, _ATTR2, _PROTECTION_USER, _READ_ONLY));
+	p.data.AllocOsDesc.descriptor = (NvP64)(NvUPtr)address;
+	p.data.AllocOsDesc.limit = size - 1;
+	p.data.AllocOsDesc.descriptorType = NVOS32_DESCRIPTOR_TYPE_VIRTUAL_ADDRESS;
+
+	int ret = NvRmIoctl(fFd.Get(), NV_ESC_RM_VID_HEAP_CONTROL, &p, sizeof(p));
+	CheckErrno(ret);
+	CheckNvStatus(p.status);
+	return p.data.AllocOsDesc.hMemory;
 }
 
 void NvRmApi::Free(NvHandle hObject)

@@ -38,6 +38,9 @@ public:
 
 	inline bool IsSet() const;
 	inline void *Address() const;
+#ifdef __HAIKU__
+	inline area_id Area() const {return fArea;}
+#endif
 };
 
 
