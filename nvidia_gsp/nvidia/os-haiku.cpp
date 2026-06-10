@@ -99,6 +99,26 @@ NvS32 NV_API_CALL os_snprintf(char *buf, NvU32 size, const char *fmt, ...)
 	return chars_written;
 }
 
+char* NV_API_CALL os_string_copy(char *dst, const char *src)
+{
+	return strcpy(dst, src);
+}
+
+NvU32 NV_API_CALL os_string_length(const char *str)
+{
+	return (NvU32)strlen(str);
+}
+
+NvS32 NV_API_CALL os_string_compare(const char *str1, const char *str2)
+{
+	return strcmp(str1, str2);
+}
+
+NvU32 NV_API_CALL os_strtoul(const char *str, char **endp, NvU32 base)
+{
+	return (NvU32)strtoul(str, endp, base);
+}
+
 void
 nvlink_print
 (
