@@ -21,6 +21,18 @@ struct nv_alloc_t {
 };
 
 
+// Tracks a range of locked (wired) userland pages backing an OS-descriptor
+// memory object. Created by os_lock_user_pages(), passed through
+// nv_register_user_pages()/nv_unregister_user_pages() unchanged, and released
+// by os_unlock_user_pages().
+struct nv_user_pages_t {
+	team_id team {};
+	addr_t base {};
+	NvU64 pageCount {};
+	bool writable {};
+};
+
+
 const char *nv_cache_type_str(NvU32 cache_type);
 uint32 to_haiku_cache_type(NvU32 cache_type);
 

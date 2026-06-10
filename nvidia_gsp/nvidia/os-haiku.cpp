@@ -19,6 +19,7 @@ extern "C" {
 #include <kernel.h>
 #include <lock.h>
 #include <interrupts.h>
+#include <team.h>
 #include <vm/vm.h>
 #include <condition_variable.h>
 #include <fs/fd.h>
@@ -465,6 +466,112 @@ NV_STATUS NV_API_CALL nv_free_pages(
 	TRACE("nv_free_pages(area: %" B_PRId32 ")\n", area);
 	delete (nv_alloc_t*)priv_data;
 	return NV_OK;
+}
+
+NV_STATUS NV_API_CALL os_lock_user_pages(
+    void   *address,
+    NvU64   page_count,
+    void  **page_array,
+    NvU32   flags
+)
+{
+	TRACE("os_lock_user_pages(%p, %" PRIu64 ")\n", address, page_count);
+
+	bool writable = DRF_VAL(_LOCK_USER_PAGES, _FLAGS, _WRITE, flags) != 0;
+
+	ObjectDeleter<nv_user_pages_t> pages(new(std::nothrow) nv_user_pages_t());
+	if (!pages.IsSet())
+		return NV_ERR_NO_MEMORY;
+
+	pages->team = team_get_current_team_id();
+	pages->base = (addr_t)address;
+	pages->pageCount = page_count;
+	pages->writable = writable;
+
+	// B_READ_DEVICE clear => pages must be writable (device writes to them).
+	status_t st = lock_memory_etc(pages->team, address,
+		(size_t)page_count * B_PAGE_SIZE, writable ? 0 : B_READ_DEVICE);
+	if (st < B_OK) {
+		TRACE("  lock_memory_etc failed: %#" B_PRIx32 "(%s)\n", st, strerror(st));
+		return NV_ERR_INVALID_ADDRESS;
+	}
+
+	*page_array = pages.Detach();
+	return NV_OK;
+}
+
+NV_STATUS NV_API_CALL os_unlock_user_pages(
+    NvU64  page_count,
+    void  *page_array,
+    NvU32  flags
+)
+{
+	TRACE("os_unlock_user_pages(%" PRIu64 ")\n", page_count);
+
+	auto pages = static_cast<nv_user_pages_t*>(page_array);
+
+	unlock_memory_etc(pages->team, (void*)pages->base,
+		(size_t)pages->pageCount * B_PAGE_SIZE,
+		pages->writable ? 0 : B_READ_DEVICE);
+
+	delete pages;
+	return NV_OK;
+}
+
+NV_STATUS NV_API_CALL os_lookup_user_io_memory(
+    void   *address,
+    NvU64   page_count,
+    NvU64 **pte_array
+)
+{
+	TRACE("os_lookup_user_io_memory(%p, %" PRIu64 ")\n", address, page_count);
+	// Fallback path for user IO/MMIO ranges; only RAM-backed descriptors are
+	// supported for now.
+	return NV_ERR_NOT_SUPPORTED;
+}
+
+NV_STATUS NV_API_CALL nv_register_user_pages(
+    nv_state_t *nv,
+    NvU64       page_count,
+    NvU64      *phys_addr,
+    void       *import_priv,
+    void      **priv_data
+)
+{
+	TRACE("nv_register_user_pages(%" PRIu64 ")\n", page_count);
+
+	auto pages = static_cast<nv_user_pages_t*>(*priv_data);
+
+	for (NvU64 i = 0; i < page_count; i++) {
+		physical_entry entry {};
+		uint32 numEntries = 1;
+		status_t st = get_memory_map_etc(pages->team,
+			(void*)(pages->base + i * B_PAGE_SIZE), B_PAGE_SIZE,
+			&entry, &numEntries);
+		if (st < B_OK) {
+			TRACE("  get_memory_map_etc failed: %#" B_PRIx32 "(%s)\n", st, strerror(st));
+			return NV_ERR_INVALID_ADDRESS;
+		}
+		phys_addr[i] = entry.address;
+	}
+
+	// The token is passed through unchanged for os_unlock_user_pages().
+	return NV_OK;
+}
+
+void NV_API_CALL nv_unregister_user_pages(
+    nv_state_t *nv,
+    NvU64       page_count,
+    void      **import_priv,
+    void      **priv_data
+)
+{
+	TRACE("nv_unregister_user_pages(%" PRIu64 ")\n", page_count);
+
+	// *priv_data already holds the nv_user_pages_t token, which is handed back
+	// to os_unlock_user_pages(); nothing to free or restore here.
+	if (import_priv != NULL)
+		*import_priv = NULL;
 }
 
 void* NV_API_CALL nv_alloc_kernel_mapping(
