@@ -15,6 +15,7 @@ vulkan_test_common = static_library('vulkan_test_common',
 test_sources = [
    'test_opaque_fd.cpp',
    'test_timeline_semaphore_opaque_fd.cpp',
+   'test_external_memory_host.cpp',
 ]
 
 executable('VulkanTests',
