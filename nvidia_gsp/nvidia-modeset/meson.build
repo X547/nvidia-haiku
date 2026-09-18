@@ -1,4 +1,4 @@
-shared_library('nvidia_gsp_modeset',
+lib_nvidia_gsp_modeset = shared_library('nvidia_gsp_modeset',
 	'nvkms-haiku.cpp',
 	'KmsDriver.cpp',
 	'KmsDevice.cpp',
@@ -23,9 +23,19 @@ shared_library('nvidia_gsp_modeset',
 		dep_nv_modeset_kernel,
 		dep_nvkms,
 	],
-	name_prefix: '',
-	name_suffix: '',
 	gnu_symbol_visibility: 'hidden',
+	install: false,
+)
+
+# See nvidia/meson.build's own comment on this same pattern: current Meson
+# rejects name_prefix/name_suffix: '' outright, and [] means "use the
+# platform default" rather than "no affix", so a Haiku kernel driver's
+# required bare filename (no "lib" prefix, no ".so" suffix) has to be
+# produced by copying to the exact name at install time instead.
+custom_target('nvidia_gsp_modeset_driver',
+	input: lib_nvidia_gsp_modeset,
+	output: 'nvidia_gsp_modeset',
+	command: ['cp', '@INPUT@', '@OUTPUT@'],
 	install: true,
 	install_dir: 'add-ons/kernel/drivers/bin',
 )

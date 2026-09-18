@@ -1,4 +1,4 @@
-shared_library('nvidia_gsp',
+lib_nvidia_gsp = shared_library('nvidia_gsp',
 	'IntrSafePool.cpp',
 	'Driver.cpp',
 	'NvidiaModule.cpp',
@@ -26,9 +26,22 @@ shared_library('nvidia_gsp',
 		dep_nvrm,
 		dep_nv_kernel,
 	],
-	name_prefix: '',
-	name_suffix: '',
 	gnu_symbol_visibility: 'hidden',
+	install: false,
+)
+
+# Haiku kernel drivers must be installed under their exact bare name (no
+# "lib" prefix, no ".so" suffix) -- name_prefix/name_suffix can no longer
+# be set to '' directly to get that (current Meson rejects an empty
+# string outright, and an empty array means "use the platform default",
+# not "no affix at all", so it isn't a substitute -- verified against the
+# actual Meson version this builds with). Building normally and copying
+# to the bare name at install time is Meson's own supported pattern for
+# forcing an exact output filename.
+custom_target('nvidia_gsp_driver',
+	input: lib_nvidia_gsp,
+	output: 'nvidia_gsp',
+	command: ['cp', '@INPUT@', '@OUTPUT@'],
 	install: true,
 	install_dir: 'add-ons/kernel/drivers/bin',
 )

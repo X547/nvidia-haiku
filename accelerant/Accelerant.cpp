@@ -80,6 +80,15 @@ static display_mode ToHaikuMode(const NvKmsMode &nvKmsMode) {
 		.space = B_RGB32,
 		.virtual_width  = nvKmsMode.timings.hVisible,
 		.virtual_height = nvKmsMode.timings.vVisible,
+		// fFramebuffer (see GetFrameBufferConfig() below) is a plain,
+		// linear, CPU-mapped buffer -- the same one handed to app_server
+		// via the standard frame_buffer_config hook and read back by
+		// BScreen::ReadBitmap(). That's exactly what B_PARALLEL_ACCESS
+		// advertises; without it, BDirectWindow::SupportsWindowMode()
+		// unconditionally returns false for every mode this driver
+		// reports (see src/kits/game/DirectWindow.cpp in Haiku's own
+		// tree), regardless of whether direct access would actually work.
+		.flags = B_PARALLEL_ACCESS,
 	};
 	return haikuMode;
 }
