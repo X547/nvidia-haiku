@@ -4,6 +4,7 @@ extern "C" {
 #include "nvlink/interface/nvlink_os.h"
 #include <nvrm_registry.h>
 }
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -243,6 +244,62 @@ NvS32 NV_API_CALL os_mem_cmp(
 {
     TRACE("os_mem_cmp()\n");
     return memcmp(buf0, buf1, length);
+}
+
+// String helpers. RM calls these from ordinary paths (the version check
+// behind NV_ESC_CHECK_VERSION_STR uses os_string_copy, registry parsing the
+// others), so they must not be panic stubs.
+char *NV_API_CALL os_string_copy(char *dst, const char *src)
+{
+	return strcpy(dst, src);
+}
+
+NvU32 NV_API_CALL os_string_length(const char *str)
+{
+	return (NvU32)strlen(str);
+}
+
+NvS32 NV_API_CALL os_string_compare(const char *str1, const char *str2)
+{
+	return strcmp(str1, str2);
+}
+
+// Same contract as strtoul(); written out so the driver doesn't depend on
+// the kernel exporting it. Base 0 picks 16 for "0x", 8 for a leading 0.
+NvU32 NV_API_CALL os_strtoul(const char *str, char **endp, NvU32 base)
+{
+	const char *p = str;
+	while (*p == ' ' || *p == '\t' || *p == '\n')
+		p++;
+	if (*p == '+')
+		p++;
+	if ((base == 0 || base == 16) && p[0] == '0' && (p[1] == 'x' || p[1] == 'X')
+		&& isxdigit((unsigned char)p[2])) {
+		p += 2;
+		base = 16;
+	} else if (base == 0) {
+		base = (p[0] == '0') ? 8 : 10;
+	}
+
+	NvU32 value = 0;
+	const char *start = p;
+	for (;; p++) {
+		NvU32 digit;
+		if (*p >= '0' && *p <= '9')
+			digit = *p - '0';
+		else if (*p >= 'a' && *p <= 'z')
+			digit = *p - 'a' + 10;
+		else if (*p >= 'A' && *p <= 'Z')
+			digit = *p - 'A' + 10;
+		else
+			break;
+		if (digit >= base)
+			break;
+		value = value * base + digit;
+	}
+	if (endp != nullptr)
+		*endp = (char *)(p == start ? str : p);
+	return value;
 }
 
 NV_STATUS NV_API_CALL os_memcpy_to_user(
