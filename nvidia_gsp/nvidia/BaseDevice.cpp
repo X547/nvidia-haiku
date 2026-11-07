@@ -206,6 +206,25 @@ status_t NvHaikuBaseDeviceHandle::Control(uint32 op, void *data, size_t len)
 			return area.Detach();
 		}
 
+		case NV_ESC_CHECK_VERSION_STR: {
+			// Handled by the OS layer on Linux (nvidia_ioctl), not by
+			// rm_ioctl(), so it must be answered here. NVK's RM backend sends
+			// it at startup to check that it was built for this RM release.
+			if (!NV_IS_CTL_DEVICE(fDevice->Nv()))
+				return EINVAL;
+			nv_ioctl_rm_api_version_t params;
+			if (len != sizeof(params))
+				return EINVAL;
+			if (!IS_USER_ADDRESS(data))
+				return B_BAD_ADDRESS;
+			CHECK_RET(user_memcpy(&params, data, sizeof(params)));
+			NV_STATUS status = rm_perform_version_check(nullptr, &params, sizeof(params));
+			// Like Linux, copy the reply back even on a mismatch: it carries
+			// RM's version string for the client's error message.
+			CHECK_RET(user_memcpy(data, &params, sizeof(params)));
+			return status == NV_OK ? B_OK : EINVAL;
+		}
+
 		case NV_ESC_CARD_INFO: {
 			if (!NV_IS_CTL_DEVICE(fDevice->Nv())) {
 				return EINVAL;

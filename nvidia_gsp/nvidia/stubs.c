@@ -219,10 +219,10 @@ int os_read_file(void) {panic("[!!!] os_read_file: not implemented\n"); return -
 //int os_schedule(void) {panic("[!!!] os_schedule: not implemented\n"); return -1;}
 //int os_semaphore_may_sleep(void) {panic("[!!!] os_semaphore_may_sleep: not implemented\n"); return -1;}
 //int os_snprintf(void) {panic("[!!!] os_snprintf: not implemented\n"); return -1;}
-int os_string_compare(void) {panic("[!!!] os_string_compare: not implemented\n"); return -1;}
-int os_string_copy(void) {panic("[!!!] os_string_copy: not implemented\n"); return -1;}
-int os_string_length(void) {panic("[!!!] os_string_length: not implemented\n"); return -1;}
-int os_strtoul(void) {panic("[!!!] os_strtoul: not implemented\n"); return -1;}
+//int os_string_compare(void) {panic("[!!!] os_string_compare: not implemented\n"); return -1;}
+//int os_string_copy(void) {panic("[!!!] os_string_copy: not implemented\n"); return -1;}
+//int os_string_length(void) {panic("[!!!] os_string_length: not implemented\n"); return -1;}
+//int os_strtoul(void) {panic("[!!!] os_strtoul: not implemented\n"); return -1;}
 int os_unlock_user_pages(void) {panic("[!!!] os_unlock_user_pages: not implemented\n"); return -1;}
 //int os_unmap_kernel_space(void) {panic("[!!!] os_unmap_kernel_space: not implemented\n"); return -1;}
 //int os_unmap_user_space(void) {panic("[!!!] os_unmap_user_space: not implemented\n"); return -1;}
