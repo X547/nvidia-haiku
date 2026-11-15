@@ -1,15 +1,15 @@
 /* H.264, H.265 and VP9 on the graphics card.
  *
  * Haiku picks one decoder for a format, by add-on directory, so this one takes
- * H.264 away from libavcodec wherever it is installed. It decodes what the
- * card's engine can - eight bit 4:2:0, progressive - and refuses the rest
- * rather than producing a wrong picture.
+ * the codecs it offers away from libavcodec wherever it is installed. It
+ * decodes what the card's engine can and refuses the rest rather than
+ * producing a wrong picture; a refused stream does not play, since nothing
+ * falls back.
  *
- * H.265 and VP9 are not offered to the media kit, because a stream this
- * cannot decode would then not play at all: a program that wants them - one
- * that falls back to software on its own - instantiates the decoder and sets
- * it up with an H.265 or VP9 format. H.265 Main and Main 10 and VP9 profile 0
- * are decoded (VP9 profile 2 not on the GP104, see nvdec_vp9.h). Ten-bit
+ * All three codecs are offered to the media kit unless the environment
+ * variable NVDEC_CODECS lists fewer (for example NVDEC_CODECS=h264). H.264 is
+ * decoded in eight bit 4:2:0, progressive; H.265 Main and Main 10, 4:2:0; VP9
+ * profile 0 (profile 2 only with NVDEC_VP9_TEN_BIT, see nvdec_vp9.h). Ten-bit
  * pictures can be had as they are, as NVDEC_COLOR_SPACE_P010. Any picture can
  * be had as NVDEC_COLOR_SPACE_NV12, without a conversion.
  *

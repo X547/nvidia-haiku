@@ -1,13 +1,14 @@
 /* The card's video decoder, as much of it as is not about any one codec.
  *
  * This opens resman, takes an address space, allocates buffers both sides can
- * see, and puts a channel on the decoder engine with an NVC2B0 object on it.
- * Work is a list of methods ending in EXECUTE; the engine answers by releasing
- * a semaphore.
+ * see, and puts a channel on the decoder engine with the newest NVDEC class the
+ * GPU has (NVC4B0 on Turing onwards). Work is a list of methods ending in
+ * EXECUTE; the engine answers by releasing a semaphore, which the channel
+ * waits for before raising the interrupt that wakes the waiting thread.
  *
- * The channel is the pre-Volta kind: resman owns the USERD page, which is
- * reached by mapping the channel itself, and there is no doorbell, so work is
- * kicked by writing GPPut.
+ * The channel is the Volta-and-later kind (NvChannel from NvRmDemos): work is
+ * kicked through the usermode doorbell, so Pascal and older GPUs are not
+ * supported.
  */
 #ifndef NVDEC_ENGINE_H
 #define NVDEC_ENGINE_H
@@ -92,6 +93,8 @@ void nvdecUntile(uint8_t *out, size_t outPitch, const uint8_t *tiled,
 #define NVC2B0_SEMAPHORE_C			0x0248
 #define NVC2B0_EXECUTE				0x0300
 #define NVC2B0_SEMAPHORE_D			0x0304
+#define NVC2B0_SEMAPHORE_D_STRUCTURE_SIZE_ONE	(0u << 0)
+#define NVC2B0_SEMAPHORE_D_OPERATION_RELEASE	(0u << 16)
 #define NVC2B0_SET_CONTROL_PARAMS		0x0400
 #define NVC2B0_SET_DRV_PIC_SETUP_OFFSET		0x0404
 #define NVC2B0_SET_IN_BUF_BASE_OFFSET		0x0408

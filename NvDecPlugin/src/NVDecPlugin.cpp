@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 
 #include <MediaFormats.h>
@@ -526,43 +527,89 @@ NVDecPlugin::NewDecoder(uint index)
 }
 
 
+/* Whether `name` (or `alias`) is in the list `names`, separated by commas,
+ * spaces or colons, in any case. */
+static bool
+CodecListed(const char* names, const char* name, const char* alias)
+{
+	const char* at = names;
+	while (*at != '\0') {
+		size_t length = strcspn(at, ", :");
+		if ((length == strlen(name) && strncasecmp(at, name, length) == 0)
+			|| (alias != NULL && length == strlen(alias)
+				&& strncasecmp(at, alias, length) == 0)) {
+			return true;
+		}
+		at += length;
+		at += strspn(at, ", :");
+	}
+	return false;
+}
+
+
 status_t
 NVDecPlugin::GetSupportedFormats(media_format** formats, size_t* count)
 {
-	static media_format sFormats[1];
+	static const struct {
+		int32		codec;
+		const char*	name;
+		const char*	alias;
+	} kCodecs[DECODER_COUNT] = {
+		{CODEC_ID_H264, "h264", "avc"},
+		{CODEC_ID_HEVC, "hevc", "h265"},
+		{CODEC_ID_VP9, "vp9", NULL},
+	};
+	static media_format sFormats[DECODER_COUNT];
 
 	// Haiku picks one decoder for a format and does not fall back: without
 	// NVIDIA's resource manager (no nvidia_rm, or no card it drives) claim
-	// nothing, so H.264 stays with the other decoders.
+	// nothing, so these codecs stay with the other decoders.
 	if (access("/dev/nvidiactl", F_OK) != 0)
 		return B_NOT_SUPPORTED;
 
-	media_format_description description;
-	memset(&description, 0, sizeof(description));
-	description.family = B_MISC_FORMAT_FAMILY;
-	description.u.misc.file_format = 'ffmp';
-	description.u.misc.codec = CODEC_ID_H264;
-
-	media_format format;
-	memset(&format, 0, sizeof(format));
-	format.type = B_MEDIA_ENCODED_VIDEO;
-	format.require_flags = 0;
-	format.deny_flags = B_MEDIA_MAUI_UNDEFINED_FLAGS;
+	// NVDEC_CODECS lists the codecs to claim ("h264", "hevc" or "h265",
+	// "vp9"); all of them when unset. A stream of a claimed codec that the
+	// engine refuses (H.265 beyond Main 10 4:2:0, VP9 beyond profile 0) does
+	// not play, since nothing falls back to libavcodec.
+	const char* names = getenv("NVDEC_CODECS");
+	if (names == NULL)
+		names = "h264,hevc,vp9";
 
 	BMediaFormats mediaFormats;
 	if (mediaFormats.InitCheck() != B_OK)
 		return B_ERROR;
-	if (mediaFormats.MakeFormatFor(&description, 1, &format) != B_OK)
-		return B_ERROR;
 
-	sFormats[0] = format;
+	size_t offered = 0;
+	for (size_t i = 0; i < DECODER_COUNT; i++) {
+		if (!CodecListed(names, kCodecs[i].name, kCodecs[i].alias))
+			continue;
+
+		media_format_description description;
+		memset(&description, 0, sizeof(description));
+		description.family = B_MISC_FORMAT_FAMILY;
+		description.u.misc.file_format = 'ffmp';
+		description.u.misc.codec = kCodecs[i].codec;
+
+		media_format format;
+		memset(&format, 0, sizeof(format));
+		format.type = B_MEDIA_ENCODED_VIDEO;
+		format.require_flags = 0;
+		format.deny_flags = B_MEDIA_MAUI_UNDEFINED_FLAGS;
+
+		if (mediaFormats.MakeFormatFor(&description, 1, &format) != B_OK)
+			return B_ERROR;
+		sFormats[offered++] = format;
+	}
+	if (offered == 0)
+		return B_NOT_SUPPORTED;
+
 	*formats = sFormats;
-	*count = 1;
+	*count = offered;
 	return B_OK;
 }
 
 
-MediaPlugin*
+_EXPORT MediaPlugin*
 instantiate_plugin()
 {
 	return new(std::nothrow) NVDecPlugin();
