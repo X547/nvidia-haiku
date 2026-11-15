@@ -21,17 +21,20 @@ add_global_arguments(
 	language: ['c', 'cpp']
 )
 
+cpp = meson.get_compiler('cpp')
+
+crtbegin = run_command(cpp.cmd_array(), '-print-file-name=crtbegin.o', check: true).stdout().strip()
+crtend = run_command(cpp.cmd_array(), '-print-file-name=crtend.o', check: true).stdout().strip()
+
 add_global_link_arguments(
 	'/boot/system/develop/lib/_KERNEL_',
-	'/boot/system/develop/tools/lib/gcc/x86_64-unknown-haiku/13.3.0/crtbegin.o',
-	'/boot/system/develop/tools/lib/gcc/x86_64-unknown-haiku/13.3.0/crtend.o',
+	crtbegin,
+	crtend,
 	'/boot/system/develop/lib/haiku_version_glue.o',
 	'-nostdlib',
 	'-Wl,-z,max-page-size=0x1000',
 	language: ['c', 'cpp']
 )
-
-cpp = meson.get_compiler('cpp')
 
 
 lib_nvhaiku_common = static_library('nvhaiku_common',
