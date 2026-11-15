@@ -1,0 +1,21 @@
+/*
+ * NvidiaMonitor.rdef - Resource definitions for NvidiaMonitor app
+ */
+
+resource app_signature "application/x-vnd.NvidiaMonitor";
+
+resource app_flags B_SINGLE_LAUNCH;
+
+resource app_version {
+	major  = 1,
+	middle = 0,
+	minor  = 0,
+	variety = B_APPV_ALPHA,
+	internal = 0,
+	short_info = "NvidiaMonitor",
+	long_info = "NVIDIA GPU shared-data (RUSD) monitor for Haiku"
+};
+
+resource(1, "BEOS:FILE_TYPES") message {
+	"types" = "application/x-vnd.Be-elfexecutable"
+};
