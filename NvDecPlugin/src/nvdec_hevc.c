@@ -467,6 +467,7 @@ nvdecHevcNextFrame(NvdecHevc *decoder, NvdecFrame *frame)
 		+ (size_t)picture->surface * decoder->lumaSize;
 	frame->chroma = (const uint8_t *)decoder->chromaPool.data
 		+ (size_t)picture->surface * decoder->chromaSize;
+	frame->linear = false;
 	frame->bitDepth = decoder->bitDepth;
 	frame->pictureOrder = picture->poc;
 	frame->time = picture->time;
@@ -1140,6 +1141,10 @@ decodeAccessUnit(NvdecHevc *decoder, const uint8_t *data, size_t size,
 			decoder->chromaPool.gpuAddress + (size_t)from * decoder->chromaSize);
 	}
 	nvdecMethod(engine, NVC2B0_EXECUTE, 1u << 0);
+	nvdecQueueLinearCopy(engine,
+		decoder->lumaPool.gpuAddress + (size_t)surface * decoder->lumaSize,
+		decoder->chromaPool.gpuAddress + (size_t)surface * decoder->chromaSize,
+		decoder->pitch, decoder->lumaSize, decoder->chromaSize);
 
 	if (!nvdecExecute(engine, 2000))
 		return setError(decoder, "the decoder did not answer");

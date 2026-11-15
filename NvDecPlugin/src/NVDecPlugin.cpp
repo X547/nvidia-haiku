@@ -50,13 +50,24 @@ NVDecDecoder::NVDecDecoder()
 	fLastTime(0),
 	fFrameNumber(0),
 	fRange(NVDEC_RANGE_BT709),
-	fBitDepth(8)
+	fBitDepth(8),
+	fChunkStatus(B_OK),
+	fFatalStatus(B_OK),
+	fRefused(false),
+	fConvertPool(NULL),
+	fOverlap(getenv("NVDEC_NO_OVERLAP") == NULL),
+	fAheadThread(-1),
+	fAheadStart(-1),
+	fAheadDone(-1),
+	fAheadQuit(false)
 {
 }
 
 
 NVDecDecoder::~NVDecDecoder()
 {
+	_StopDecodingAhead();
+	nvdecConvertPoolDestroy(fConvertPool);
 	if (fDecoder != NULL)
 		nvdecH264Destroy(fDecoder);
 	if (fHevcDecoder != NULL)
@@ -294,6 +305,7 @@ NVDecDecoder::SeekedTo(int64 frame, bigtime_t time)
 	fSentParameterSets = false;
 	fFrameNumber = frame;
 	fLastTime = time;
+	fChunkStatus = B_OK;
 	return B_OK;
 }
 
@@ -337,29 +349,58 @@ NVDecDecoder::_AppendChunk(const uint8* data, size_t size)
 }
 
 
-void
-NVDecDecoder::_Deliver(const NvdecFrame& frame, void* buffer,
-	media_header* mediaHeader, bool convert)
+/* The picture as it is to be converted. What the file said the picture is need
+ * not be what the stream says, and the buffer was made from what the file
+ * said. The copy engine untiled the picture after decoding it, unless there is
+ * no copy engine; then it is read in the card's arrangement. This uses the
+ * engine, so it is done before decoding ahead starts. `*pin` is the plain-line
+ * copy to give back with nvdecReleaseLinearPlanes, or NULL. */
+NvdecFrame
+NVDecDecoder::_Prepare(const NvdecFrame& frame, bool convert, void** pin)
 {
-	/* What the file said the picture is need not be what the stream says,
-	 * and the buffer was made from what the file said. */
+	*pin = NULL;
 	NvdecFrame fitted = frame;
 	if (fitted.width > fWidth)
 		fitted.width = fWidth;
 	if (fitted.height > fHeight)
 		fitted.height = fHeight;
-	const NvdecFrame& frameRef = fitted;
+	const uint8_t* linearLuma;
+	const uint8_t* linearChroma;
+	if (convert && nvdecLinearPlanes(fEngine, fitted.luma, &linearLuma,
+			&linearChroma, pin)) {
+		fitted.luma = linearLuma;
+		fitted.chroma = linearChroma;
+		fitted.linear = true;
+	}
+	return fitted;
+}
+
+
+/* Convert a picture made ready by _Prepare into the caller's buffer. It only
+ * reads the picture, so it can run while the next unit is decoded. */
+void
+NVDecDecoder::_Deliver(const NvdecFrame& frame, void* buffer,
+	media_header* mediaHeader, bool convert)
+{
 	bigtime_t convertStart = system_time();
+	const NvdecFrame& frameRef = frame;
+	if (convert && fConvertPool == NULL)
+		fConvertPool = nvdecConvertPoolCreate();
 	if (!convert)
 		;
-	else if (fColorSpace == B_YCbCr422)
-		nvdecFrameToYCbCr422Threaded(&frameRef, (uint8*)buffer, fRowBytes);
-	else if (fColorSpace == NVDEC_COLOR_SPACE_P010)
-		nvdecFrameToP010Threaded(&frameRef, (uint8*)buffer, fRowBytes);
-	else if (fColorSpace == NVDEC_COLOR_SPACE_NV12)
-		nvdecFrameToNV12Threaded(&frameRef, (uint8*)buffer, fRowBytes);
-	else
-		nvdecFrameToRGB32Threaded(&frameRef, (uint8*)buffer, fRowBytes, fRange);
+	else if (fColorSpace == B_YCbCr422) {
+		nvdecFrameToYCbCr422Threaded(fConvertPool, &frameRef, (uint8*)buffer,
+			fRowBytes);
+	} else if (fColorSpace == NVDEC_COLOR_SPACE_P010) {
+		nvdecFrameToP010Threaded(fConvertPool, &frameRef, (uint8*)buffer,
+			fRowBytes);
+	} else if (fColorSpace == NVDEC_COLOR_SPACE_NV12) {
+		nvdecFrameToNV12Threaded(fConvertPool, &frameRef, (uint8*)buffer,
+			fRowBytes);
+	} else {
+		nvdecFrameToRGB32Threaded(fConvertPool, &frameRef, (uint8*)buffer,
+			fRowBytes, fRange);
+	}
 
 	sConvertTime += system_time() - convertStart;
 	if (sTiming && ++sTimedFrames % 60 == 0) {
@@ -448,6 +489,148 @@ NVDecDecoder::_LastError()
 }
 
 
+/* Take one chunk and decode it, leaving what happened in fChunkStatus,
+ * fFatalStatus and fRefused. Runs on the caller's thread or, while a picture
+ * is converted, on the decode-ahead thread. */
+void
+NVDecDecoder::_DecodeNextUnit()
+{
+	if (fChunkStatus != B_OK || fFatalStatus != B_OK || fRefused)
+		return;
+
+	const void* chunk = NULL;
+	size_t chunkSize = 0;
+	media_header chunkHeader;
+	bigtime_t chunkStart = system_time();
+	status_t status = GetNextChunk(&chunk, &chunkSize, &chunkHeader);
+	sChunkTime += system_time() - chunkStart;
+	if (status != B_OK) {
+		fChunkStatus = status;
+		return;
+	}
+
+	fAccessUnitUsed = 0;
+	if (_AppendChunk((const uint8*)chunk, chunkSize) != B_OK) {
+		fFatalStatus = B_NO_MEMORY;
+		return;
+	}
+	if (fAccessUnitUsed == 0)
+		return;
+	if (!_DecodeUnit(fAccessUnit, fAccessUnitUsed, chunkHeader.start_time)) {
+		fprintf(stderr, "nvdec: %s\n", _LastError());
+		/* A VP9 stream the engine does not decode (profile 1 or 3, twelve
+		 * bits, larger than it goes) will not get better: the caller should
+		 * go elsewhere with it. One bad picture otherwise should not end the
+		 * film. */
+		if (fVp9 && nvdecVp9Refused(fVp9Decoder))
+			fRefused = true;
+	}
+}
+
+
+status_t
+NVDecDecoder::_DecodeAheadThread(void* cookie)
+{
+	NVDecDecoder* decoder = (NVDecDecoder*)cookie;
+	for (;;) {
+		while (acquire_sem(decoder->fAheadStart) == B_INTERRUPTED)
+			;
+		if (decoder->fAheadQuit)
+			break;
+		decoder->_DecodeNextUnit();
+		release_sem(decoder->fAheadDone);
+	}
+	return B_OK;
+}
+
+
+/* Wake the decode-ahead thread, made the first time. Without one (it could
+ * not be made, or NVDEC_NO_OVERLAP is set) the next unit is decoded after the
+ * picture is converted, in _FinishDecodingAhead. */
+void
+NVDecDecoder::_StartDecodingAhead()
+{
+	if (fOverlap && fAheadThread < 0) {
+		fAheadStart = create_sem(0, "nvdec decode ahead");
+		fAheadDone = create_sem(0, "nvdec decoded ahead");
+		if (fAheadStart >= 0 && fAheadDone >= 0) {
+			fAheadThread = spawn_thread(_DecodeAheadThread, "nvdec decode ahead",
+				B_DISPLAY_PRIORITY, this);
+		}
+		if (fAheadThread < 0 || resume_thread(fAheadThread) != B_OK) {
+			fOverlap = false;
+			fAheadThread = -1;
+		}
+	}
+	if (fOverlap)
+		release_sem(fAheadStart);
+}
+
+
+void
+NVDecDecoder::_FinishDecodingAhead()
+{
+	if (fOverlap) {
+		while (acquire_sem(fAheadDone) == B_INTERRUPTED)
+			;
+	} else
+		_DecodeNextUnit();
+}
+
+
+void
+NVDecDecoder::_StopDecodingAhead()
+{
+	if (fAheadThread >= 0) {
+		fAheadQuit = true;
+		release_sem(fAheadStart);
+		status_t ignored;
+		while (wait_for_thread(fAheadThread, &ignored) == B_INTERRUPTED)
+			;
+		fAheadThread = -1;
+	}
+	if (fAheadStart >= 0)
+		delete_sem(fAheadStart);
+	if (fAheadDone >= 0)
+		delete_sem(fAheadDone);
+	fAheadStart = fAheadDone = -1;
+}
+
+
+/* Hand out the next picture if one is ready. If the conversion does not read
+ * the decoder's surface - the copy engine made a pinned plain-line copy, or
+ * the picture is skipped - the surface is given back first and, if `overlap`,
+ * the next unit is decoded while the picture is converted. A held surface
+ * would leave streams that use every surface one short. */
+status_t
+NVDecDecoder::_DeliverNext(void* buffer, int64* frameCount,
+	media_header* mediaHeader, bigtime_t skipBefore, bool overlap)
+{
+	NvdecFrame frame;
+	if (!_NextFrame(&frame))
+		return B_LAST_BUFFER_ERROR;
+
+	bool convert = skipBefore == 0 || frame.time >= skipBefore;
+	void* pin;
+	NvdecFrame prepared = _Prepare(frame, convert, &pin);
+	bool released = !convert || prepared.linear;
+	if (released)
+		_ReleaseFrame(frame);
+	bool ahead = overlap && released;
+	if (ahead)
+		_StartDecodingAhead();
+	_Deliver(prepared, buffer, mediaHeader, convert);
+	if (ahead)
+		_FinishDecodingAhead();
+	if (!released)
+		_ReleaseFrame(frame);
+	nvdecReleaseLinearPlanes(fEngine, pin);
+	*frameCount = 1;
+	fFrameNumber++;
+	return B_OK;
+}
+
+
 status_t
 NVDecDecoder::Decode(void* buffer, int64* frameCount, media_header* mediaHeader,
 	media_decode_info* info)
@@ -466,52 +649,27 @@ NVDecDecoder::Decode(void* buffer, int64* frameCount, media_header* mediaHeader,
 	bigtime_t skipBefore = info != NULL && info->time_to_decode < 0
 		? -info->time_to_decode : 0;
 
-	NvdecFrame frame;
 	for (;;) {
-		if (_NextFrame(&frame)) {
-			_Deliver(frame, buffer, mediaHeader,
-				skipBefore == 0 || frame.time >= skipBefore);
-			_ReleaseFrame(frame);
-			*frameCount = 1;
-			fFrameNumber++;
+		/* Decoding ahead stops once the chunks have ended. */
+		bool more = fChunkStatus == B_OK && fFatalStatus == B_OK && !fRefused;
+		if (_DeliverNext(buffer, frameCount, mediaHeader, skipBefore, more)
+				== B_OK) {
 			return B_OK;
 		}
-
-		const void* chunk = NULL;
-		size_t chunkSize = 0;
-		media_header chunkHeader;
-		bigtime_t chunkStart = system_time();
-		status_t status = GetNextChunk(&chunk, &chunkSize, &chunkHeader);
-		sChunkTime += system_time() - chunkStart;
-		if (status != B_OK) {
+		if (fFatalStatus != B_OK)
+			return fFatalStatus;
+		if (fRefused)
+			return B_NOT_SUPPORTED;
+		if (fChunkStatus != B_OK) {
 			/* The file has ended: let go of everything still held. */
 			_DrainAll();
-			if (_NextFrame(&frame)) {
-				_Deliver(frame, buffer, mediaHeader,
-					skipBefore == 0 || frame.time >= skipBefore);
-				_ReleaseFrame(frame);
-				*frameCount = 1;
-				fFrameNumber++;
+			if (_DeliverNext(buffer, frameCount, mediaHeader, skipBefore, false)
+					== B_OK) {
 				return B_OK;
 			}
-			return status;
+			return fChunkStatus;
 		}
-
-		fAccessUnitUsed = 0;
-		if (_AppendChunk((const uint8*)chunk, chunkSize) != B_OK)
-			return B_NO_MEMORY;
-		if (fAccessUnitUsed == 0)
-			continue;
-		if (!_DecodeUnit(fAccessUnit, fAccessUnitUsed, chunkHeader.start_time)) {
-			fprintf(stderr, "nvdec: %s\n", _LastError());
-			/* A VP9 stream the engine does not decode (profile 1 or 3,
-			 * twelve bits, larger than it goes) will not get better: the
-			 * caller should go elsewhere with it. */
-			if (fVp9 && nvdecVp9Refused(fVp9Decoder))
-				return B_NOT_SUPPORTED;
-			/* One bad picture should not end the film. */
-			continue;
-		}
+		_DecodeNextUnit();
 	}
 }
 

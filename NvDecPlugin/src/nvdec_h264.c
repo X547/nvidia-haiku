@@ -623,6 +623,7 @@ fillFrame(NvdecH264 *decoder, const FrameStore *store, NvdecFrame *frame)
 	frame->pitch = decoder->pitch;
 	frame->luma = luma;
 	frame->chroma = chroma;
+	frame->linear = false;
 	frame->bitDepth = 8;
 	frame->pictureOrder = store->poc;
 	frame->time = store->time;
@@ -1006,6 +1007,10 @@ nvdecH264Decode(NvdecH264 *decoder, const uint8_t *data, size_t size, int64_t ti
 			decoder->chromaPool.gpuAddress + (size_t)from * decoder->chromaSize);
 	}
 	nvdecMethod(engine, NVC2B0_EXECUTE, 1u << 0);
+	nvdecQueueLinearCopy(engine,
+		decoder->lumaPool.gpuAddress + (size_t)surface * decoder->lumaSize,
+		decoder->chromaPool.gpuAddress + (size_t)surface * decoder->chromaSize,
+		decoder->pitch, decoder->lumaSize, decoder->chromaSize);
 
 	if (!nvdecExecute(engine, 2000))
 		return setError(decoder, "the decoder did not answer");

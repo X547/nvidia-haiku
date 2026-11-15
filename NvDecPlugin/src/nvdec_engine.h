@@ -70,12 +70,32 @@ typedef struct {
 void nvdecGetStatus(const NvdecEngine *engine, NvdecStatus *status);
 uint64_t nvdecStatusAddress(const NvdecEngine *engine);
 
+/* Have the copy engine copy the picture the list being built decodes out of
+ * the card's arrangement into plain lines, once the decoder is done with it:
+ * the copy waits for the decoder on the card, not on this thread. `luma` and
+ * `chroma` are the planes' card addresses, `lumaSize` and `chromaSize` their
+ * sizes, whole sixteen-line blocks of `pitch` bytes. Call it before
+ * nvdecExecute. Without a copy engine it does nothing. */
+void nvdecQueueLinearCopy(NvdecEngine *engine, uint64_t luma, uint64_t chroma,
+	int pitch, size_t lumaSize, size_t chromaSize);
+
+/* The plain-line copy of the picture whose card-arranged luma plane is at
+ * `tiledLuma` (an address in one of the engine's buffers), once the copy is
+ * done: false if there is none, and the picture has to be read in the card's
+ * arrangement. Lines are as far apart as in the card's arrangement. The copy
+ * is pinned: it stays valid, even after the picture's surface is given back
+ * and decoded into again, until nvdecReleaseLinearPlanes(`*pin`). */
+bool nvdecLinearPlanes(NvdecEngine *engine, const uint8_t *tiledLuma,
+	const uint8_t **luma, const uint8_t **chroma, void **pin);
+void nvdecReleaseLinearPlanes(NvdecEngine *engine, void *pin);
+
 /* Where the decoder puts the pixel at (x, y) of a plane whose lines are
  * `pitch` bytes apart. A 512 byte group covers 64 columns and 8 lines; two of
  * them stack into a block sixteen lines tall, and blocks run across the
  * picture and then down it. Measured on a GP102, by decoding a picture whose
- * every line was a different value and then one whose every column was: the
- * arrangement inside a group is not the one used for graphics surfaces. */
+ * every line was a different value and then one whose every column was. On
+ * an Ampere GA106 this is the copy engine's block-linear layout with blocks
+ * two GOBs tall (tools/ceuntiletest.cpp). */
 size_t nvdecTileOffset(int x, int y, int pitch);
 
 /* Copy one plane out of the card's arrangement into consecutive lines. */

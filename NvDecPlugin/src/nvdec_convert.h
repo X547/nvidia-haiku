@@ -56,12 +56,26 @@ void nvdecFrameToP010(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
 void nvdecFrameToNV12(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
 	int fromLine, int toLine);
 
-/* Convert a whole picture, using as many threads as the machine has. */
-void nvdecFrameToRGB32Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
-	NvdecColorRange range);
-void nvdecFrameToYCbCr422Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch);
-void nvdecFrameToP010Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch);
-void nvdecFrameToNV12Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch);
+/* Threads that convert pictures in bands together with the calling thread:
+ * one fewer than the machine has processors, at most seven, none with
+ * NVDEC_CONVERT_SINGLE set. They are made once and wait between pictures, so
+ * a decoder keeps one pool for as long as it decodes. A pool converts one
+ * picture at a time. Returns NULL if no pool could be made. */
+typedef struct NvdecConvertPool NvdecConvertPool;
+
+NvdecConvertPool *nvdecConvertPoolCreate(void);
+void nvdecConvertPoolDestroy(NvdecConvertPool *pool);
+
+/* Convert a whole picture with `pool`'s threads, or on this thread alone if
+ * `pool` is NULL. */
+void nvdecFrameToRGB32Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch, NvdecColorRange range);
+void nvdecFrameToYCbCr422Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch);
+void nvdecFrameToP010Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch);
+void nvdecFrameToNV12Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch);
 
 #ifdef __cplusplus
 }

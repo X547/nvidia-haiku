@@ -27,21 +27,35 @@ clamp(int value)
  * Sixteen bytes are consecutive in the card's arrangement, so a line is
  * gathered in runs of that many: sixteen samples, or eight of the sixteen-bit
  * ones, of which the top byte is kept. */
+/* Where byte `x` of line `y` of a plane is: in plain lines once the copy
+ * engine has untiled the picture, in the card's arrangement otherwise. */
+static inline size_t
+planeOffset(const NvdecFrame *frame, int x, int y)
+{
+	if (frame->linear)
+		return (size_t)y * frame->pitch + x;
+	return nvdecTileOffset(x, y, frame->pitch);
+}
+
 static inline void
 gatherLine(const NvdecFrame *frame, const uint8_t *plane, int x, int y,
 	int count, uint8_t *out)
 {
 	if (frame->bitDepth <= 8) {
+		if (frame->linear) {
+			memcpy(out, plane + planeOffset(frame, x, y), count);
+			return;
+		}
 		for (int i = 0; i < count; i += 16) {
 			int run = (count - i) < 16 ? (count - i) : 16;
-			memcpy(out + i, plane + nvdecTileOffset(x + i, y, frame->pitch), run);
+			memcpy(out + i, plane + planeOffset(frame, x + i, y), run);
 		}
 		return;
 	}
 	for (int i = 0; i < count; i += 8) {
 		int run = (count - i) < 8 ? (count - i) : 8;
 		const uint8_t *from = plane
-			+ nvdecTileOffset((x + i) * 2, y, frame->pitch);
+			+ planeOffset(frame, (x + i) * 2, y);
 		for (int k = 0; k < run; k++)
 			out[i + k] = from[2 * k + 1];
 	}
@@ -64,7 +78,9 @@ nvdecFrameToRGB32(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
 		return;
 	for (int y = fromLine; y < toLine; y++) {
 		gatherLine(frame, frame->luma, left, top + y, width, luma);
-		gatherLine(frame, frame->chroma, left, (top + y) / 2, width, chroma);
+		/* An odd width still needs the last pixel's Cr, the byte after it. */
+		gatherLine(frame, frame->chroma, left, (top + y) / 2, (width + 1) & ~1,
+			chroma);
 		uint8_t *line = out + (size_t)y * outPitch;
 		for (int x = 0; x < width; x++) {
 			int yy = (luma[x] - 16) * c->yMul;
@@ -122,11 +138,11 @@ nvdecFrameToP010(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
 			 * consecutive, so this is a copy in the card's order. */
 			for (int x = 0; x < width; x += 8) {
 				int run = (width - x) < 8 ? (width - x) : 8;
-				memcpy(line + x, frame->luma + nvdecTileOffset((left + x) * 2,
-					top + y, frame->pitch), (size_t)run * 2);
+				memcpy(line + x, frame->luma + planeOffset(frame,
+					(left + x) * 2, top + y), (size_t)run * 2);
 				if (chromaLine != NULL) {
-					memcpy(chromaLine + x, frame->chroma + nvdecTileOffset(
-						(left + x) * 2, (top + y) / 2, frame->pitch),
+					memcpy(chromaLine + x, frame->chroma + planeOffset(frame,
+						(left + x) * 2, (top + y) / 2),
 						(size_t)run * 2);
 				}
 			}
@@ -174,20 +190,23 @@ typedef struct {
 	int			kind;		/* 0 YCbCr422, 1 RGB32, 2 P010, 3 NV12 */
 	int			bands;
 	int32			next;
-	/* The helpers and the caller each hold a reference; the last one out
-	 * frees it. It is not on the caller's stack: a caller that stops
-	 * waiting early - interrupted, or killed as its team exits - must not
-	 * leave the helpers reading a stack that is gone. */
-	int32			references;
 	NvdecFrame		frameCopy;
 } Work;
 
-static void
-releaseWork(Work *work)
-{
-	if (atomic_add(&work->references, -1) == 1)
-		free(work);
-}
+#define MAX_HELPERS	7
+
+/* The picture being converted is described in the pool, not on the caller's
+ * stack: a caller that stops waiting early - interrupted, or killed as its
+ * team exits - must not leave the helpers reading a stack that is gone. The
+ * pool outlives every picture it converts. */
+struct NvdecConvertPool {
+	int		helpers;
+	thread_id	helper[MAX_HELPERS];
+	sem_id		start;		/* one count a helper, for each picture */
+	sem_id		done;		/* one count a helper, when it is through */
+	int32		quit;
+	Work		work;
+};
 
 static void
 convertBands(Work *work)
@@ -214,88 +233,130 @@ convertBands(Work *work)
 	}
 }
 
+static void
+acquireCounts(sem_id sem, int32 count)
+{
+	while (count > 0) {
+		if (acquire_sem(sem) == B_OK)
+			count--;
+	}
+}
+
 static int32
 convertHelper(void *data)
 {
-	Work *work = data;
-	convertBands(work);
-	releaseWork(work);
+	NvdecConvertPool *pool = data;
+	for (;;) {
+		acquireCounts(pool->start, 1);
+		if (atomic_get(&pool->quit) != 0)
+			break;
+		convertBands(&pool->work);
+		release_sem_etc(pool->done, 1, B_DO_NOT_RESCHEDULE);
+	}
 	return 0;
 }
 
-static void
-convertThreaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
-	NvdecColorRange range, int kind)
+NvdecConvertPool *
+nvdecConvertPoolCreate(void)
 {
+	NvdecConvertPool *pool = calloc(1, sizeof(NvdecConvertPool));
+	if (pool == NULL)
+		return NULL;
+
 	system_info info;
 	get_system_info(&info);
-	int threads = getenv("NVDEC_CONVERT_SINGLE") != NULL ? 1 : (int)info.cpu_count;
-	if (threads > 8)
-		threads = 8;
-	if (threads < 1)
-		threads = 1;
+	int wanted = getenv("NVDEC_CONVERT_SINGLE") != NULL ? 0 : (int)info.cpu_count - 1;
+	if (wanted > MAX_HELPERS)
+		wanted = MAX_HELPERS;
 
-	Work *work = malloc(sizeof(Work));
-	if (work == NULL) {
-		/* No room even for this: convert on this thread alone. */
+	pool->start = create_sem(0, "nvdec convert start");
+	pool->done = create_sem(0, "nvdec convert done");
+	if (pool->start < 0 || pool->done < 0) {
+		wanted = 0;
+	}
+	for (int i = 0; i < wanted; i++) {
+		thread_id helper = spawn_thread(convertHelper, "nvdec convert",
+			B_DISPLAY_PRIORITY, pool);
+		if (helper < 0)
+			break;
+		pool->helper[pool->helpers++] = helper;
+		resume_thread(helper);
+	}
+	return pool;
+}
+
+void
+nvdecConvertPoolDestroy(NvdecConvertPool *pool)
+{
+	if (pool == NULL)
+		return;
+	atomic_set(&pool->quit, 1);
+	if (pool->helpers > 0)
+		release_sem_etc(pool->start, pool->helpers, 0);
+	for (int i = 0; i < pool->helpers; i++) {
+		status_t ignored;
+		while (wait_for_thread(pool->helper[i], &ignored) == B_INTERRUPTED)
+			;
+	}
+	if (pool->start >= 0)
+		delete_sem(pool->start);
+	if (pool->done >= 0)
+		delete_sem(pool->done);
+	free(pool);
+}
+
+static void
+convertThreaded(NvdecConvertPool *pool, const NvdecFrame *frame, uint8_t *out,
+	size_t outPitch, NvdecColorRange range, int kind)
+{
+	if (pool == NULL || pool->helpers == 0) {
 		Work local = { .frame = frame, .out = out, .outPitch = outPitch,
 			.range = range, .kind = kind, .bands = 1, .next = 0 };
 		convertBands(&local);
 		return;
 	}
+
+	Work *work = &pool->work;
 	work->frameCopy = *frame;
 	work->frame = &work->frameCopy;
 	work->out = out;
 	work->outPitch = outPitch;
 	work->range = range;
 	work->kind = kind;
-	work->bands = threads * 2;
+	work->bands = (pool->helpers + 1) * 2;
 	work->next = 0;
-	work->references = 1;
 
-	thread_id helpers[8];
-	int started = 0;
-	for (int i = 0; i < threads - 1 && i < 8; i++) {
-		atomic_add(&work->references, 1);
-		helpers[started] = spawn_thread(convertHelper, "nvdec convert",
-			B_DISPLAY_PRIORITY, work);
-		if (helpers[started] < 0) {
-			atomic_add(&work->references, -1);
-			break;
-		}
-		resume_thread(helpers[started]);
-		started++;
-	}
+	/* A helper that finds no band left just reports done, so every count
+	 * given out comes back before the next picture is described. */
+	release_sem_etc(pool->start, pool->helpers, 0);
 	convertBands(work);
-	for (int i = 0; i < started; i++) {
-		status_t ignored;
-		while (wait_for_thread(helpers[i], &ignored) == B_INTERRUPTED)
-			;
-	}
-	releaseWork(work);
+	acquireCounts(pool->done, pool->helpers);
 }
 
 void
-nvdecFrameToRGB32Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch,
-	NvdecColorRange range)
+nvdecFrameToRGB32Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch, NvdecColorRange range)
 {
-	convertThreaded(frame, out, outPitch, range, 1);
+	convertThreaded(pool, frame, out, outPitch, range, 1);
 }
 
 void
-nvdecFrameToYCbCr422Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch)
+nvdecFrameToYCbCr422Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch)
 {
-	convertThreaded(frame, out, outPitch, NVDEC_RANGE_BT601, 0);
+	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 0);
 }
 
 void
-nvdecFrameToP010Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch)
+nvdecFrameToP010Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch)
 {
-	convertThreaded(frame, out, outPitch, NVDEC_RANGE_BT601, 2);
+	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 2);
 }
 
 void
-nvdecFrameToNV12Threaded(const NvdecFrame *frame, uint8_t *out, size_t outPitch)
+nvdecFrameToNV12Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
+	uint8_t *out, size_t outPitch)
 {
-	convertThreaded(frame, out, outPitch, NVDEC_RANGE_BT601, 3);
+	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 3);
 }

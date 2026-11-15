@@ -812,6 +812,9 @@ decodeFrame(NvdecVp9 *decoder, const uint8_t *data, size_t size, int64_t time)
 			surface->buffer.gpuAddress + surface->chromaOffset);
 	}
 	nvdecMethod(engine, NVC2B0_EXECUTE, 1u << 0);
+	nvdecQueueLinearCopy(engine, target->buffer.gpuAddress,
+		target->buffer.gpuAddress + target->chromaOffset, target->pitch,
+		target->chromaOffset, target->chromaOffset / 2);
 
 	target->current = true;
 	if (!nvdecExecute(engine, 2000)) {

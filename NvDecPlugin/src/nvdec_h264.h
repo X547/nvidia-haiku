@@ -27,6 +27,10 @@ typedef struct {
 	const uint8_t	*luma;		/* as the card arranges it; see
 					   nvdecUntile */
 	const uint8_t	*chroma;	/* two samples a pixel, Cb then Cr */
+	bool		linear;		/* luma and chroma are plain lines,
+					   `pitch` bytes apart, rather than
+					   the card's arrangement (see
+					   nvdecLinearPlanes) */
 	int		bitDepth;	/* 8, or more in sixteen-bit samples
 					   with the value in the top bits */
 	int		pictureOrder;	/* display order within the stream */

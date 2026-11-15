@@ -20,6 +20,8 @@
 #ifndef NVDEC_PLUGIN_H
 #define NVDEC_PLUGIN_H
 
+#include <OS.h>
+
 #include "DecoderPlugin.h"
 
 extern "C" {
@@ -59,8 +61,21 @@ public:
 private:
 			status_t			_ReadParameterSets(const uint8* data, size_t size);
 			status_t			_AppendChunk(const uint8* data, size_t size);
+			NvdecFrame			_Prepare(const NvdecFrame& frame, bool convert,
+									void** pin);
 			void				_Deliver(const NvdecFrame& frame, void* buffer,
 									media_header* mediaHeader, bool convert = true);
+			status_t			_DeliverNext(void* buffer, int64* frameCount,
+									media_header* mediaHeader, bigtime_t skipBefore,
+									bool overlap);
+
+			/* Decoding ahead: while a picture is converted on the caller's
+			 * thread, the next access unit is decoded on this one. */
+			void				_DecodeNextUnit();
+			void				_StartDecodingAhead();
+			void				_FinishDecodingAhead();
+	static	status_t			_DecodeAheadThread(void* cookie);
+			void				_StopDecodingAhead();
 
 			bool				_DecodeUnit(const uint8* data, size_t size,
 									bigtime_t time);
@@ -98,6 +113,21 @@ private:
 			int64				fFrameNumber;
 			NvdecColorRange		fRange;
 			int					fBitDepth;
+
+			/* What decoding the next unit found, for the next Decode(). */
+			status_t			fChunkStatus;	/* not B_OK once the chunks end */
+			status_t			fFatalStatus;	/* not B_OK: give up */
+			bool				fRefused;		/* the engine will not decode
+												   this stream */
+
+			/* The threads converting pictures, made with the first one. */
+			NvdecConvertPool*	fConvertPool;
+
+			bool				fOverlap;
+			thread_id			fAheadThread;
+			sem_id				fAheadStart;
+			sem_id				fAheadDone;
+			bool				fAheadQuit;
 };
 
 

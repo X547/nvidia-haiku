@@ -59,3 +59,10 @@ executable('nvdecstream',
 	gnu_symbol_visibility: 'hidden',
 	install: false,
 )
+
+executable('ceuntiletest',
+	'tools/ceuntiletest.cpp',
+	dependencies: [dep_nvdec],
+	gnu_symbol_visibility: 'hidden',
+	install: false,
+)

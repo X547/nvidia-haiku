@@ -18,6 +18,7 @@
 #include <memory>
 #include <new>
 #include <system_error>
+#include <vector>
 
 #include <OS.h>
 
@@ -27,6 +28,12 @@ extern "C" {
 #include "nv-haiku.h"
 #include "class/cl2080_notification.h"
 #include "class/clb8b0.h"
+#include "class/clc5b5.h"
+#include "class/clc6b5.h"
+#include "class/clc7b5.h"
+#include "class/clc8b5.h"
+#include "class/clc9b5.h"
+#include "class/clcab5.h"
 #include "class/clc4b0.h"
 #include "class/clc6b0.h"
 #include "class/clc7b0.h"
@@ -70,6 +77,48 @@ static const NvU32 kDecoderClasses[] = {
 	NVC4B0_VIDEO_DECODER,
 };
 
+static const NvU32 kCopyClasses[] = {
+	BLACKWELL_DMA_COPY_B,
+	BLACKWELL_DMA_COPY_A,
+	HOPPER_DMA_COPY_A,
+	AMPERE_DMA_COPY_B,
+	AMPERE_DMA_COPY_A,
+	TURING_DMA_COPY_A,
+};
+
+static const NvU32 kCopySubchannel = 4;
+
+// The decoder's surfaces are block linear with blocks two GOBs tall
+// (tools/ceuntiletest.cpp).
+static const NvU32 kSurfaceBlockHeightLog2 = 1;
+
+static const int kCopyTimeoutMs = 2000;
+
+
+// A buffer holding the plain-line copy of a decoded picture. It belongs to
+// the surface the picture was decoded into (found by the card address of the
+// surface's luma plane) until another picture is decoded into that surface;
+// pinned, it is not reused even then, so a picture can be converted from it
+// while the next ones are decoded.
+struct LinearCopy {
+	uint64_t tiledLuma {}; // 0: belongs to no surface
+	NvGpuMemory memory;
+	size_t chromaOffset {};
+	// The copy semaphore value once the latest copy into it is done; 0 when
+	// it holds nothing usable.
+	uint64_t ticket {};
+	bool pinned {};
+};
+
+struct PendingCopy {
+	LinearCopy *target;
+	uint64_t luma;
+	uint64_t chroma;
+	NvU32 pitch;
+	NvU32 lumaLines;
+	NvU32 chromaLines;
+};
+
 
 struct NvdecEngine {
 	FileDesc devFd;
@@ -90,12 +139,29 @@ struct NvdecEngine {
 	// reports it instead of submitting a partial list.
 	bool methodsLost {};
 
+	// Every buffer nvdecAlloc() made, to find a card address from a pointer.
+	std::vector<const NvGpuMemory*> allocations;
+
+	// Untiling on the copy engine, in the decoder channel's VA space. Absent
+	// when the GPU has no copy class this knows or NVDEC_CPU_UNTILE is set;
+	// the pictures are then untiled on the CPU while converting.
+	std::unique_ptr<NvChannel> copyChannel;
+	std::unique_ptr<NvCommandBuffer> copyCmdBuf;
+	NvRmObject copyObject;
+	NvU32 copyClass {};
+	NvGpuMemory copySemaphore;
+	uint64_t copySequence {};
+	std::vector<std::unique_ptr<LinearCopy>> linearCopies;
+	std::vector<PendingCopy> pendingCopies;
+
 	// Clock boost while pictures are being decoded (see RenewBoost). Off with
 	// NVDEC_BOOST=0, or once resman refused it.
 	bool boost {};
 	bigtime_t boostRenewed {};
 
 	NvdecEngine();
+
+	void SetUpCopyEngine();
 };
 
 
@@ -160,19 +226,53 @@ NvdecEngine::NvdecEngine():
 		intraTop.AllocLocal(dev, channel.VaSpace(), kIntraTopSize, kBufferAlign);
 	}
 
-	// The channel raises a non-stall interrupt when work is done, which
+	// The channels raise a non-stall interrupt when work is done, which
 	// resman reports as FIFO_EVENT_MTHD; a channel kill reports RC_ERROR. Both
 	// wake the same fd.
 	osEvent = NvOsEvent(rm);
 	completionEvent = AllocSubdeviceOsEvent(dev, osEvent, NV2080_NOTIFIERS_FIFO_EVENT_MTHD, true);
 	errorEvent = AllocSubdeviceOsEvent(dev, osEvent, NV2080_NOTIFIERS_RC_ERROR, false);
 
+	SetUpCopyEngine();
+
 	const char *boostSetting = getenv("NVDEC_BOOST");
 	boost = boostSetting == nullptr || strcmp(boostSetting, "0") != 0;
 }
 
 
-// Sleep until `done()`, woken by the channel's interrupts. Throws if
+void NvdecEngine::SetUpCopyEngine()
+{
+	if (getenv("NVDEC_CPU_UNTILE") != nullptr) {
+		return;
+	}
+	copyClass = FindClass(dev, kCopyClasses, std::size(kCopyClasses));
+	if (copyClass == 0) {
+		return;
+	}
+	try {
+		// An asynchronous copy engine of its own if resman gives one, the
+		// graphics engine's otherwise.
+		try {
+			copyChannel = std::make_unique<NvChannel>(dev, NV2080_ENGINE_TYPE_COPY0, channel.VaSpace());
+			copyObject = copyChannel->Channel().Alloc(copyClass, nullptr, 0);
+		} catch (...) {
+			copyObject = NvRmObject();
+			copyChannel = std::make_unique<NvChannel>(dev, NV2080_ENGINE_TYPE_GRAPHICS, channel.VaSpace());
+			copyObject = copyChannel->Channel().Alloc(copyClass, nullptr, 0);
+		}
+		copyCmdBuf = std::make_unique<NvCommandBuffer>(*copyChannel);
+		copySemaphore.AllocSystem(dev, channel.VaSpace(), 0x1000, 0x1000, true);
+		memset(copySemaphore.CpuAddr(), 0, copySemaphore.Size());
+	} catch (const std::exception &e) {
+		fprintf(stderr, "nvdec: no copy engine, untiling on the CPU: %s\n", e.what());
+		copyCmdBuf.reset();
+		copyObject = NvRmObject();
+		copyChannel.reset();
+	}
+}
+
+
+// Sleep until `done()`, woken by the channels' interrupts. Throws if
 // `channel` was killed.
 template <typename Done>
 static bool WaitUntil(NvdecEngine *engine, NvChannel &channel, int timeoutMs, const char *what, Done done)
@@ -243,6 +343,18 @@ static void ClearBoost(NvdecEngine *engine)
 }
 
 
+static bool WaitForCopy(NvdecEngine *engine, uint64_t ticket)
+{
+	if (ticket == 0) {
+		return true;
+	}
+	const volatile uint64_t *done = static_cast<const volatile uint64_t*>(engine->copySemaphore.CpuAddr());
+	return WaitUntil(engine, *engine->copyChannel, kCopyTimeoutMs, "the copy engine", [&]() {
+		return *done >= ticket;
+	});
+}
+
+
 static void SetReason(char *reason, size_t reasonSize, const char *text)
 {
 	if (reason == nullptr || reasonSize == 0) {
@@ -277,6 +389,13 @@ void nvdecClose(NvdecEngine *engine)
 	} catch (...) {
 		// A dead channel has nothing left to wait for.
 	}
+	// The copies write into buffers about to be freed.
+	if (engine->copyChannel != nullptr) {
+		try {
+			WaitForCopy(engine, engine->copySequence);
+		} catch (...) {
+		}
+	}
 	ClearBoost(engine);
 	delete engine;
 }
@@ -302,6 +421,7 @@ bool nvdecAlloc(NvdecEngine *engine, NvdecBuffer *buffer, uint64_t size, bool in
 		buffer->data = memory->CpuAddr();
 		buffer->size = size;
 		buffer->inSystemMemory = inSystemMemory;
+		engine->allocations.push_back(memory.get());
 		buffer->driverState = memory.release();
 		return true;
 	} catch (const std::exception &e) {
@@ -318,8 +438,10 @@ bool nvdecAlloc(NvdecEngine *engine, NvdecBuffer *buffer, uint64_t size, bool in
 
 void nvdecFree(NvdecEngine *engine, NvdecBuffer *buffer)
 {
-	(void)engine;
-	delete static_cast<NvGpuMemory*>(buffer->driverState);
+	auto *memory = static_cast<NvGpuMemory*>(buffer->driverState);
+	auto &allocations = engine->allocations;
+	allocations.erase(std::remove(allocations.begin(), allocations.end(), memory), allocations.end());
+	delete memory;
 	memset(buffer, 0, sizeof(*buffer));
 }
 
@@ -365,6 +487,170 @@ void nvdecAddress(NvdecEngine *engine, uint32_t method, uint64_t gpuAddress)
 }
 
 
+//#pragma mark - Untiling
+
+void nvdecQueueLinearCopy(NvdecEngine *engine, uint64_t luma, uint64_t chroma, int pitch, size_t lumaSize, size_t chromaSize)
+{
+	if (engine->copyChannel == nullptr || pitch <= 0) {
+		return;
+	}
+	try {
+		const size_t needed = (lumaSize + chromaSize + 0xfff) & ~(size_t)0xfff;
+
+		// The surface's previous picture is gone; its buffer is free unless
+		// it is pinned.
+		LinearCopy *target = nullptr;
+		for (const auto &copy : engine->linearCopies) {
+			if (copy->tiledLuma == luma) {
+				copy->tiledLuma = 0;
+				if (!copy->pinned) {
+					target = copy.get();
+				}
+				break;
+			}
+		}
+		if (target == nullptr) {
+			for (const auto &copy : engine->linearCopies) {
+				if (copy->tiledLuma == 0 && !copy->pinned) {
+					target = copy.get();
+					break;
+				}
+			}
+		}
+		if (target == nullptr) {
+			engine->linearCopies.push_back(std::make_unique<LinearCopy>());
+			target = engine->linearCopies.back().get();
+		}
+
+		// The copy engine may still be writing the buffer's last picture.
+		if (!WaitForCopy(engine, target->ticket)) {
+			return;
+		}
+		target->ticket = 0;
+		if (target->memory.Size() < needed) {
+			target->memory.AllocSystem(engine->dev, engine->channel.VaSpace(), needed, kBufferAlign, true);
+		}
+		target->tiledLuma = luma;
+		target->chromaOffset = lumaSize;
+
+		engine->pendingCopies.push_back(PendingCopy {
+			.target = target,
+			.luma = luma,
+			.chroma = chroma,
+			.pitch = (NvU32)pitch,
+			.lumaLines = (NvU32)(lumaSize / pitch),
+			.chromaLines = (NvU32)(chromaSize / pitch),
+		});
+	} catch (const std::exception &e) {
+		fprintf(stderr, "nvdec: no linear copy of this picture: %s\n", e.what());
+	} catch (...) {
+	}
+}
+
+
+// Forget the copies queued for a picture that is not going to be decoded.
+static void DropPendingCopies(NvdecEngine *engine)
+{
+	for (const PendingCopy &copy : engine->pendingCopies) {
+		copy.target->ticket = 0;
+	}
+	engine->pendingCopies.clear();
+}
+
+
+// Submit the copies queued for the picture just submitted to the decoder. The
+// copy channel waits on the card for the decoder's semaphore to reach
+// `decodeValue`, so nothing waits on this thread in between.
+static void SubmitPendingCopies(NvdecEngine *engine, uint64_t decodeSemaphore, uint32_t decodeValue)
+{
+	if (engine->pendingCopies.empty()) {
+		return;
+	}
+	try {
+		NvCommandBuffer &cmd = *engine->copyCmdBuf;
+		WriteSemAcquire32(cmd, decodeSemaphore, decodeValue);
+		WriteSetObject(cmd, kCopySubchannel, engine->copyClass);
+		for (const PendingCopy &copy : engine->pendingCopies) {
+			const uint64_t out = copy.target->memory.GpuAddr();
+			WriteCopyBlockLinearToPitch(
+				cmd, kCopySubchannel,
+				copy.luma, copy.pitch, copy.lumaLines, kSurfaceBlockHeightLog2,
+				out, copy.pitch,
+				copy.pitch, copy.lumaLines
+			);
+			WriteCopyBlockLinearToPitch(
+				cmd, kCopySubchannel,
+				copy.chroma, copy.pitch, copy.chromaLines, kSurfaceBlockHeightLog2,
+				out + copy.target->chromaOffset, copy.pitch,
+				copy.pitch, copy.chromaLines
+			);
+		}
+		const uint64_t ticket = ++engine->copySequence;
+		WriteSemRelease64(cmd, engine->copySemaphore.GpuAddr(), ticket, true);
+		WriteNonStallInterrupt(cmd);
+		cmd.SubmitTo(*engine->copyChannel);
+
+		for (const PendingCopy &copy : engine->pendingCopies) {
+			copy.target->ticket = ticket;
+		}
+		engine->pendingCopies.clear();
+	} catch (const std::exception &e) {
+		fprintf(stderr, "nvdec: queueing the linear copy: %s\n", e.what());
+		engine->copyCmdBuf->Reset();
+		DropPendingCopies(engine);
+	}
+}
+
+
+bool nvdecLinearPlanes(NvdecEngine *engine, const uint8_t *tiledLuma, const uint8_t **luma, const uint8_t **chroma, void **pin)
+{
+	if (engine->copyChannel == nullptr) {
+		return false;
+	}
+
+	uint64_t tiledAddress = 0;
+	for (const NvGpuMemory *memory : engine->allocations) {
+		const auto *base = static_cast<const uint8_t*>(memory->CpuAddr());
+		if (base != nullptr && tiledLuma >= base && tiledLuma < base + memory->Size()) {
+			tiledAddress = memory->GpuAddr() + (uint64_t)(tiledLuma - base);
+			break;
+		}
+	}
+	if (tiledAddress == 0) {
+		return false;
+	}
+
+	for (const auto &copy : engine->linearCopies) {
+		if (copy->tiledLuma != tiledAddress || copy->ticket == 0) {
+			continue;
+		}
+		try {
+			if (!WaitForCopy(engine, copy->ticket)) {
+				return false;
+			}
+		} catch (const std::exception &e) {
+			fprintf(stderr, "nvdec: %s\n", e.what());
+			return false;
+		}
+		*luma = static_cast<const uint8_t*>(copy->memory.CpuAddr());
+		*chroma = *luma + copy->chromaOffset;
+		copy->pinned = true;
+		*pin = copy.get();
+		return true;
+	}
+	return false;
+}
+
+
+void nvdecReleaseLinearPlanes(NvdecEngine *engine, void *pin)
+{
+	(void)engine;
+	if (pin != nullptr) {
+		static_cast<LinearCopy*>(pin)->pinned = false;
+	}
+}
+
+
 bool nvdecExecute(NvdecEngine *engine, int timeoutMs)
 {
 	volatile uint32_t *semaphore = static_cast<volatile uint32_t*>(engine->semaphore.CpuAddr());
@@ -382,6 +668,7 @@ bool nvdecExecute(NvdecEngine *engine, int timeoutMs)
 
 	if (engine->methodsLost) {
 		engine->cmdBuf.Reset();
+		DropPendingCopies(engine);
 		fprintf(stderr, "nvdec: no room for the method list\n");
 		return false;
 	}
@@ -395,6 +682,7 @@ bool nvdecExecute(NvdecEngine *engine, int timeoutMs)
 		WriteNonStallInterrupt(engine->cmdBuf);
 		RenewBoost(engine);
 		engine->cmdBuf.SubmitTo(engine->channel);
+		SubmitPendingCopies(engine, semaphoreAddress, want);
 
 		done = WaitUntil(engine, engine->channel, timeoutMs, "the decoder", [&]() {
 			return *semaphore == want;
@@ -402,6 +690,12 @@ bool nvdecExecute(NvdecEngine *engine, int timeoutMs)
 	} catch (const std::exception &e) {
 		fprintf(stderr, "nvdec: %s\n", e.what());
 	} catch (...) {
+	}
+	if (!done) {
+		DropPendingCopies(engine);
+		// Let a copy waiting for this picture go ahead; what it copies is
+		// not used.
+		*semaphore = want;
 	}
 	return done;
 }

@@ -19,6 +19,8 @@
 
 static uint8_t *gPlane;
 static size_t gPlaneSize;
+static NvdecEngine *gEngine;
+static NvdecConvertPool *gConvertPool;
 
 static void
 writeFrame(FILE *out, const NvdecFrame *frame)
@@ -27,13 +29,25 @@ writeFrame(FILE *out, const NvdecFrame *frame)
 		return;
 	if (getenv("NVDEC_NV12") != NULL) {
 		/* What the media add-on gives a caller that asks for 'NV12': ffmpeg
-		 * writes the same with -pix_fmt nv12. */
+		 * writes the same with -pix_fmt nv12. Like the add-on, from the copy
+		 * engine's plain-line copy when there is one. */
 		size_t size = (size_t)frame->width * frame->height * 3 / 2;
 		if (gPlaneSize < size) {
 			gPlane = realloc(gPlane, size);
 			gPlaneSize = size;
 		}
-		nvdecFrameToNV12Threaded(frame, gPlane, frame->width);
+		NvdecFrame linear = *frame;
+		const uint8_t *luma, *chroma;
+		void *pin = NULL;
+		if (nvdecLinearPlanes(gEngine, frame->luma, &luma, &chroma, &pin)) {
+			linear.luma = luma;
+			linear.chroma = chroma;
+			linear.linear = true;
+		}
+		if (gConvertPool == NULL)
+			gConvertPool = nvdecConvertPoolCreate();
+		nvdecFrameToNV12Threaded(gConvertPool, &linear, gPlane, frame->width);
+		nvdecReleaseLinearPlanes(gEngine, pin);
 		fwrite(gPlane, 1, size, out);
 		return;
 	}
@@ -141,6 +155,7 @@ main(int argc, char **argv)
 	char reason[256] = "";
 	NvdecEngine *engine = nvdecOpen(reason, sizeof(reason));
 	if (engine == NULL) { printf("opening the decoder: %s\n", reason); return 1; }
+	gEngine = engine;
 	NvdecH264 *decoder = nvdecH264Create(engine, reason, sizeof(reason));
 	if (decoder == NULL) { printf("creating the decoder failed\n"); return 1; }
 
@@ -211,6 +226,7 @@ main(int argc, char **argv)
 	if (out != NULL)
 		fclose(out);
 	nvdecH264Destroy(decoder);
+	nvdecConvertPoolDestroy(gConvertPool);
 	nvdecClose(engine);
 	return 0;
 }
