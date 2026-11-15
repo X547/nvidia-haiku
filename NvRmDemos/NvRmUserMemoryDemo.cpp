@@ -5,9 +5,9 @@
 // userland buffer into the GPU as an OS-descriptor memory object and then
 // driving the DMA copy engine against it.
 //
-// A page-aligned heap buffer is wrapped via NvGpuMemory::WrapUserSystem,
-// which issues the VID_HEAP_CONTROL ioctl (NVOS32_FUNCTION_ALLOC_OS_DESCRIPTOR)
-// so RM locks the backing pages and maps them into the channel's VA space.
+// A B_FULL_LOCK area is wrapped via NvGpuMemory::WrapUserSystem, which issues
+// the VID_HEAP_CONTROL ioctl (NVOS32_FUNCTION_ALLOC_OS_DESCRIPTOR) so the
+// kernel clones the area and RM maps its pages into the channel's VA space.
 // Two CE copies then run:
 //
 //   * read  — GPU copies the user buffer into a separate sysmem buffer; the
@@ -17,6 +17,9 @@
 //             buffer; the CPU verifies its own original pointer now sees the
 //             new pattern (proves the GPU wrote the same physical pages and
 //             that the host pointer aliases them).
+//
+// Then the area is deleted while still imported and the GPU writes it once
+// more, as when a team exits before its file descriptors are closed.
 //
 // Each copy is bracketed by a WFI semaphore release and a synchronous
 // NvChannel::WaitIdle(), so no event/poll plumbing is needed.
@@ -30,6 +33,8 @@
 #include <inttypes.h>
 
 #include <system_error>
+
+#include <OS.h>
 
 extern "C" {
 #include "nvtypes.h"
@@ -87,6 +92,7 @@ static NvU32 PickCopyClass(NvRmDevice &rmDev)
 int main()
 {
 	void *userPtr = nullptr;
+	area_id userArea = -1;
 	try {
 		NvRmApi rm;
 		NvRmDevice rmDev(rm, 0);
@@ -97,10 +103,12 @@ int main()
 		NvU32 copyClass = PickCopyClass(rmDev);
 		NvRmObject ceObj = channel.Channel().Alloc(copyClass, nullptr, 0);
 
-		// Page-aligned heap buffer — the alignment is required by the
-		// OS-descriptor path (the descriptor address must be page-aligned).
-		if (posix_memalign(&userPtr, 0x1000, kBufSize) != 0) {
-			throw std::system_error(ENOMEM, std::generic_category(), "posix_memalign");
+		// The OS-descriptor path takes only memory in a B_FULL_LOCK area,
+		// which the kernel clones to keep the pages while the GPU maps them.
+		userArea = create_area("user memory demo", &userPtr, B_ANY_ADDRESS, kBufSize,
+			B_FULL_LOCK, B_READ_AREA | B_WRITE_AREA);
+		if (userArea < B_OK) {
+			throw std::system_error(ENOMEM, std::generic_category(), "create_area");
 		}
 
 		// Import the user buffer (GPU-writable) and a separate ordinary sysmem
@@ -160,12 +168,17 @@ int main()
 			failures++;
 		}
 
-		// Tear the import down (unlocking the user pages) before the backing
-		// memory is freed.
+		// Delete the area while the GPU still maps its pages, as a team does
+		// when it exits before its file descriptors are closed: the kernel's
+		// clone keeps the pages, so the GPU still writes to memory that is
+		// not handed to anyone else, and releasing the import afterwards
+		// frees them.
+		delete_area(userArea);
+		userArea = -1;
+		runCopy(peer.GpuAddr(), userMem.GpuAddr());
+		channel.CheckError();
+		puts("write after the area was deleted: OK");
 		userMem = NvGpuMemory();
-
-		free(userPtr);
-		userPtr = nullptr;
 
 		if (failures != 0) {
 			fprintf(stderr, "[!] %d check(s) failed\n", failures);
@@ -174,7 +187,9 @@ int main()
 		puts("\nall checks passed");
 		return 0;
 	} catch (const std::system_error &ex) {
-		free(userPtr);
+		if (userArea >= B_OK) {
+			delete_area(userArea);
+		}
 		fprintf(stderr, "[!] NvRmUserMemoryDemo: %s\n", ex.what());
 		return 1;
 	}

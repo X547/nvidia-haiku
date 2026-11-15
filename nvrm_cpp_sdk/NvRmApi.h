@@ -57,9 +57,10 @@ public:
 
 	// Wrap an existing page-aligned userland buffer [address, address+size) as
 	// an OS-descriptor memory object via the VID_HEAP_CONTROL ioctl
-	// (NVOS32_FUNCTION_ALLOC_OS_DESCRIPTOR). The kernel locks the backing user
-	// pages for the lifetime of the returned handle. `address` must be
-	// page-aligned; the memory is treated as write-back cacheable,
+	// (NVOS32_FUNCTION_ALLOC_OS_DESCRIPTOR). The buffer must lie in one
+	// B_FULL_LOCK area of the calling team, which the kernel keeps mapped for
+	// the lifetime of the returned handle, even if the area is deleted. `address`
+	// must be page-aligned; the memory is treated as write-back cacheable,
 	// non-contiguous system memory. `writable` controls whether the GPU may
 	// write the pages. RM generates and returns the memory handle.
 	NvHandle AllocOsDescriptor(NvHandle hParent, void *address, NvU64 size, bool writable);

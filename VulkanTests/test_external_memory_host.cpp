@@ -1,9 +1,9 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * VK_EXT_external_memory_host: import an application-owned page-aligned host
- * buffer, bind it to a VkBuffer, and exercise it from the GPU in both
- * directions via the copy queue:
+ * VK_EXT_external_memory_host: import an application-owned host buffer (a
+ * B_FULL_LOCK area, which the Haiku driver requires), bind it to a VkBuffer,
+ * and exercise it from the GPU in both directions via the copy queue:
  *
  *   read  — CPU fills the host buffer, GPU copies it into a peer buffer, CPU
  *           verifies the peer (proves the GPU read the imported host pages).
@@ -20,12 +20,25 @@
 #include <cstring>
 #include <algorithm>
 
+#include <OS.h>
+
 using namespace vkr;
 
 
 namespace {
 
 using CommandPool = DeviceChild<VkCommandPool, vkDestroyCommandPool>;
+
+struct HostArea {
+   area_id id = -1;
+   void* address = nullptr;
+
+   ~HostArea()
+   {
+      if (id >= B_OK)
+         delete_area(id);
+   }
+};
 
 bool hostImportSupported(VkPhysicalDevice pdev)
 {
@@ -120,9 +133,15 @@ TEST_CASE("external_memory_host import round-trip via copy queue",
    const VkDeviceSize hostAllocSize =
       (hostReqs.size + importAlign - 1) & ~(importAlign - 1);
 
-   void* hostPtr = nullptr;
-   REQUIRE(posix_memalign(&hostPtr, importAlign, hostAllocSize) == 0);
-   REQUIRE(hostPtr != nullptr);
+   /* On Haiku the driver imports only memory in a B_FULL_LOCK area. Declared
+    * before the Vulkan memory, so that is freed first. */
+   HostArea host;
+   host.id = create_area("external memory host test", &host.address,
+                         B_ANY_ADDRESS, hostAllocSize, B_FULL_LOCK,
+                         B_READ_AREA | B_WRITE_AREA);
+   REQUIRE(host.id >= B_OK);
+   void* hostPtr = host.address;
+   REQUIRE(reinterpret_cast<uintptr_t>(hostPtr) % importAlign == 0);
    auto* hostBytes = static_cast<uint8_t*>(hostPtr);
 
    VkMemoryHostPointerPropertiesEXT hostPtrProps{};
@@ -136,7 +155,6 @@ TEST_CASE("external_memory_host import round-trip via copy queue",
       hostReqs.memoryTypeBits & hostPtrProps.memoryTypeBits,
       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
    if (hostTypeIdx == UINT32_MAX) {
-      free(hostPtr);
       SKIP("no host-visible memory type valid for host-pointer import");
    }
 
@@ -155,7 +173,6 @@ TEST_CASE("external_memory_host import round-trip via copy queue",
    const VkResult importRes =
       vkAllocateMemory(fix.device(), &hostAlloc, nullptr, &rawHostMem);
    if (importRes != VK_SUCCESS) {
-      free(hostPtr);
       REQUIRE(importRes == VK_SUCCESS);
    }
    DeviceMemory hostMem(fix.device(), rawHostMem);
@@ -179,7 +196,6 @@ TEST_CASE("external_memory_host import round-trip via copy queue",
       peerReqs.memoryTypeBits,
       VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
    if (peerTypeIdx == UINT32_MAX) {
-      free(hostPtr);
       SKIP("no HOST_VISIBLE|HOST_COHERENT memory type for the peer buffer");
    }
 
@@ -273,9 +289,4 @@ TEST_CASE("external_memory_host import round-trip via copy queue",
       INFO("write: first mismatched byte index: " << firstBad);
       REQUIRE(ok);
    }
-
-   /* The imported memory references hostPtr; free Vulkan memory before the
-    * backing allocation. */
-   hostMem.reset();
-   free(hostPtr);
 }

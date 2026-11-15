@@ -10,9 +10,10 @@
 //   * The kernel system-memory map path (BaseDevice.cpp NV_HAIKU_MAP,
 //     control-device branch) assumes the memory object's OS-private data is an
 //     nv_alloc_t — a driver-allocated Haiku `area` it can vm_clone_area().
-//   * An OS descriptor instead stores an nv_user_pages_t token
-//     {team, base, pageCount, writable}: the user pages are already mapped in
-//     the calling process, so there is no driver `area` to clone.
+//   * An OS descriptor instead stores an nv_user_pages_t token (the kernel's
+//     clone of the caller's B_FULL_LOCK area): the user pages are already
+//     mapped in the calling process, so NV_HAIKU_MAP refuses them; both
+//     tokens carry their kind, so neither is taken for the other.
 //
 // So this is a type-mismatch probe, not a missing-implementation probe. None
 // of the functions on this path (nv_add_mapping_context_to_file,
@@ -21,8 +22,7 @@
 // inverse: if a *panic* stub were reached, panic() halts the whole kernel, so
 // this demo printing any result at all is itself evidence that no panic stub
 // was hit. What we expect to see instead is either an RM-level error from
-// NV_ESC_RM_MAP_MEMORY or a failure in NV_HAIKU_MAP when it misreads the
-// token as an nv_alloc_t.
+// NV_ESC_RM_MAP_MEMORY or NV_HAIKU_MAP refusing the token.
 //
 // This is exactly why the VK_EXT_external_memory_host path returns the
 // application's original pointer from vkMapMemory rather than round-tripping
@@ -53,6 +53,7 @@ extern "C" {
 int main()
 {
 	void *hostPtr = nullptr;
+	area_id hostArea = -1;
 	try {
 		NvRmApi rm;
 		NvRmDevice rmDev(rm, 0);
@@ -60,8 +61,11 @@ int main()
 		const NvU64 pageSize = B_PAGE_SIZE;
 		const NvU64 size = 2 * pageSize;
 
-		if (posix_memalign(&hostPtr, pageSize, size) != 0) {
-			throw std::system_error(ENOMEM, std::generic_category(), "posix_memalign");
+		// OS descriptors take only memory in a B_FULL_LOCK area.
+		hostArea = create_area("user memory map demo", &hostPtr, B_ANY_ADDRESS, size,
+			B_FULL_LOCK, B_READ_AREA | B_WRITE_AREA);
+		if (hostArea < B_OK) {
+			throw std::system_error(ENOMEM, std::generic_category(), "create_area");
 		}
 		auto hostBytes = (NvU8*)hostPtr;
 		for (NvU64 i = 0; i < size; i++) {
@@ -73,8 +77,8 @@ int main()
 
 		{
 			// Import the user pages as an OS-descriptor memory object. Freed
-			// when osDesc leaves scope (which unlocks the pages in the kernel),
-			// before we free the host buffer below.
+			// when osDesc leaves scope (which releases the kernel's clone),
+			// before we delete the host area below.
 			NvRmObject osDesc(rm, rm.AllocOsDescriptor(rmDev.Device().Get(), hostPtr, size, /*writable=*/true));
 			printf("os descriptor: %#" PRIx32 "\n\n", osDesc.Get());
 
@@ -107,13 +111,15 @@ int main()
 			probe("device map", false, 0, pageSize);
 		}
 
-		free(hostPtr);
-		hostPtr = nullptr;
+		delete_area(hostArea);
+		hostArea = -1;
 
 		puts("reached end without a kernel panic: no stubs.c panic stub was hit");
 		return 0;
 	} catch (const std::system_error &ex) {
-		free(hostPtr);
+		if (hostArea >= B_OK) {
+			delete_area(hostArea);
+		}
 		fprintf(stderr, "[!] NvRmUserMemoryMapDemo: %s\n", ex.what());
 		return 1;
 	}

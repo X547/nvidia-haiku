@@ -41,13 +41,13 @@ public:
 	// a multiple of the page size.
 	void AllocLocal(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU64 align, bool mapCpu = false);
 
-	// Wrap an existing page-aligned userland buffer [addr, addr+size) as an
-	// OS-descriptor memory object (the kernel locks the backing user pages),
-	// and bind it into `hVaSpace` at a fresh GPU virtual address. The caller
-	// retains ownership of the CPU memory and keeps using its own pointer for
-	// CPU access, so no CPU mapping is produced here; CpuAddr() stays null.
-	// `writable` controls whether the GPU may write the pages. Freeing this
-	// object (Reset/destruction) unlocks the user pages.
+	// Wrap an existing page-aligned userland buffer [addr, addr+size), which
+	// must lie in one B_FULL_LOCK area (see NvRmApi::AllocOsDescriptor), as an
+	// OS-descriptor memory object, and bind it into `hVaSpace` at a fresh GPU
+	// virtual address. The caller retains ownership of the CPU memory and
+	// keeps using its own pointer for CPU access, so no CPU mapping is produced
+	// here; CpuAddr() stays null. `writable` controls whether the GPU may write
+	// the pages. Freeing this object (Reset/destruction) releases the pages.
 	void WrapUserSystem(NvRmDevice &dev, NvHandle hVaSpace, void *addr, NvU64 size, NvU64 align, bool writable);
 
 	bool IsSet() const {return fSize != 0;}

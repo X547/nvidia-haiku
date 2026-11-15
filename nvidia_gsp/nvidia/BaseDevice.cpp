@@ -147,7 +147,13 @@ status_t NvHaikuBaseDeviceHandle::Control(uint32 op, void *data, size_t len)
 			AreaDeleter area;
 			void *baseAddress {};
 			if (NV_IS_CTL_DEVICE(fDevice->Nv())) {
-				auto alloc = static_cast<nv_alloc_t*>(fMmapContext.alloc);
+				// Only memory the driver allocated: user pages (an OS
+				// descriptor) are mapped in their team already.
+				auto alloc = nv_sysmem_as_alloc(fMmapContext.alloc);
+				if (alloc == nullptr) {
+					dprintf("[!] NV_HAIKU_MAP: not memory the driver allocated\n");
+					return EINVAL;
+				}
 				area_id srcArea = alloc->area.Get();
 				area.SetTo(vm_clone_area(
 					team_get_current_team_id(),

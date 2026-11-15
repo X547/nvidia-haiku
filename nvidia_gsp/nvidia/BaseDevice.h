@@ -14,23 +14,51 @@
 struct select_sync_pool;
 
 
+// RM's private data for system memory is either of the two structures below,
+// and some paths get either: both start with the kind, to tell them apart.
+enum nv_sysmem_kind : uint32 {
+	NV_SYSMEM_ALLOC = 'nvAl',
+	NV_SYSMEM_USER_PAGES = 'nvUp',
+};
+
+
+// System memory the driver allocated (nv_alloc_pages()).
 struct nv_alloc_t {
+	nv_sysmem_kind kind = NV_SYSMEM_ALLOC;
 	AreaDeleter area;
 	NvU32 cacheType {};
 	phys_addr_t physBase {};
 };
 
 
-// Tracks a range of locked (wired) userland pages backing an OS-descriptor
-// memory object. Created by os_lock_user_pages(), passed through
-// nv_register_user_pages()/nv_unregister_user_pages() unchanged, and released
-// by os_unlock_user_pages().
+// Userland pages backing an OS-descriptor memory object. They must lie in one
+// B_FULL_LOCK area of the calling team, which is cloned into the kernel: the
+// clone keeps the pages wired however the team goes away (it deletes its
+// areas before closing its file descriptors), so the GPU never reaches pages
+// that were freed. lock_memory_etc() is not used, since deleting an area with
+// wired ranges at team exit can hang or panic. Created by os_lock_user_pages(),
+// passed through nv_register_user_pages()/nv_unregister_user_pages()
+// unchanged, and released by os_unlock_user_pages().
 struct nv_user_pages_t {
-	team_id team {};
-	addr_t base {};
+	nv_sysmem_kind kind = NV_SYSMEM_USER_PAGES;
+	AreaDeleter clone;
+	addr_t kernelBase {};	// the first page, in the clone
 	NvU64 pageCount {};
-	bool writable {};
 };
+
+
+// The private data of system memory as one or the other, or nullptr.
+static inline nv_alloc_t *nv_sysmem_as_alloc(void *priv)
+{
+	auto alloc = static_cast<nv_alloc_t*>(priv);
+	return alloc != nullptr && alloc->kind == NV_SYSMEM_ALLOC ? alloc : nullptr;
+}
+
+static inline nv_user_pages_t *nv_sysmem_as_user_pages(void *priv)
+{
+	auto pages = static_cast<nv_user_pages_t*>(priv);
+	return pages != nullptr && pages->kind == NV_SYSMEM_USER_PAGES ? pages : nullptr;
+}
 
 
 const char *nv_cache_type_str(NvU32 cache_type);

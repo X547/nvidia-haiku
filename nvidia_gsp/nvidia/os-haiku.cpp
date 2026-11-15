@@ -498,23 +498,56 @@ NV_STATUS NV_API_CALL os_lock_user_pages(
 	TRACE("os_lock_user_pages(%p, %" PRIu64 ")\n", address, page_count);
 
 	bool writable = DRF_VAL(_LOCK_USER_PAGES, _FLAGS, _WRITE, flags) != 0;
+	addr_t base = (addr_t)address;
+	size_t size = (size_t)page_count * B_PAGE_SIZE;
+	if (page_count == 0 || base % B_PAGE_SIZE != 0 || !IS_USER_ADDRESS(base)
+		|| base + size < base) {
+		return NV_ERR_INVALID_ADDRESS;
+	}
+
+	// The whole range must be in one locked area of the calling team (see
+	// nv_user_pages_t).
+	area_id source = area_for(address);
+	area_info info;
+	if (source < B_OK || get_area_info(source, &info) != B_OK) {
+		TRACE("  no area at %p\n", address);
+		return NV_ERR_INVALID_ADDRESS;
+	}
+	addr_t areaBase = (addr_t)info.address;
+	if (info.team != team_get_current_team_id() || info.lock != B_FULL_LOCK
+		|| base < areaBase || base + size > areaBase + info.size
+		|| (writable && (info.protection & B_WRITE_AREA) == 0)) {
+		dprintf("nvidia_gsp: user memory at %p (%" B_PRIuSIZE " bytes) is not"
+			" in a%s B_FULL_LOCK area of its team\n", address, size,
+			writable ? " writable" : "");
+		return NV_ERR_INVALID_ADDRESS;
+	}
 
 	ObjectDeleter<nv_user_pages_t> pages(new(std::nothrow) nv_user_pages_t());
 	if (!pages.IsSet())
 		return NV_ERR_NO_MEMORY;
 
-	pages->team = team_get_current_team_id();
-	pages->base = (addr_t)address;
-	pages->pageCount = page_count;
-	pages->writable = writable;
+	void *cloneAddress = nullptr;
+	pages->clone.SetTo(clone_area("nvidia user pages", &cloneAddress,
+		B_ANY_KERNEL_ADDRESS,
+		B_KERNEL_READ_AREA | (writable ? B_KERNEL_WRITE_AREA : 0), source));
+	if (!pages->clone.IsSet()) {
+		TRACE("  clone_area failed: %#" B_PRIx32 "\n", pages->clone.Get());
+		return NV_ERR_NO_MEMORY;
+	}
 
-	// B_READ_DEVICE clear => pages must be writable (device writes to them).
-	status_t st = lock_memory_etc(pages->team, address,
-		(size_t)page_count * B_PAGE_SIZE, writable ? 0 : B_READ_DEVICE);
-	if (st < B_OK) {
-		TRACE("  lock_memory_etc failed: %#" B_PRIx32 "(%s)\n", st, strerror(st));
+	// The area may have been deleted, and its ID reused, before it was
+	// cloned: the clone must be of the same memory.
+	area_info cloneInfo;
+	if (get_area_info(source, &info) != B_OK
+		|| (addr_t)info.address != areaBase || info.lock != B_FULL_LOCK
+		|| get_area_info(pages->clone.Get(), &cloneInfo) != B_OK
+		|| cloneInfo.size != info.size || cloneInfo.lock != B_FULL_LOCK) {
 		return NV_ERR_INVALID_ADDRESS;
 	}
+
+	pages->kernelBase = (addr_t)cloneAddress + (base - areaBase);
+	pages->pageCount = page_count;
 
 	*page_array = pages.Detach();
 	return NV_OK;
@@ -528,13 +561,9 @@ NV_STATUS NV_API_CALL os_unlock_user_pages(
 {
 	TRACE("os_unlock_user_pages(%" PRIu64 ")\n", page_count);
 
-	auto pages = static_cast<nv_user_pages_t*>(page_array);
-
-	unlock_memory_etc(pages->team, (void*)pages->base,
-		(size_t)pages->pageCount * B_PAGE_SIZE,
-		pages->writable ? 0 : B_READ_DEVICE);
-
-	delete pages;
+	// Deleting the clone unwires the pages; if the team's own area is gone
+	// they are freed with it.
+	delete static_cast<nv_user_pages_t*>(page_array);
 	return NV_OK;
 }
 
@@ -562,14 +591,14 @@ NV_STATUS NV_API_CALL nv_register_user_pages(
 
 	auto pages = static_cast<nv_user_pages_t*>(*priv_data);
 
+	// Through the kernel clone, which stays mapped whatever the team does.
 	for (NvU64 i = 0; i < page_count; i++) {
 		physical_entry entry {};
-		uint32 numEntries = 1;
-		status_t st = get_memory_map_etc(pages->team,
-			(void*)(pages->base + i * B_PAGE_SIZE), B_PAGE_SIZE,
-			&entry, &numEntries);
+		status_t st = get_memory_map(
+			(void*)(pages->kernelBase + i * B_PAGE_SIZE), B_PAGE_SIZE,
+			&entry, 1);
 		if (st < B_OK) {
-			TRACE("  get_memory_map_etc failed: %#" B_PRIx32 "(%s)\n", st, strerror(st));
+			TRACE("  get_memory_map failed: %#" B_PRIx32 "(%s)\n", st, strerror(st));
 			return NV_ERR_INVALID_ADDRESS;
 		}
 		phys_addr[i] = entry.address;
@@ -604,7 +633,20 @@ void* NV_API_CALL nv_alloc_kernel_mapping(
 )
 {
 	TRACE("nv_alloc_kernel_mapping(%" PRIu64 ", %" PRIu32 ", %" PRIu64 ")\n", pageIndex, pageOffset, size);
-	auto alloc = static_cast<nv_alloc_t*>(pAllocPrivate);
+
+	// User pages are mapped in the kernel already, by their clone.
+	if (auto pages = nv_sysmem_as_user_pages(pAllocPrivate)) {
+		if (pageIndex >= pages->pageCount
+			|| (pageIndex * B_PAGE_SIZE + pageOffset + size) > pages->pageCount * B_PAGE_SIZE) {
+			return nullptr;
+		}
+		*pPrivate = nullptr;
+		return (uint8*)pages->kernelBase + pageIndex * B_PAGE_SIZE + pageOffset;
+	}
+
+	auto alloc = nv_sysmem_as_alloc(pAllocPrivate);
+	if (alloc == nullptr)
+		return nullptr;
 	area_id area = alloc->area.Get();
 
 	area_info info {};
@@ -781,14 +823,21 @@ NV_STATUS NV_API_CALL nv_alloc_user_mapping(
 {
 	TRACE("nv_alloc_user_mapping(pAllocPriv: %p, pageIndex: %#" B_PRIx64 ", pageOffset: %#" B_PRIx32 ", size: %#" B_PRIx64 ")\n", pAllocPrivate, pageIndex, pageOffset, size);
 
-	auto alloc = static_cast<nv_alloc_t*>(pAllocPrivate);
-	area_id area = alloc->area.Get();
+	void *address = nullptr;
+	if (auto pages = nv_sysmem_as_user_pages(pAllocPrivate)) {
+		if (pageIndex >= pages->pageCount)
+			return NV_ERR_INVALID_ARGUMENT;
+		address = (void*)pages->kernelBase;
+	} else {
+		auto alloc = nv_sysmem_as_alloc(pAllocPrivate);
+		if (alloc == nullptr)
+			return NV_ERR_GENERIC;
 
-	area_info info {};
-	if (get_area_info(area, &info) < B_OK)
-		return NV_ERR_GENERIC;
-
-	void *address = info.address;
+		area_info info {};
+		if (get_area_info(alloc->area.Get(), &info) < B_OK)
+			return NV_ERR_GENERIC;
+		address = info.address;
+	}
 
 	physical_entry table;
 	if (get_memory_map((uint8*)address + (uint64)pageIndex * B_PAGE_SIZE, B_PAGE_SIZE, &table, 1) < B_OK)
