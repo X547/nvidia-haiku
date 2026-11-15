@@ -35,10 +35,11 @@ public:
 	void AllocSystem(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU64 align, bool mapCpu);
 
 	// Allocate `size` bytes of GPU-local video memory under the subdevice
-	// and bind it into `hVaSpace`. No CPU mapping is produced — vidmem
-	// generally is not CPU-accessible on these GPUs, and consumers must
-	// drive any access through the channel.
-	void AllocLocal(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU64 align);
+	// and bind it into `hVaSpace`. With `mapCpu` the memory is also mapped
+	// into the calling process through BAR1 (uncached, slow to read; meant
+	// for initialisation and small control structures). `size` must then be
+	// a multiple of the page size.
+	void AllocLocal(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU64 align, bool mapCpu = false);
 
 	// Wrap an existing page-aligned userland buffer [addr, addr+size) as an
 	// OS-descriptor memory object (the kernel locks the backing user pages),

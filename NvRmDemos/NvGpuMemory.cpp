@@ -185,7 +185,7 @@ void NvGpuMemory::WrapUserSystem(NvRmDevice &dev, NvHandle hVaSpace, void *addr,
 	fSize = size;
 }
 
-void NvGpuMemory::AllocLocal(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU64 align)
+void NvGpuMemory::AllocLocal(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU64 align, bool mapCpu)
 {
 	Reset();
 	NvRmApi &rm = *dev.Device().Rm();
@@ -236,9 +236,22 @@ void NvGpuMemory::AllocLocal(NvRmDevice &dev, NvHandle hVaSpace, NvU64 size, NvU
 		throw;
 	}
 
+	NvRmMemoryMapping cpuMap;
+	if (mapCpu) {
+		try {
+			cpuMap = dev.MapMemory(hPhys, false, 0, size, 0);
+		} catch (...) {
+			rm.UnmapMemoryDma(dev.Device().Get(), hVirt, hPhys, 0, gpuAddr);
+			rm.Free(hVirt);
+			rm.Free(hPhys);
+			throw;
+		}
+	}
+
 	fDev = &dev;
 	fPhysHandle = hPhys;
 	fVirtHandle = hVirt;
 	fGpuAddr = gpuAddr;
 	fSize = size;
+	fCpuMap = std::move(cpuMap);
 }

@@ -31,7 +31,10 @@ class NvChannel {
 private:
 	NvRmDevice *fDev {};
 
+	// Owned only when the channel made its own VA space; fVaSpaceHandle is
+	// the one in use either way.
 	NvRmObject fVaSpace;
+	NvHandle fVaSpaceHandle {};
 	NvRmObject fUsermode;
 	NvRmMemoryMapping fUsermodeMap;
 
@@ -69,13 +72,16 @@ public:
 	NvChannel &operator=(const NvChannel &) = delete;
 
 	// `engineType` is an NV2080_ENGINE_TYPE_* value (GRAPHICS by default).
-	// Use COPY0..COPYn for DMA copy engine channels.
-	NvChannel(NvRmDevice &dev, NvU32 engineType = 1 /* NV2080_ENGINE_TYPE_GRAPHICS */);
+	// Use COPY0..COPYn for DMA copy engine channels. With `hVaSpace` the
+	// channel runs in that existing VA space (for example another channel's,
+	// so both see the same buffers at the same addresses), which must outlive
+	// it; otherwise it makes its own.
+	NvChannel(NvRmDevice &dev, NvU32 engineType = 1 /* NV2080_ENGINE_TYPE_GRAPHICS */, NvHandle hVaSpace = 0);
 
 	NvRmDevice &Device() const {return *fDev;}
 	const NvRmObject &Channel() const {return fChannel;}
 	NvHandle Handle() const {return fChannel.Get();}
-	NvHandle VaSpace() const {return fVaSpace.Get();}
+	NvHandle VaSpace() const {return fVaSpaceHandle;}
 
 	// Submit `count` batches as `count` GP entries plus one channel-owned
 	// progress-tracker entry, then publish them via a single GPPut update +
@@ -194,6 +200,20 @@ void WriteSetObject(NvCommandBuffer &cmdBuf, NvU32 subch, NvU32 classId, NvU32 e
 // 128 KB LAUNCH_DMA invocations internally (matching mesa's safe limit),
 // reserving a fresh Push per batch so copies of any size fit.
 void WriteCopyDma(NvCommandBuffer &cmdBuf, NvU32 subch, NvU64 srcGpuAddr, NvU64 dstGpuAddr, NvU64 size);
+
+// Emit a copy out of a block-linear surface into a pitch-linear one, through
+// a TURING_DMA_COPY_A (or compatible) object bound to `subch`. The source is
+// `srcPitch` bytes wide (a multiple of the 64-byte GOB width) and `srcHeight`
+// lines tall, in blocks one GOB wide and 2^`blockHeightLog2` GOBs (of eight
+// lines) tall. `widthBytes` by `lines` starting at the source's top left are
+// copied to `dstGpuAddr`, lines `dstPitch` bytes apart.
+void WriteCopyBlockLinearToPitch(
+	NvCommandBuffer &cmdBuf,
+	NvU32 subch,
+	NvU64 srcGpuAddr, NvU32 srcPitch, NvU32 srcHeight, NvU32 blockHeightLog2,
+	NvU64 dstGpuAddr, NvU32 dstPitch,
+	NvU32 widthBytes, NvU32 lines
+);
 
 // Emit a non-stall interrupt method: the channel signals the host interrupt
 // notifier without blocking. Use this to wake a subdevice OS event.

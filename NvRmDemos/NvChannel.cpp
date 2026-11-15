@@ -37,17 +37,18 @@ static const NvU32 kProgressMethodDwords = 6;
 static const NvU32 kProgressSlotDwords   = 8;
 
 
-NvChannel::NvChannel(NvRmDevice &dev, NvU32 engineType):
+NvChannel::NvChannel(NvRmDevice &dev, NvU32 engineType, NvHandle hVaSpace):
 	fDev(&dev)
 {
-	NvRmApi &rm = *dev.Device().Rm();
-
-	// 1. Per-channel VA space + usermode mapping for the doorbell.
-	{
+	// 1. VA space (own or shared) + usermode mapping for the doorbell.
+	if (hVaSpace != 0) {
+		fVaSpaceHandle = hVaSpace;
+	} else {
 		NV_VASPACE_ALLOCATION_PARAMETERS params {
 			.flags = NV_VASPACE_ALLOCATION_FLAGS_RETRY_PTE_ALLOC_IN_SYS,
 		};
 		fVaSpace = dev.Device().Alloc(FERMI_VASPACE_A, &params, sizeof(params));
+		fVaSpaceHandle = fVaSpace.Get();
 	}
 	fUsermode = dev.Subdevice().Alloc(TURING_USERMODE_A, nullptr);
 	fUsermodeMap = dev.MapMemory(fUsermode.Get(), false, 0, 4096, 0);
@@ -57,7 +58,7 @@ NvChannel::NvChannel(NvRmDevice &dev, NvU32 engineType):
 	// writes a non-zero NV_STATUS on a robust-channel error. RM fills
 	// info16, info32, timeStamp, then status (in that order), so a CPU
 	// reading `status != 0` is guaranteed to see consistent payload.
-	fNotifier.AllocSystem(dev, fVaSpace.Get(), 0x1000, 0x1000, true);
+	fNotifier.AllocSystem(dev, fVaSpaceHandle, 0x1000, 0x1000, true);
 	memset(fNotifier.CpuAddr(), 0, fNotifier.Size());
 	{
 		NV_CONTEXT_DMA_ALLOCATION_PARAMS params {
@@ -75,8 +76,8 @@ NvChannel::NvChannel(NvRmDevice &dev, NvU32 engineType):
 	// a fixed slot. 256 GP entries (2KB) gives the pipeline depth multiple
 	// submissions can be in flight against. Command buffers themselves are
 	// owned by the caller (see NvCommandBuffer).
-	fUserD.AllocSystem(dev, fVaSpace.Get(), 0x10000, 0x10000, true);
-	fGpFifo.AllocSystem(dev, fVaSpace.Get(), 0x800, 0x1000, true);
+	fUserD.AllocSystem(dev, fVaSpaceHandle, 0x10000, 0x10000, true);
+	fGpFifo.AllocSystem(dev, fVaSpaceHandle, 0x800, 0x1000, true);
 
 	fNumGpEntries = (NvU32)(fGpFifo.Size() / 8);
 
@@ -84,9 +85,9 @@ NvChannel::NvChannel(NvRmDevice &dev, NvU32 engineType):
 	// blocks (one per GP slot) that release it. Zero the semaphore so the
 	// first release (the running GP total, which starts above 0) is a clean
 	// monotonic step. See the header for how the value is consumed.
-	fProgress.AllocSystem(dev, fVaSpace.Get(), 0x1000, 0x1000, true);
+	fProgress.AllocSystem(dev, fVaSpaceHandle, 0x1000, 0x1000, true);
 	memset(fProgress.CpuAddr(), 0, fProgress.Size());
-	fProgressPush.AllocSystem(dev, fVaSpace.Get(),
+	fProgressPush.AllocSystem(dev, fVaSpaceHandle,
 		(NvU64)fNumGpEntries * kProgressSlotDwords * sizeof(NvU32), 0x1000, true);
 
 	// 4. Allocate the GPFIFO channel itself.
@@ -96,7 +97,7 @@ NvChannel::NvChannel(NvRmDevice &dev, NvU32 engineType):
 			.gpFifoOffset = fGpFifo.GpuAddr(),
 			.gpFifoEntries = fNumGpEntries,
 			.flags = 0,
-			.hVASpace = fVaSpace.Get(),
+			.hVASpace = fVaSpaceHandle,
 			.hUserdMemory = {fUserD.PhysHandle()},
 			.userdOffset = {0},
 			.engineType = engineType,
@@ -472,4 +473,57 @@ void WriteCopyDma(NvCommandBuffer &cmdBuf, NvU32 subch, NvU64 srcGpuAddr, NvU64 
 		dstGpuAddr += bytes;
 		size -= bytes;
 	}
+}
+
+void WriteCopyBlockLinearToPitch(
+	NvCommandBuffer &cmdBuf,
+	NvU32 subch,
+	NvU64 srcGpuAddr, NvU32 srcPitch, NvU32 srcHeight, NvU32 blockHeightLog2,
+	NvU64 dstGpuAddr, NvU32 dstPitch,
+	NvU32 widthBytes, NvU32 lines
+)
+{
+	// The same shape as NVK's image-to-buffer copy: no component remapping,
+	// so widths and the source origin are in bytes; the source is described
+	// by its pitch rather than a width in pixels, since the engine has no
+	// notion of a tile width.
+	NvPushWriter wr = cmdBuf.Push(20);
+
+	wr.IncMethod(subch, NVC5B5_OFFSET_IN_UPPER, 8);
+	wr.U32((NvU32)(srcGpuAddr >> 32));
+	wr.U32((NvU32)srcGpuAddr);
+	wr.U32((NvU32)(dstGpuAddr >> 32));
+	wr.U32((NvU32)dstGpuAddr);
+	wr.U32(srcPitch);   // PITCH_IN, unused for a block-linear source
+	wr.U32(dstPitch);   // PITCH_OUT
+	wr.U32(widthBytes); // LINE_LENGTH_IN
+	wr.U32(lines);      // LINE_COUNT
+
+	wr.IncMethod(subch, NVC5B5_SET_SRC_BLOCK_SIZE, 5);
+	wr.U32(
+		DRF_DEF(C5B5, _SET_SRC_BLOCK_SIZE, _WIDTH, _ONE_GOB) |
+		DRF_NUM(C5B5, _SET_SRC_BLOCK_SIZE, _HEIGHT, blockHeightLog2) |
+		DRF_DEF(C5B5, _SET_SRC_BLOCK_SIZE, _DEPTH, _ONE_GOB) |
+		DRF_DEF(C5B5, _SET_SRC_BLOCK_SIZE, _GOB_HEIGHT, _GOB_HEIGHT_FERMI_8)
+	);
+	wr.U32(srcPitch);  // SET_SRC_WIDTH
+	wr.U32(srcHeight); // SET_SRC_HEIGHT
+	wr.U32(1);         // SET_SRC_DEPTH
+	wr.U32(0);         // SET_SRC_LAYER
+
+	wr.IncMethod(subch, NVC5B5_SRC_ORIGIN_X, 2);
+	wr.U32(0);
+	wr.U32(0);
+
+	wr.IncMethod(subch, NVC5B5_LAUNCH_DMA, 1);
+	wr.U32(
+		DRF_DEF(C5B5, _LAUNCH_DMA, _DATA_TRANSFER_TYPE, _NON_PIPELINED) |
+		DRF_DEF(C5B5, _LAUNCH_DMA, _FLUSH_ENABLE,       _TRUE) |
+		DRF_DEF(C5B5, _LAUNCH_DMA, _SEMAPHORE_TYPE,     _NONE) |
+		DRF_DEF(C5B5, _LAUNCH_DMA, _INTERRUPT_TYPE,     _NONE) |
+		DRF_DEF(C5B5, _LAUNCH_DMA, _SRC_MEMORY_LAYOUT,  _BLOCKLINEAR) |
+		DRF_DEF(C5B5, _LAUNCH_DMA, _DST_MEMORY_LAYOUT,  _PITCH) |
+		DRF_DEF(C5B5, _LAUNCH_DMA, _MULTI_LINE_ENABLE,  _TRUE)
+	);
+	cmdBuf.EndPush(wr);
 }
