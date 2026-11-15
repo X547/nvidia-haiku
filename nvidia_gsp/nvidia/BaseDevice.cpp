@@ -253,8 +253,24 @@ status_t NvHaikuBaseDeviceHandle::Control(uint32 op, void *data, size_t len)
 	}
 	CHECK_RET(user_memcpy(&kernelData[0], data, len));
 
-	if (rm_ioctl(nullptr, &fDevice->fNvState, &fNvfp, cmd, &kernelData[0], len) != NV_OK)
-		return EINVAL;
+	switch (cmd) {
+		case NV_ESC_CHECK_VERSION_STR: {
+			if (!NV_IS_CTL_DEVICE(fDevice->Nv())) {
+				return EINVAL;
+			}
+
+			if (rm_perform_version_check(nullptr, &kernelData[0], len) != NV_OK) {
+				return EINVAL;
+			}
+			break;
+		}
+		default: {
+			if (rm_ioctl(nullptr, &fDevice->fNvState, &fNvfp, cmd, &kernelData[0], len) != NV_OK) {
+				return EINVAL;
+			}
+			break;
+		}
+	}
 
 	CHECK_RET(user_memcpy(data, &kernelData[0], len));
 
