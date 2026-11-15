@@ -83,7 +83,7 @@ NvRmMemoryMapping NvRmDevice::MapMemory(NvHandle hMemory, bool isSystemMemory, N
 	nv_haiku_map_params mapParams {
 		.name = "NVRM",
 		.addressSpec = B_ANY_ADDRESS,
-		.protection = B_READ_AREA | B_WRITE_AREA,
+		.protection = B_READ_AREA | B_WRITE_AREA | (isSystemMemory ? B_CLONEABLE_AREA : 0),
 	};
 	int ret = NvRmIoctl(memFd.Get(), NV_HAIKU_MAP, &mapParams, sizeof(mapParams));
 	CheckErrno(ret); // TODO: call rm.UnmapMemory on fail
