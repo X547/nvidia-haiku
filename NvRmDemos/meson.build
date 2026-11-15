@@ -18,6 +18,7 @@ lib_nvrm_helpers_cpp = static_library('nvrm-helpers-cpp',
 	'NvCommandBuffer.cpp',
 	'NvSemSurf.cpp',
 	'NvCanvas2D.cpp',
+	'NvCompute.cpp',
 	dependencies: [
 		dep_nvrm_common,
 		dep_nvrm_client_cpp,
@@ -48,6 +49,8 @@ install_headers('NvChannel.h',       subdir: 'nvrm-helpers')
 install_headers('NvCommandBuffer.h', subdir: 'nvrm-helpers')
 install_headers('NvSemSurf.h',       subdir: 'nvrm-helpers')
 install_headers('NvCanvas2D.h',      subdir: 'nvrm-helpers')
+install_headers('NvCompute.h',       subdir: 'nvrm-helpers')
+install_headers('shaders/FillShader.h', 'shaders/Nv12ToRgb32Shader.h', subdir: 'nvrm-helpers/shaders')
 
 demos = {
 	'NvRmChannelDemo':         ['NvRmChannelDemo.cpp'],
@@ -60,6 +63,7 @@ demos = {
 	'NvRmMemoryMapperDemo':    ['NvRmMemoryMapperDemo.cpp'],
 	'NvRmUserMemoryDemo':      ['NvRmUserMemoryDemo.cpp'],
 	'NvRmUserMemoryMapDemo':   ['NvRmUserMemoryMapDemo.cpp'],
+	'NvRmComputeDemo':         ['NvRmComputeDemo.cpp'],
 }
 
 foreach name, sources : demos
@@ -76,6 +80,7 @@ image_io_sources = ['ImageIo.cpp', 'BmpIo.cpp', 'PngIo.cpp']
 image_demos = {
 	'NvRm2dBlitDemo':   ['NvRm2dBlitDemo.cpp'] + image_io_sources,
 	'NvRmCanvas2DDemo': ['NvRmCanvas2DDemo.cpp'] + image_io_sources,
+	'NvRmNv12ToRgbDemo': ['NvRmNv12ToRgbDemo.cpp'] + image_io_sources,
 }
 
 foreach name, sources : image_demos
@@ -98,3 +103,13 @@ executable('NvRmCanvasGuiDemo',
 	gnu_symbol_visibility: 'hidden',
 	install: true,
 )
+
+dep_vulkan = dependency('vulkan', required: false)
+if dep_vulkan.found()
+	executable('NvShaderDump',
+		'tools/NvShaderDump.cpp',
+		dependencies: [dep_vulkan],
+		gnu_symbol_visibility: 'hidden',
+		install: true,
+	)
+endif

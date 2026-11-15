@@ -1,0 +1,92 @@
+#version 460
+#extension GL_EXT_buffer_reference : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+
+// An NV12 picture (eight-bit luma lines, then lines of Cb and Cr pairs at half
+// the height) to B, G, R, A bytes, with the integer arithmetic of NvDecPlugin's
+// nvdecFrameToRGB32(): each chroma pair serves two columns, nothing is
+// interpolated, so the result is the same to the byte.
+//
+// Each invocation converts four pixels of one line.
+
+layout(local_size_x = 64, local_size_y = 4) in;
+
+layout(buffer_reference, std430, buffer_reference_align = 4) readonly buffer Plane {
+	uint v[];
+};
+
+layout(buffer_reference, std430, buffer_reference_align = 4) writeonly buffer Pixels {
+	uint v[];
+};
+
+// The same pixels four at a time, when the lines allow it: one store of
+// sixteen bytes a thread makes a warp's stores one run of 512 bytes, which
+// system memory across the bus takes much better than words 16 bytes apart.
+layout(buffer_reference, std430, buffer_reference_align = 16) writeonly buffer Pixels4 {
+	uvec4 v[];
+};
+
+layout(push_constant) uniform Params {
+	Plane luma;         // four-byte aligned, like the pitches
+	Plane chroma;
+	Pixels pixels;
+	uint lumaPitch;     // bytes
+	uint chromaPitch;
+	uint pixelsPitch;
+	uint width;
+	uint height;
+	uint left;          // first column of the planes to convert
+	uint top;           // first luma line
+	int yMul;           // the coefficients, as nvdec_convert.c has them
+	int rV;
+	int gU;
+	int gV;
+	int bU;
+} p;
+
+// Four bytes from any byte offset of a plane.
+uint load4(Plane plane, uint offset)
+{
+	uint word = offset >> 2;
+	uint shift = (offset & 3u) * 8u;
+	uint low = plane.v[word];
+	if (shift == 0u) {
+		return low;
+	}
+	uint high = plane.v[word + 1u];
+	return (low >> shift) | (high << (32u - shift));
+}
+
+void main()
+{
+	uint x = gl_GlobalInvocationID.x * 4u;
+	uint y = gl_GlobalInvocationID.y;
+	if (x >= p.width || y >= p.height) {
+		return;
+	}
+
+	uint lumas = load4(p.luma, (p.top + y) * p.lumaPitch + p.left + x);
+	uint chromas = load4(p.chroma, ((p.top + y) / 2u) * p.chromaPitch + p.left + x);
+	uvec4 pixels;
+	for (uint k = 0u; k < 4u; k++) {
+		int yy = (int((lumas >> (8u * k)) & 0xffu) - 16) * p.yMul;
+		uint pair = chromas >> (16u * (k / 2u));
+		int cb = int(pair & 0xffu) - 128;
+		int cr = int((pair >> 8u) & 0xffu) - 128;
+		int r = clamp((yy + p.rV * cr + 128) >> 8, 0, 255);
+		int g = clamp((yy + p.gU * cb + p.gV * cr + 128) >> 8, 0, 255);
+		int b = clamp((yy + p.bU * cb + 128) >> 8, 0, 255);
+		pixels[k] = uint(b) | (uint(g) << 8) | (uint(r) << 16) | 0xff000000u;
+	}
+
+	uint count = min(4u, p.width - x);
+	bool aligned = ((uint64_t(p.pixels) | uint64_t(p.pixelsPitch)) & 15ul) == 0ul;
+	if (count == 4u && aligned) {
+		Pixels4(p.pixels).v[(y * p.pixelsPitch + x * 4u) / 16u] = pixels;
+		return;
+	}
+	uint at = y * (p.pixelsPitch / 4u) + x;
+	for (uint k = 0u; k < count; k++) {
+		p.pixels.v[at + k] = pixels[k];
+	}
+}

@@ -1,0 +1,25 @@
+#version 460
+#extension GL_EXT_buffer_reference : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+
+// Word i of the buffer becomes i * 2654435761 + seed.
+
+layout(local_size_x = 128) in;
+
+layout(buffer_reference, std430, buffer_reference_align = 4) buffer Words {
+	uint v[];
+};
+
+layout(push_constant) uniform Params {
+	Words data;
+	uint count;
+	uint seed;
+} p;
+
+void main()
+{
+	uint i = gl_GlobalInvocationID.x;
+	if (i < p.count) {
+		p.data.v[i] = i * 2654435761u + p.seed;
+	}
+}
