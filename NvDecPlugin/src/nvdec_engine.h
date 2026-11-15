@@ -89,6 +89,21 @@ bool nvdecLinearPlanes(NvdecEngine *engine, const uint8_t *tiledLuma,
 	const uint8_t **luma, const uint8_t **chroma, void **pin);
 void nvdecReleaseLinearPlanes(NvdecEngine *engine, void *pin);
 
+/* Convert `width` by `height` pixels from (`left`, `top`) of the eight-bit
+ * picture pinned by `pin` (from nvdecLinearPlanes, lines `pitch` bytes
+ * apart) to B, G, R, A on the graphics engine, and wait for it.
+ * `coefficients` are nvdec_convert.c's yMul, rV, gU, gV, bU. The pixels go
+ * to a buffer of the engine's in system memory, lines `*outPitch` bytes
+ * apart, valid until the next call; the caller copies them out. The GPU
+ * never writes the caller's own memory: user pages locked for the GPU are
+ * not safe on Haiku yet (a team holding them may not die cleanly). NULL if
+ * it could not be done (no compute class, a shader for another GPU,
+ * NVDEC_CPU_CONVERT set, or a failure); the picture must then be converted
+ * on the CPU. */
+const uint8_t *nvdecConvertRGB32(NvdecEngine *engine, void *pin, int left,
+	int top, int width, int height, int pitch, const int coefficients[5],
+	size_t *outPitch);
+
 /* Where the decoder puts the pixel at (x, y) of a plane whose lines are
  * `pitch` bytes apart. A 512 byte group covers 64 columns and 8 lines; two of
  * them stack into a block sixteen lines tall, and blocks run across the

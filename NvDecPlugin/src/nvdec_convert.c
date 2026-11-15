@@ -187,10 +187,13 @@ typedef struct {
 	uint8_t			*out;
 	size_t			outPitch;
 	NvdecColorRange		range;
-	int			kind;		/* 0 YCbCr422, 1 RGB32, 2 P010, 3 NV12 */
+	int			kind;		/* 0 YCbCr422, 1 RGB32, 2 P010, 3 NV12,
+					   4 copying converted lines */
 	int			bands;
 	int32			next;
 	NvdecFrame		frameCopy;
+	const uint8_t		*source;	/* the lines to copy, kind 4 */
+	size_t			sourcePitch;
 } Work;
 
 #define MAX_HELPERS	7
@@ -227,6 +230,12 @@ convertBands(Work *work)
 			nvdecFrameToP010(work->frame, work->out, work->outPitch, from, to);
 		} else if (work->kind == 3) {
 			nvdecFrameToNV12(work->frame, work->out, work->outPitch, from, to);
+		} else if (work->kind == 4) {
+			size_t lineSize = (size_t)work->frame->width * 4;
+			for (int y = from; y < to; y++) {
+				memcpy(work->out + (size_t)y * work->outPitch,
+					work->source + (size_t)y * work->sourcePitch, lineSize);
+			}
 		} else {
 			nvdecFrameToYCbCr422(work->frame, work->out, work->outPitch, from, to);
 		}
@@ -307,11 +316,13 @@ nvdecConvertPoolDestroy(NvdecConvertPool *pool)
 
 static void
 convertThreaded(NvdecConvertPool *pool, const NvdecFrame *frame, uint8_t *out,
-	size_t outPitch, NvdecColorRange range, int kind)
+	size_t outPitch, NvdecColorRange range, int kind, const uint8_t *source,
+	size_t sourcePitch)
 {
 	if (pool == NULL || pool->helpers == 0) {
 		Work local = { .frame = frame, .out = out, .outPitch = outPitch,
-			.range = range, .kind = kind, .bands = 1, .next = 0 };
+			.range = range, .kind = kind, .bands = 1, .next = 0,
+			.source = source, .sourcePitch = sourcePitch };
 		convertBands(&local);
 		return;
 	}
@@ -323,6 +334,8 @@ convertThreaded(NvdecConvertPool *pool, const NvdecFrame *frame, uint8_t *out,
 	work->outPitch = outPitch;
 	work->range = range;
 	work->kind = kind;
+	work->source = source;
+	work->sourcePitch = sourcePitch;
 	work->bands = (pool->helpers + 1) * 2;
 	work->next = 0;
 
@@ -337,26 +350,45 @@ void
 nvdecFrameToRGB32Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
 	uint8_t *out, size_t outPitch, NvdecColorRange range)
 {
-	convertThreaded(pool, frame, out, outPitch, range, 1);
+	convertThreaded(pool, frame, out, outPitch, range, 1, NULL, 0);
+}
+
+bool
+nvdecFrameToRGB32OnGpu(NvdecEngine *engine, NvdecConvertPool *pool,
+	void *pin, const NvdecFrame *frame, uint8_t *out, size_t outPitch,
+	NvdecColorRange range)
+{
+	if (pin == NULL || !frame->linear || frame->bitDepth > 8)
+		return false;
+	const Coefficients *c = (range == NVDEC_RANGE_BT709) ? &kBT709 : &kBT601;
+	const int coefficients[5] = { c->yMul, c->rV, c->gU, c->gV, c->bU };
+	size_t sourcePitch;
+	const uint8_t *source = nvdecConvertRGB32(engine, pin, frame->cropLeft,
+		frame->cropTop, frame->width, frame->height, frame->pitch, coefficients,
+		&sourcePitch);
+	if (source == NULL)
+		return false;
+	convertThreaded(pool, frame, out, outPitch, range, 4, source, sourcePitch);
+	return true;
 }
 
 void
 nvdecFrameToYCbCr422Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
 	uint8_t *out, size_t outPitch)
 {
-	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 0);
+	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 0, NULL, 0);
 }
 
 void
 nvdecFrameToP010Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
 	uint8_t *out, size_t outPitch)
 {
-	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 2);
+	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 2, NULL, 0);
 }
 
 void
 nvdecFrameToNV12Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
 	uint8_t *out, size_t outPitch)
 {
-	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 3);
+	convertThreaded(pool, frame, out, outPitch, NVDEC_RANGE_BT601, 3, NULL, 0);
 }

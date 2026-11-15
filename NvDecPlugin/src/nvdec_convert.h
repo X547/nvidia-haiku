@@ -77,6 +77,16 @@ void nvdecFrameToP010Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
 void nvdecFrameToNV12Threaded(NvdecConvertPool *pool, const NvdecFrame *frame,
 	uint8_t *out, size_t outPitch);
 
+/* Convert a whole picture as nvdecFrameToRGB32Threaded() does, the same to
+ * the byte, but with a compute shader on the graphics card: from the
+ * plain-line copy `pin` holds (nvdecLinearPlanes) into a buffer of the
+ * engine's, which `pool`'s threads then copy into `out`. False, with nothing
+ * written, if the picture or the card does not allow it (see
+ * nvdecConvertRGB32); it is then converted on the CPU. */
+bool nvdecFrameToRGB32OnGpu(NvdecEngine *engine, NvdecConvertPool *pool,
+	void *pin, const NvdecFrame *frame, uint8_t *out, size_t outPitch,
+	NvdecColorRange range);
+
 #ifdef __cplusplus
 }
 #endif

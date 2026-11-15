@@ -377,16 +377,23 @@ NVDecDecoder::_Prepare(const NvdecFrame& frame, bool convert, void** pin)
 
 
 /* Convert a picture made ready by _Prepare into the caller's buffer. It only
- * reads the picture, so it can run while the next unit is decoded. */
+ * reads the picture, so it can run while the next unit is decoded. RGB32 is
+ * converted on the graphics card from the plain-line copy `pin` holds, when
+ * there is one and the card can, and copied into the buffer on this thread:
+ * the copy is no faster split between threads. The threads are made only
+ * once a picture is converted on the CPU. */
 void
 NVDecDecoder::_Deliver(const NvdecFrame& frame, void* buffer,
-	media_header* mediaHeader, bool convert)
+	media_header* mediaHeader, bool convert, void* pin)
 {
 	bigtime_t convertStart = system_time();
 	const NvdecFrame& frameRef = frame;
-	if (convert && fConvertPool == NULL)
+	bool onGpu = convert && fColorSpace == B_RGB32
+		&& nvdecFrameToRGB32OnGpu(fEngine, NULL, pin, &frameRef,
+			(uint8*)buffer, fRowBytes, fRange);
+	if (convert && !onGpu && fConvertPool == NULL)
 		fConvertPool = nvdecConvertPoolCreate();
-	if (!convert)
+	if (!convert || onGpu)
 		;
 	else if (fColorSpace == B_YCbCr422) {
 		nvdecFrameToYCbCr422Threaded(fConvertPool, &frameRef, (uint8*)buffer,
@@ -619,7 +626,7 @@ NVDecDecoder::_DeliverNext(void* buffer, int64* frameCount,
 	bool ahead = overlap && released;
 	if (ahead)
 		_StartDecodingAhead();
-	_Deliver(prepared, buffer, mediaHeader, convert);
+	_Deliver(prepared, buffer, mediaHeader, convert, pin);
 	if (ahead)
 		_FinishDecodingAhead();
 	if (!released)

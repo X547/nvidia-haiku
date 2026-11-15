@@ -64,7 +64,8 @@ private:
 			NvdecFrame			_Prepare(const NvdecFrame& frame, bool convert,
 									void** pin);
 			void				_Deliver(const NvdecFrame& frame, void* buffer,
-									media_header* mediaHeader, bool convert = true);
+									media_header* mediaHeader, bool convert,
+									void* pin);
 			status_t			_DeliverNext(void* buffer, int64* frameCount,
 									media_header* mediaHeader, bigtime_t skipBefore,
 									bool overlap);
@@ -120,7 +121,8 @@ private:
 			bool				fRefused;		/* the engine will not decode
 												   this stream */
 
-			/* The threads converting pictures, made with the first one. */
+			/* The threads converting pictures, made with the first one
+			 * converted on the CPU. */
 			NvdecConvertPool*	fConvertPool;
 
 			bool				fOverlap;

@@ -38,6 +38,16 @@ of the engine and of what was measured on a GTX 1070, is
     out, so no CPU wait sits between decoding and copying. The conversion then
     reads plain lines instead of untiling on the CPU. Without a copy engine,
     or with `NVDEC_CPU_UNTILE=1`, the CPU untiles as before;
+  - pictures asked for as RGB32 are converted by a compute shader on the
+    graphics engine (`nv12_to_rgb32.comp` in NvRmDemos, launched through
+    NvRmDemos' `NvCompute.h`), from the copy engine's plain-line copy into a
+    buffer of the engine's in system memory, which is then copied into the
+    caller's buffer on the calling thread (several threads copy no faster).
+    The GPU does not write the caller's buffer itself: user pages locked for
+    the GPU are not yet safe on Haiku. The result is the same to the byte as
+    the CPU's. The shader is compiled for SM 86 (GA10x); on another GPU,
+    without a copy engine, for ten-bit pictures or with
+    `NVDEC_CPU_CONVERT=1` the CPU converts;
   - while pictures are being decoded the engine asks resman for the highest
     P-state (`NV2080_CTRL_CMD_PERF_BOOST`, two seconds, renewed at most once a
     second; cleared when the decoder closes). Decoding a picture every few
@@ -52,8 +62,9 @@ of the engine and of what was measured on a GTX 1070, is
   below), and exports `instantiate_plugin()` explicitly (the add-on is built
   with hidden visibility).
 - `nvdec_convert.c` reads the copy engine's plain lines when there are some,
-  converts with threads that last as long as the decoder (see below), and no
-  longer reads past the end of a chroma line at odd widths.
+  converts with threads that last as long as the decoder (see below), hands
+  RGB32 to the GPU when it can, and no longer reads past the end of a chroma
+  line at odd widths.
 - The codecs queue the copy-engine copy of each picture they decode. The
   rest of `src/` is air/OS's code unchanged. `src/cedar/` holds the three
   files of air/OS's `sunxi_cedar` add-on that the VP9 decoder shares, and
@@ -104,8 +115,9 @@ therefore takes over the untiling from `nvdec_convert.c`.
 
 Through the media kit at 3840x2160 on an RTX A2000, per picture: decoding
 8.8 ms with the clock boost (19 ms without), converting to RGB32 on the CPU
-about 26 ms. Picture setup on the CPU takes 0.25 ms and the wait for the
-decoder costs about 0.2 ms more than the decoding itself.
+about 26 ms, or on the GPU 2.5 ms plus the copy into the caller's buffer.
+Picture setup on the CPU takes 0.25 ms and the wait for the decoder costs
+about 0.2 ms more than the decoding itself.
 
 Decoding and converting overlap: while `Decode()` converts a picture into the
 caller's buffer, a decode-ahead thread (one per decoder, made once) fetches
@@ -117,16 +129,20 @@ surface would leave streams that use every surface (deep B-picture
 reordering) one short. Without a copy engine the surface is read directly,
 held, and nothing is decoded ahead.
 
-The conversion runs in bands on the caller's thread and a pool of helper
-threads (one fewer than the processors, at most seven) that each decoder
-makes with its first picture and keeps, waiting on a semaphore between
-pictures, until it is destroyed. The colour conversion itself is most of the
-work even with the copy engine untiling: on one thread a 4K picture takes
-68 ms to convert, on eight 24 ms.
+A conversion on the CPU runs in bands on the caller's thread and a pool of
+helper threads (one fewer than the processors, at most seven) that each
+decoder makes with the first picture it converts on the CPU and keeps,
+waiting on a semaphore between pictures, until it is destroyed. The colour
+conversion itself is most of the work even with the copy engine untiling: on
+one thread a 4K picture takes 68 ms to convert, on eight 24 ms.
 
-4K H.264 plays at 24 ms a picture (42 a second) against 33 without
-overlapping, 4K H.265 at 21.6 against 28, 4K VP9 at 23.5 against 36, 720p VP9
-at 2.8 against 4.3.
+To RGB32 with the CPU converting, 4K H.264 plays at 24 ms a picture (42 a
+second) against 33 without overlapping, 4K H.265 at 21.6 against 28, 4K VP9
+at 23.5 against 36, 720p VP9 at 2.8 against 4.3. With the GPU converting,
+4K H.264 plays at 12–14 ms a picture (about 75 a second), 4K H.265 at 9.7,
+4K VP9 at 12.8 and 720p VP9 at 1.2; the 25 CTS clips that decode give the
+same pictures either way. Small pictures gain nothing: the launch and the
+wait for it cost about as much as converting them on the CPU.
 
 Settings, read from the environment of the program playing the video:
 
@@ -137,7 +153,8 @@ Settings, read from the environment of the program playing the video:
 | `NVDEC_NO_OVERLAP=1` | decode the next unit after converting a picture, not while |
 | `NVDEC_CPU_UNTILE=1` | untile on the CPU instead of the copy engine |
 | `NVDEC_SURFACES_IN_VRAM=1` | decoded pictures in video memory (air/OS's switch; no faster with the copy engine reading them) |
-| `NVDEC_CONVERT_SINGLE=1` | convert on one thread |
+| `NVDEC_CPU_CONVERT=1` | convert to RGB32 on the CPU instead of the GPU |
+| `NVDEC_CONVERT_SINGLE=1` | convert on the CPU on one thread |
 | `NVDEC_TIMING=1` | print where the time went every sixty pictures |
 
 ## Building

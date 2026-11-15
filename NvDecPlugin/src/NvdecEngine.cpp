@@ -51,8 +51,10 @@ extern "C" {
 
 #include <nvrm-helpers/NvChannel.h>
 #include <nvrm-helpers/NvCommandBuffer.h>
+#include <nvrm-helpers/NvCompute.h>
 #include <nvrm-helpers/NvGpuMemory.h>
 #include <nvrm-helpers/NvOsEvent.h>
+#include <nvrm-helpers/shaders/Nv12ToRgb32Shader.h>
 
 #include "video/nvdec_drv.h"
 
@@ -93,6 +95,7 @@ static const NvU32 kCopySubchannel = 4;
 static const NvU32 kSurfaceBlockHeightLog2 = 1;
 
 static const int kCopyTimeoutMs = 2000;
+static const int kConvertTimeoutMs = 1000;
 
 
 // A buffer holding the plain-line copy of a decoded picture. It belongs to
@@ -154,6 +157,20 @@ struct NvdecEngine {
 	std::vector<std::unique_ptr<LinearCopy>> linearCopies;
 	std::vector<PendingCopy> pendingCopies;
 
+	// Converting to RGB32 with a compute shader on a graphics channel in the
+	// decoder channel's VA space (nvdecConvertRGB32), set up with the first
+	// picture converted. Unavailable with NVDEC_CPU_CONVERT or once setting
+	// up or a conversion failed.
+	enum { kComputeUntried, kComputeReady, kComputeUnavailable } computeState {kComputeUntried};
+	std::unique_ptr<NvChannel> computeChannel;
+	std::unique_ptr<NvCommandBuffer> computeCmdBuf;
+	NvRmObject computeObject;
+	NvComputeProgram computeProgram;
+	NvGpuMemory computeSlot;
+	NvGpuMemory computeSemaphore;
+	NvGpuMemory computeOutput;
+	uint64_t computeSequence {};
+
 	// Clock boost while pictures are being decoded (see RenewBoost). Off with
 	// NVDEC_BOOST=0, or once resman refused it.
 	bool boost {};
@@ -162,6 +179,7 @@ struct NvdecEngine {
 	NvdecEngine();
 
 	void SetUpCopyEngine();
+	bool SetUpCompute();
 };
 
 
@@ -269,6 +287,40 @@ void NvdecEngine::SetUpCopyEngine()
 		copyObject = NvRmObject();
 		copyChannel.reset();
 	}
+}
+
+
+// True once the compute channel and the shader are ready; tried once.
+bool NvdecEngine::SetUpCompute()
+{
+	if (computeState != kComputeUntried) {
+		return computeState == kComputeReady;
+	}
+	computeState = kComputeUnavailable;
+	if (getenv("NVDEC_CPU_CONVERT") != nullptr) {
+		return false;
+	}
+	try {
+		const NvU32 computeClass = PickComputeClass(dev);
+		computeProgram = NvComputeProgram(dev, channel.VaSpace(), kNv12ToRgb32Shader);
+		computeChannel = std::make_unique<NvChannel>(dev, NV2080_ENGINE_TYPE_GRAPHICS, channel.VaSpace());
+		computeObject = computeChannel->Channel().Alloc(computeClass, nullptr, 0);
+		computeCmdBuf = std::make_unique<NvCommandBuffer>(*computeChannel);
+		computeSlot.AllocSystem(dev, channel.VaSpace(), kComputeSlotSize, 0x1000, true);
+		computeSemaphore.AllocSystem(dev, channel.VaSpace(), 0x1000, 0x1000, true);
+		memset(computeSemaphore.CpuAddr(), 0, computeSemaphore.Size());
+
+		WriteComputeInit(*computeCmdBuf, computeClass);
+		computeCmdBuf->SubmitTo(*computeChannel);
+		computeState = kComputeReady;
+		return true;
+	} catch (const std::exception &e) {
+		fprintf(stderr, "nvdec: converting on the CPU: %s\n", e.what());
+	}
+	computeCmdBuf.reset();
+	computeObject = NvRmObject();
+	computeChannel.reset();
+	return false;
 }
 
 
@@ -648,6 +700,94 @@ void nvdecReleaseLinearPlanes(NvdecEngine *engine, void *pin)
 	if (pin != nullptr) {
 		static_cast<LinearCopy*>(pin)->pinned = false;
 	}
+}
+
+
+const uint8_t *nvdecConvertRGB32(NvdecEngine *engine, void *pin, int left, int top, int width, int height, int pitch,
+	const int coefficients[5], size_t *outPitch)
+{
+	if (pin == nullptr || width <= 0 || height <= 0 || pitch % 4 != 0 || !engine->SetUpCompute()) {
+		return nullptr;
+	}
+	const LinearCopy *copy = static_cast<const LinearCopy*>(pin);
+
+	// The shader's parameters (shaders/nv12_to_rgb32.comp).
+	struct Params {
+		NvU64 luma;
+		NvU64 chroma;
+		NvU64 pixels;
+		NvU32 lumaPitch;
+		NvU32 chromaPitch;
+		NvU32 pixelsPitch;
+		NvU32 width;
+		NvU32 height;
+		NvU32 left;
+		NvU32 top;
+		NvS32 yMul;
+		NvS32 rV;
+		NvS32 gU;
+		NvS32 gV;
+		NvS32 bU;
+	};
+
+	try {
+		// Lines a multiple of sixteen bytes long, so that the shader stores
+		// sixteen bytes at a time.
+		const size_t linePitch = ((size_t)width * 4 + 15) & ~(size_t)15;
+		const NvU64 needed = (linePitch * height + 0xfff) & ~(NvU64)0xfff;
+		if (engine->computeOutput.Size() < needed) {
+			engine->computeOutput.AllocSystem(engine->dev, engine->channel.VaSpace(), needed, kBufferAlign, true);
+		}
+
+		const NvU64 planes = copy->memory.GpuAddr();
+		const Params params {
+			.luma = planes,
+			.chroma = planes + copy->chromaOffset,
+			.pixels = engine->computeOutput.GpuAddr(),
+			.lumaPitch = (NvU32)pitch,
+			.chromaPitch = (NvU32)pitch,
+			.pixelsPitch = (NvU32)linePitch,
+			.width = (NvU32)width,
+			.height = (NvU32)height,
+			.left = (NvU32)left,
+			.top = (NvU32)top,
+			.yMul = coefficients[0],
+			.rV = coefficients[1],
+			.gU = coefficients[2],
+			.gV = coefficients[3],
+			.bU = coefficients[4],
+		};
+		const NvComputeShader &shader = engine->computeProgram.Shader();
+		const NvU32 columnsPerGroup = shader.localSize[0] * 4;
+		const NvU32 linesPerGroup = shader.localSize[1];
+		// One conversion at a time, waited for, so the slot is free again.
+		const NvU64 qmd = engine->computeProgram.PrepareLaunch(
+			engine->computeSlot.CpuAddr(), engine->computeSlot.GpuAddr(), &params, sizeof(params),
+			(width + columnsPerGroup - 1) / columnsPerGroup, (height + linesPerGroup - 1) / linesPerGroup, 1
+		);
+
+		NvCommandBuffer &cmd = *engine->computeCmdBuf;
+		const uint64_t ticket = ++engine->computeSequence;
+		WriteComputeLaunch(cmd, qmd);
+		WriteWaitForIdleFlush(cmd);
+		WriteSemRelease64(cmd, engine->computeSemaphore.GpuAddr(), ticket, true);
+		WriteNonStallInterrupt(cmd);
+		cmd.SubmitTo(*engine->computeChannel);
+
+		const volatile uint64_t *done = static_cast<const volatile uint64_t*>(engine->computeSemaphore.CpuAddr());
+		if (WaitUntil(engine, *engine->computeChannel, kConvertTimeoutMs, "the conversion", [&]() {
+			return *done >= ticket;
+		})) {
+			*outPitch = linePitch;
+			return static_cast<const uint8_t*>(engine->computeOutput.CpuAddr());
+		}
+	} catch (const std::exception &e) {
+		fprintf(stderr, "nvdec: converting on the GPU: %s\n", e.what());
+	} catch (...) {
+	}
+	fprintf(stderr, "nvdec: converting on the CPU from now on\n");
+	engine->computeState = NvdecEngine::kComputeUnavailable;
+	return nullptr;
 }
 
 
