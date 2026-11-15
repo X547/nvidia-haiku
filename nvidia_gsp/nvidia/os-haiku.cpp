@@ -1510,7 +1510,11 @@ NV_STATUS NV_API_CALL os_get_current_thread(NvU64 *threadId)
 void* NV_API_CALL os_get_pid_info(void)
 {
 	TRACE("os_get_pid_info()\n");
-	return malloc(1);
+	// Store the creating process pid so os_find_ns_pid can report it.
+	pid_t *pid = (pid_t*)malloc(sizeof(pid_t));
+	if (pid != nullptr)
+		*pid = getpid();
+	return pid;
 }
 
 void NV_API_CALL os_put_pid_info(void *pid_info)
@@ -1525,7 +1529,7 @@ NV_STATUS NV_API_CALL os_find_ns_pid(void *pid_info, NvU32 *ns_pid)
     if ((pid_info == nullptr) || (ns_pid == nullptr))
         return NV_ERR_INVALID_ARGUMENT;
 
-    *ns_pid = getpid();
+    *ns_pid = (NvU32)*(pid_t*)pid_info;
 
     if (*ns_pid == 0)
         return NV_ERR_OBJECT_NOT_FOUND;
