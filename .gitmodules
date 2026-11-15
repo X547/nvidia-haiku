@@ -1,7 +1,7 @@
 [submodule "mesa-nvk"]
 	path = mesa-nvk
 	url = https://github.com/X547/mesa.git
-	branch = mesa-nvk-r2
+	branch = nvrm-event-sync-r5
 [submodule "mesa-zink"]
 	path = mesa-zink
 	url = https://github.com/X547/mesa.git
