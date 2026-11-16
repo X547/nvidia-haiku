@@ -174,6 +174,11 @@ status_t NvHaikuBaseDeviceHandle::Control(uint32 op, void *data, size_t len)
 					dprintf("[!] fMmapContext.memArea is invalid, numRanges: %" B_PRIu64 "\n", fMmapContext.memArea.numRanges);
 					return EINVAL;
 				}
+				// Shared, so that fork() does not put a copy-on-write RAM cache
+				// over the device memory: the team would then write RAM instead
+				// of the GPU, and the copied pages are never unwired.
+				uint32 protection = (params.protection
+					& (B_USER_PROTECTION | B_CLONEABLE_AREA)) | B_SHARED_AREA;
 				if (fMmapContext.memArea.numRanges == 1) {
 					area.SetTo(vm_map_physical_memory(
 						team_get_current_team_id(),
@@ -181,7 +186,7 @@ status_t NvHaikuBaseDeviceHandle::Control(uint32 op, void *data, size_t len)
 						&baseAddress,
 						params.addressSpec,
 						fMmapContext.memArea.pRanges[0].size,
-						params.protection & (B_USER_PROTECTION | B_CLONEABLE_AREA),
+						protection,
 						fMmapContext.memArea.pRanges[0].start,
 						false
 					));
@@ -192,7 +197,7 @@ status_t NvHaikuBaseDeviceHandle::Control(uint32 op, void *data, size_t len)
 						&baseAddress,
 						params.addressSpec,
 						nullptr,
-						params.protection & (B_USER_PROTECTION | B_CLONEABLE_AREA),
+						protection,
 						(generic_io_vec*)fMmapContext.memArea.pRanges,
 						(uint32)fMmapContext.memArea.numRanges
 					));
